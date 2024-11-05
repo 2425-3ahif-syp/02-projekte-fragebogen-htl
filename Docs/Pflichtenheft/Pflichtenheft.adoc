@@ -1,0 +1,84 @@
+= Aufnahme Fragebogen HTL Leonding 
+Melanie Bauer, Kathi Einzenberger, Mark Grünzweil und Henry Ladstätter 
+1.0.0, {docdate},
+ifndef::imagesdir[:imagesdir: images]
+//:toc-placement!:  // prevents the generation of the doc at this position, so it can be printed afterwards
+:sourcedir: ../src/main/java
+:icons: font
+:sectnums:    // Nummerierung der Überschriften / section numbering
+:toc: left
+
+//Need this blank line after ifdef, don't know why...
+ifdef::backend-html5[]
+
+// https://fontawesome.com/v4.7.0/icons/
+icon:file-text-o[link=https://raw.githubusercontent.com/htl-leonding-college/asciidoctor-docker-template/master/asciidocs/{docname}.adoc] ‏ ‏ ‎
+icon:github-square[link=https://github.com/htl-leonding-college/asciidoctor-docker-template] ‏ ‏ ‎
+icon:home[link=https://htl-leonding.github.io/]
+endif::backend-html5[]
+
+// print the toc here (not at the default position)
+//toc::[]
+
+== Pflichtenheft "Was mache ich"
+
+
+=== Ausgangssituation
+
+Die HTL Leonding ist eine HTL im oö. Zentralraum mit ca. 1000 Schülern und den Fachabteilungen Medientechnik, Informatik, Bio Medizintechnik und Elektrotechnik
+
+=== Istzustand
+
+Seit 1997 gibt es an der HTL Leonding nicht mehr die vorher ausgeübten Aufnahmeverfahren. Dazu gehörten die Aufnahmepüfung die in der Art von einem  Multiple-Choice-Test ausgeführt wurde. Allerdings haben Schüler die später an die Schule kammen nicht mehr die Möglichkeit gehabt diesen Test zu machen.
+
+=== Problemstellung
+Die Schüler der HTL Leonding haben derzeit keine Möglichkeit, ihr eigenes Wissen zu testen und zu überprüfen, ob sie die Aufnahmeprüfung bestanden hätten. Dies führt dazu, dass sie keine Rückmeldung über ihren aktuellen Wissensstand erhalten und sich nicht gezielt auf die Anforderungen der Schule vorbereiten können. Auch Schüler die schon länger an der Schule sind, hätten schauen können ob sie die Aufnahmeprüfung bestanden hätten.
+=== Aufgabenstellung
+==== Funktionale Anforderungen
+
+[plantuml,wireframe,png]
+----
+@startsalt
+{
+Name         | "                 "
+Modifiers:   | { (X) public | () default | () private | () protected
+	            [] abstract | [] final   | [] static }
+Superclass:  | { "java.lang.Object " | [Browse...] }
+}
+@endsalt
+----
+==== Nichtfunktionale Anforderungen (NFA)
+=== Ziele
+=== Mengengerüst
+=== Rahmenbedingungen
+zB Vorgaben vom Auftraggeber
+
+== Entwurf "Wie mache ich es"
+=== Systemarchitektur
+=== ...
+
+== Projekthandbuch "Organisatorische Rahmenbedingungen"
+
+
+
+=== GANTT-Diagramm
+
+mit User-Stories (definiert in YouTrack)
+
+[plantuml,gantt-protoype,png]
+----
+@startgantt
+[Test prototype] lasts 10 days
+[Prototype completed] happens at [Test prototype]'s end
+[Setup assembly line] lasts 12 days
+[Setup assembly line] starts at [Test prototype]'s end
+[Test prototype 2] lasts 3 days
+[Test prototype 2] starts at [Prototype completed]'s end
+@endgantt
+----
+
+
+
+* link:minutes-of-meeting.html[Protokollvorlage]
+* link:demo.html[Demo]
+
