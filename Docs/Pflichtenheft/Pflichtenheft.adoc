@@ -65,15 +65,20 @@ Die Anwendung soll in JavaFX implementiert werden und eine einfache Bedienung er
 === Mengengerüst
 ==== Datenbewegungen
    * Die Anwendung soll die Fragen und Antworten aus einer Datenbank laden. Die Bilder zu den Fragen sollen aus dem Dateisystem bei Bedarf geladen  werden können .
+
 ==== Datenbestände
    * Die Anwendung soll die Fragen und Antworten in einer Datenbank speichern. Die Bilder zu den Fragen sollen im Dateisystem gespeichert werden.
 
-=== Anzahl gleichzeitiger Benutzer
+==== Anzahl gleichzeitiger Benutzer
    * Die Anwendung soll von mehreren Schülern gleichzeitig verwendet werden können.
+
 === Rahmenbedingungen
-zB Vorgaben vom Auftraggeber
+==== Technische Rahmenbedingungen
+   * Die Anwendung soll in JavaFX implementiert werden.
+   * Die Anwendung soll auf verschiedenen OS (Windows, macOS, Linux) ausführbar sein.
 
 == Entwurf "Wie mache ich es"
+
 === Systemarchitektur
 === ...
 
