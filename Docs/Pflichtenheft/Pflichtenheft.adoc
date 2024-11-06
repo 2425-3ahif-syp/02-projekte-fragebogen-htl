@@ -47,9 +47,9 @@ Die Anwendung soll in JavaFX implementiert werden und eine einfache Bedienung er
 
 ==== Funktionale Anforderungen
 
-image::../Images/FolderStruc.png[]
 
 ==== Nichtfunktionale Anforderungen (NFA)
+
 === Ziele
 === Mengengerüst
 === Rahmenbedingungen
@@ -59,7 +59,7 @@ zB Vorgaben vom Auftraggeber
 === Systemarchitektur
 === ...
 
-== Projekthandbuch "Organisatorische Rahmenbedingungen"
+== Projekthandbuch "Organisatorische Rahmenbedingungen
 
 
 
