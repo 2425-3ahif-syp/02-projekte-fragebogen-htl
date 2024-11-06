@@ -80,7 +80,8 @@ Die Anwendung soll in JavaFX implementiert werden und eine einfache Bedienung er
 == Entwurf "Wie mache ich es"
 
 === Systemarchitektur
-=== ...
+
+image::../../Images/sysArchitecture.png[]
 
 == Projekthandbuch "Organisatorische Rahmenbedingungen
 
