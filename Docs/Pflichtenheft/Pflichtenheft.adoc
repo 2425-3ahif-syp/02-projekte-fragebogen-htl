@@ -33,7 +33,17 @@ Seit 1997 gibt es an der HTL Leonding nicht mehr die vorher ausgeübten Aufnahme
 
 === Problemstellung
 Die Schüler der HTL Leonding haben derzeit keine Möglichkeit, ihr eigenes Wissen zu testen und zu überprüfen, ob sie die Aufnahmeprüfung bestanden hätten. Dies führt dazu, dass sie keine Rückmeldung über ihren aktuellen Wissensstand erhalten und sich nicht gezielt auf die Anforderungen der Schule vorbereiten können. Auch Schüler die schon länger an der Schule sind, hätten schauen können ob sie die Aufnahmeprüfung bestanden hätten.
+
 === Aufgabenstellung
+Die Aufgabe besteht darin, eine JavaFX-Anwendung zu entwickeln, die es den Schülern ermöglicht, einen Aufnahmetest durchzuführen. Die Anwendung soll folgende Funktionen bieten:
+
+* Eine grafische Benutzeroberfläche, die die Fragen und Antwortmöglichkeiten anzeigt.
+* Die Möglichkeit, Antworten auszuwählen und zu ändern.
+* Eine Auswertung der Antworten nach Abschluss des Tests.
+* Eine Rückmeldung über das Testergebnis und die richtigen Antworten.
+
+Die Anwendung soll in JavaFX implementiert werden und eine einfache Bedienung ermöglichen. 
+
 
 ==== Funktionale Anforderungen
 
