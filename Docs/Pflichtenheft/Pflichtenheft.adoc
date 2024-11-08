@@ -7,28 +7,17 @@ ifndef::imagesdir[:imagesdir: images]
 :icons: font
 :sectnums:    // Nummerierung der Überschriften / section numbering
 :toc: left
+:toclevels: 2 
+:toc-title: Inhaltsverzeichnis 
 
-//Need this blank line after ifdef, don't know why...
-ifdef::backend-html5[]
-
-// https://fontawesome.com/v4.7.0/icons/
-icon:file-text-o[link=https://raw.githubusercontent.com/htl-leonding-college/asciidoctor-docker-template/master/asciidocs/{docname}.adoc] ‏ ‏ ‎
-icon:github-square[link=https://github.com/htl-leonding-college/asciidoctor-docker-template] ‏ ‏ ‎
-icon:home[link=https://htl-leonding.github.io/]
-endif::backend-html5[]
-
-// print the toc here (not at the default position)
-//toc::[]
+toc::[]
 
 == Pflichtenheft "Was mache ich"
 
-
 === Ausgangssituation
-
-Die HTL Leonding ist eine HTL im oö. Zentralraum mit ca. 1000 Schülern und den Fachabteilungen Medientechnik, Informatik, Bio Medizintechnik und Elektrotechnik
+Die HTL Leonding ist eine HTL im oberösterreichischen Zentralraum mit ca. 1300 Schülern und den Fachabteilungen Medientechnik, Informatik, Medizintechnik und Elektrotechnik.
 
 === Istzustand
-
 Seit 1997 gibt es an der HTL Leonding nicht mehr die vorher ausgeübten Aufnahmeverfahren. Dazu gehörten die Aufnahmeprüfung die in der Art von einem  Multiple-Choice-Test ausgeführt wurde. Allerdings haben Schüler die später an die Schule kamen nicht mehr die Möglichkeit gehabt diesen Test zu machen.
 
 === Problemstellung
@@ -63,6 +52,7 @@ Die Anwendung soll in JavaFX implementiert werden und eine einfache Bedienung er
 
 
 === Mengengerüst
+
 ==== Datenbewegungen
    * Die Anwendung soll die Fragen und Antworten aus einer Datenbank laden. Die Bilder zu den Fragen sollen aus dem Dateisystem bei Bedarf geladen  werden können .
 
@@ -73,6 +63,7 @@ Die Anwendung soll in JavaFX implementiert werden und eine einfache Bedienung er
    * Die Anwendung soll von mehreren Schülern gleichzeitig verwendet werden können.
 
 === Rahmenbedingungen
+
 ==== Technische Rahmenbedingungen
    * Die Anwendung soll in JavaFX implementiert werden.
    * Die Anwendung soll auf verschiedenen OS (Windows, macOS, Linux) ausführbar sein.
@@ -83,9 +74,7 @@ Die Anwendung soll in JavaFX implementiert werden und eine einfache Bedienung er
 
 image::../../Images/sysArchitecture.png[]
 
-== Projekthandbuch "Organisatorische Rahmenbedingungen
-
-
+== Projekthandbuch "Organisatorische Rahmenbedingungen"
 
 === GANTT-Diagramm
 
