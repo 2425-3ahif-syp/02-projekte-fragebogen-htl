@@ -29,7 +29,7 @@ Die HTL Leonding ist eine HTL im oö. Zentralraum mit ca. 1000 Schülern und den
 
 === Istzustand
 
-Seit 1997 gibt es an der HTL Leonding nicht mehr die vorher ausgeübten Aufnahmeverfahren. Dazu gehörten die Aufnahmepüfung die in der Art von einem  Multiple-Choice-Test ausgeführt wurde. Allerdings haben Schüler die später an die Schule kammen nicht mehr die Möglichkeit gehabt diesen Test zu machen.
+Seit 1997 gibt es an der HTL Leonding nicht mehr die vorher ausgeübten Aufnahmeverfahren. Dazu gehörten die Aufnahmeprüfung die in der Art von einem  Multiple-Choice-Test ausgeführt wurde. Allerdings haben Schüler die später an die Schule kamen nicht mehr die Möglichkeit gehabt diesen Test zu machen.
 
 === Problemstellung
 Die Schüler der HTL Leonding haben derzeit keine Möglichkeit, ihr eigenes Wissen zu testen und zu überprüfen, ob sie die Aufnahmeprüfung bestanden hätten. Dies führt dazu, dass sie keine Rückmeldung über ihren aktuellen Wissensstand erhalten und sich nicht gezielt auf die Anforderungen der Schule vorbereiten können. Auch Schüler die schon länger an der Schule sind, hätten schauen können ob sie die Aufnahmeprüfung bestanden hätten.
@@ -51,14 +51,14 @@ Die Anwendung soll in JavaFX implementiert werden und eine einfache Bedienung er
 * Die Anwendung soll nach Abschluss des Tests eine Rückmeldung über das Testergebnis geben.
 * Die Anwendung soll die richtigen Antworten anzeigen, damit die Schüler ihre Fehler nachvollziehen können.
 
-==== Nichtfunktionale Anforderungen (NFA)
+==== Nicht-funktionale Anforderungen (NFA)
 * Die Anwendung soll eine intuitive und benutzerfreundliche Oberfläche haben.
 * Die Anwendung soll performant und ohne Verzögerungen arbeiten.
 * Die Anwendung soll auf verschiedenen Betriebssystemen (Windows, macOS, Linux) lauffähig sein.
 * Die Anwendung soll sicherstellen, dass die Daten der Schüler vertraulich behandelt werden.
 
 === Ziele
-* Die Anwendung soll es den Schülern ermöglichen, ihr Wissen zu testen und zu überprüfen ob sie darmals schon in die HTL gekommen wären.
+* Die Anwendung soll es den Schülern ermöglichen, ihr Wissen zu testen und zu überprüfen ob sie damals schon in die HTL gekommen wären.
 * Die Anwendung soll es den Schülern ermöglichen, sich gezielt auf die Anforderungen der Schule vorzubereiten.
 
 
