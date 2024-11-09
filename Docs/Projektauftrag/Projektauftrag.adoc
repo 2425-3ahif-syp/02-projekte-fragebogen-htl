@@ -1,0 +1,96 @@
+= Projektantrag: Digitalisierung der Aufnahmetests für die HTL Leonding
+:author: Melanie Bauer, Katharina Einzenberger, Mark Grünzweil, Henry Ladstätter
+1.0.0, {docdate},
+ifndef::imagesdir[:imagesdir: images]
+
+:sourcedir: ../src/main/java
+:icons: font
+:sectnums:
+:toc: left
+:toclevels: 2
+:toc-title: Inhaltsverzeichnis
+
+toc::[]
+
+== Projektbezeichnung
+
+**Digitalisierung der Aufnahmetests für die HTL Leonding**
+
+== Projektauftraggeber
+
+Das Projektthema wurde von uns, dem Projektteam (Melanie Bauer, Katharina Einzenberger, Mark Grünzweil, Henry Ladstätter)
+ausgesucht und in Auftrag gegeben. Es fungiert als Projekt für unseren Schulgegenstand "Systemplanung u. Projektentwicklung".
+Offizielle Projektleitung übernimmt Mark Grünzweil, 3AHIF der HTL Leonding.
+
+== Projekthintergrund
+
+Die HTL Leonding bietet aktuell keine Möglichkeit, das Wissen von Schülern vor dem Eintritt in die Schule zu prüfen,
+seitdem die Aufnahmeprüfung 1997 abgeschafft wurde. Das Projekt soll eine digitale Lösung bereitstellen, die Schülern eine
+einfache Möglichkeit bietet, ihre Kenntnisse in einem unverbindlichen Aufnahmetest zu testen.
+
+== Projektergebnis
+
+Das Projektergebnis ist eine JavaFX-Anwendung, die Schülern einen digitalen Aufnahmetest ermöglicht.
+Sie zeigt Fragen im Multiple-Choice-Format an, ermöglicht die Beantwortung und liefert nach Abschluss eine Auswertung
+mit korrekten Antworten.
+
+== Projektziele
+
+Ziel ist es, eine Testumgebung zu schaffen, die Schülern erlaubt, ihre Eignung für die HTL zu prüfen und sich besser
+auf die Anforderungen der Schule vorzubereiten.
+Das Testergebnis soll sofort einsehbar sein und detailliertes Feedback geben.
+
+== Projektbeschreibung
+
+Das Projekt umfasst die Entwicklung einer JavaFX-Anwendung mit folgenden Anforderungen:
+
+[cols="1,2", options="header"]
+|===
+| **Funktionale Anforderungen** | **Beschreibung**
+
+| Benutzeroberfläche
+| Darstellung von Fragen und Antwortmöglichkeiten in einer JavaFX-Anwendung.
+
+| Antwortauswahl
+| Schüler können Antworten auswählen, ändern und absenden.
+
+| Auswertung
+| Nach Abschluss des Tests werden die Antworten automatisch ausgewertet.
+
+| Ergebnisrückmeldung
+| Die Anwendung zeigt das Testergebnis und die richtigen Antworten an.
+
+| Datenquelle
+| Fragen und Antworten werden aus einer Datenbank geladen; Bilder werden aus dem Dateisystem geladen.
+|===
+
+**Nicht-funktionale Anforderungen (NFA):**
+
+* **Usability**: Intuitive Benutzerführung
+* **Performance**: Schnelle Reaktionszeiten und Stabilität
+* **Plattformunabhängigkeit**: Funktioniert auf Windows, macOS und Linux
+
+== Meilensteine
+
+[cols="1,2,1,1", options="header"]
+|===
+| Phase                    | Meilenstein / Ergebnis                               | Soll-Termin      | Freigabe
+
+| Projektstart             | Projektstart und Aufgabenverteilung                  | 04.02.2025       | Projektleitung
+
+| Analysephase             | Anforderungsanalyse und Projektplanung               | 18.02.2025       | Projektteam
+
+| Entwurfsphase            | Entwurf der Benutzeroberfläche (UI)                  | 11.03.2025       | Projektteam
+
+| Implementierungsphase    | Basisfunktionalität (Fragebogenverwaltung)           | 01.04.2025       | Projektteam
+
+| Implementierungsphase    | Testdurchführung entwickelt                          | 22.04.2025       | Projektteam
+
+| Implementierungsphase    | Auswertung integriert und Testergebnis-Feedback      | 20.05.2025       | Projektleitung
+
+| Testphase                | Durchführung und Abschluss interner Tests            | 10.06.2025       | Projektteam
+
+| Abnahme                  | Abschluss des Projekts und Abnahme durch HTL-Leitung | 24.06.2025       | Projektteam und zuständiger Fachlehrer
+
+|===
+
