@@ -90,7 +90,7 @@ Das Projekt umfasst die Entwicklung einer JavaFX-Anwendung mit folgenden Anforde
 
 | Testphase                | Durchführung und Abschluss interner Tests            | 10.06.2025       | Projektteam
 
-| Abnahme                  | Abschluss des Projekts und Abnahme durch HTL-Leitung | 24.06.2025       | Projektteam und zuständiger Fachlehrer
+| Abnahme                  | Abschluss des Projekts und Abnahme                   | 24.06.2025       | Projektteam und zuständiger Fachlehrer
 
 |===
 
