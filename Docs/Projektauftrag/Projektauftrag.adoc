@@ -94,3 +94,80 @@ Das Projekt umfasst die Entwicklung einer JavaFX-Anwendung mit folgenden Anforde
 
 |===
 
+== Freigaben
+Da wir, das Projektteam, selbst der Auftraggeber des Projekts sind, brauchen wir keine Freigaben durch den Auftraggeber. Die einzige Freigaben, die wir benötigen, sind die des Projektantrags und der Abnahme des Projekts durch die zuständige Lehrkraft für das Fach "Systemplanung u. Projektentwicklung".
+
+
+== Projektdaten
+
+*Projektstart*: November 2024 +
+*Projektende*: Juni 2025 +
+Das Projektende erfolgt durch die Absegnung durch die zuständige Lehrkraft.
+
+== Projektressourcen
+
+[cols="1,2,3", options="header"]
+|===
+|**Ressource** |**Beschreibung** |**Anmerkungen**
+
+|Personal
+|Vier Programmierer
+|Projektleitung und technische Durchführung
+
+|Software
+|Java (JavaFX), Versionskontrolle mit Git
+|Entwicklungsumgebung JetBrains IntelliJ IDEA
+
+|Hardware
+|Laptops/Desktops für Entwickler und Testgeräte
+|Java-kompatible Systeme
+
+|Erlöse
+|keine
+|wir erwarten uns keine Erlöse, da es sich um ein Schulprojekt handelt
+|===
+
+== Projektrisiken
+
+[cols="1,3", options="header"]
+|===
+|**Risiko** |**Beschreibung**
+
+|Technische Herausforderungen
+|Komplexität bei der Implementierung der automatischen Auswertung
+
+|Sicherheitsanforderungen
+|Datenschutz und Integrität der personenbezogenen Daten gewährleisten
+
+|Zeitplanabweichungen
+|Unvorhergesehene Verzögerungen bei der Entwicklung oder während der Testphase
+
+|Zeitdruck
+|Zeit bis zum Schuljahresende könnte zu knapp werden, da nebenbei noch andere Projekte laufen
+|===
+
+== Projektorganisation
+
+[cols="1,2", options="header"]
+|===
+|**Rolle** |**Name**
+
+|Projektleitung
+|Mark Grünzweil
+
+|Projektteam
+|Vier Programmierer (Melanie Bauer, Katharina Einzenberger, Mark Grünzweil, Henry Ladstätter)
+
+|Projektauftraggeber
+|Projektteam
+
+|zuständige Lehrkraft
+|Lehrer für "Systemplanung u. Projektentwicklung" (Thomas Stütz)
+|===
+
+== Abschluss des Projektauftrags
+
+Unterschrift aller Beteiligten
+
+Leonding, 10.11.2024
+
