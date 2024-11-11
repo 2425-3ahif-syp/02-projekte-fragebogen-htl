@@ -2,15 +2,12 @@
 Melanie Bauer, Kathi Einzenberger, Mark Grünzweil und Henry Ladstätter 
 1.0.0, {docdate},
 ifndef::imagesdir[:imagesdir: images]
-
 :sourcedir: ../src/main/java
 :icons: font
 :sectnums:    
 :toc: left
 :toclevels: 2 
 :toc-title: Inhaltsverzeichnis 
-
-toc::[]
 
 == Pflichtenheft "Was mache ich"
 
