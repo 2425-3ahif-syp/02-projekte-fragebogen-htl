@@ -6,3 +6,8 @@
 - **Henry Ladstätter**
 - **Melanie Bauer**
 - **Kathi Einzenberger**
+
+== Dokumente
+
+link:./Docs/Pflichtenheft/Pflichtenheft.adoc[Pflichtenheft] + 
+link:./Docs/Projektauftrag/Projektauftrag.adoc[Projektauftrag]
