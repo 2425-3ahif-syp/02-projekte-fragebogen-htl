@@ -68,7 +68,3 @@ Die Anwendung soll einfach zu bedienen und vollständig in JavaFX implementiert 
    * Die Anwendung soll auf verschiedenen OS (Windows, macOS, Linux) ausführbar sein.
 
 == Entwurf "Wie mache ich es"
-
-=== Systemarchitektur
-
-image::../../Images/sysArchitecture.png[]
