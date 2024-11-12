@@ -1,4 +1,4 @@
-= Projektantrag: Digitalisierung der Aufnahmetests für die HTL Leonding
+= Projektauftrag: Digitalisierung der Aufnahmetests für die HTL Leonding
 :author: Melanie Bauer, Katharina Einzenberger, Mark Grünzweil, Henry Ladstätter
 1.0.0, {docdate},
 ifndef::imagesdir[:imagesdir: images]
