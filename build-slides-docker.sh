@@ -1,3 +1,4 @@
+#!/bin/bash
 set -e
 BUILD_DIR="gh-pages"
 REVEAL_DIR="asciidocs-slides"

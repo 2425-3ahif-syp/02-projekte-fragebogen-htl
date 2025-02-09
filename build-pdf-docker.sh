@@ -1,3 +1,4 @@
+#!/bin/bash
 set -e
 BUILD_DIR="build-docs-pdf"
 rm -rf -v $BUILD_DIR # else plantuml diagrams won't be rebuilt

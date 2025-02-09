@@ -1,3 +1,4 @@
+#!/bin/bash
 set -e
 REVEAL_VERSION="3.9.2"
 #REVEAL_VERSION="4.0.2"
