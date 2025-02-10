@@ -47,3 +47,14 @@ Ein Fragebogen für die Aufnahme Prüfung von der HTL Leonding
 * link:https://2425-3ahif-syp.github.io/02-projekte-fragebogen-htl/docs/projektauftrag[**Projektauftrag**^]
 * link:https://vm81.htl-leonding.ac.at/projects/9502dfe3-38ca-4000-b994-f58a98fb4e43[**YouTrack**^]
 
+== Features & Technisches
+
+* *Kernfunktionen:*
+** Multiple-Choice System
+** Automatische Auswertung
+** Sofortiges Feedback
+** Datenbankintegration
+
+* *Technologie:*
+** JavaFX Implementation
+** Plattformunabhängig (Windows, macOS, Linux)
