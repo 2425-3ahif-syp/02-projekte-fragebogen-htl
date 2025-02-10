@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+inputPath="$1"
+source $inputPath/scripts/docker-convert-util.sh
+ASCIIDOCTOR_VERSION="1.58"
+
+echo "input => $inputPath"
+echo building html
+
+convertFilesToSlides "$inputPath" $ASCIIDOCTOR_VERSION
+
+convertFilesToHTML "$inputPath" $ASCIIDOCTOR_VERSION
+
+find $inputPath -depth -name "*.adoc" -print
+find $inputPath -depth -name "*.adoc" -delete
