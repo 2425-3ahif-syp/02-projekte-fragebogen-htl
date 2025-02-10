@@ -9,6 +9,6 @@
 
 == Dokumente
 
-link:./Docs/Pflichtenheft/Pflichtenheft.adoc[**Pflichtenheft**]
+link:https://2425-3ahif-syp.github.io/02-projekte-fragebogen-htl/docs/pflichtenheft/[**Pflichtenheft**]
 
-link:./Docs/Projektauftrag/Projektauftrag.adoc[**Projektauftrag**]
+link:https://2425-3ahif-syp.github.io/02-projekte-fragebogen-htl/docs/projektauftrag/[**Projektauftrag**]
