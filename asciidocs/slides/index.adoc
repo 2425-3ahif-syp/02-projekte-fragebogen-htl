@@ -58,3 +58,11 @@ Ein Fragebogen für die Aufnahme Prüfung von der HTL Leonding
 * *Technologie:*
 ** JavaFX Implementation
 ** Plattformunabhängig (Windows, macOS, Linux)
+
+== Projektphasen
+
+[%step]
+* Projektstart: Februar 2025
+* Analyse & Entwurf: Februar - März 2025
+* Implementierung: April - Mai 2025
+* Testing & Abnahme: Juni 2025
