@@ -1,8 +1,6 @@
 = Index page
 ifndef::imagesdir[:imagesdir: images]
 
-image::img.png[]
+link:https://2425-3ahif-syp.github.io/02-projekte-fragebogen-htl/docs/pflichtenheft/[**Pflichtenheft**]
 
-Add some new stuff
-
-Add again some new stuff
+link:https://2425-3ahif-syp.github.io/02-projekte-fragebogen-htl/docs/projektauftrag/[**Projektauftrag**]
