@@ -1,0 +1,8 @@
+= Index page
+ifndef::imagesdir[:imagesdir: images]
+
+image::img.png[]
+
+Add some new stuff
+
+Add again some new stuff
