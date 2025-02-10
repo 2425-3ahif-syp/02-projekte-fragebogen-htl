@@ -34,94 +34,16 @@ endif::[]
 
 Ein Fragebogen für die Aufnahme Prüfung von der HTL Leonding 
 
-== Links
+== Zusammenfassung
+
+* *Projekt:* Digitalisierung der Aufnahmetests HTL Leonding
+* *Team:* Melanie Bauer, Katharina Einzenberger, Mark Grünzweil, Henry Ladstätter
+* *Zeitraum:* Februar 2025 - Juni 2025
+* *Projektziel:* Digitale Testumgebung für Eignungsprüfung
+
+=== Link
 
 * link:https://2425-3ahif-syp.github.io/02-projekte-fragebogen-htl/docs/pflichtenheft[**Pflichtenheft**^]
 * link:https://2425-3ahif-syp.github.io/02-projekte-fragebogen-htl/docs/projektauftrag[**Projektauftrag**^]
 * link:https://vm81.htl-leonding.ac.at/projects/9502dfe3-38ca-4000-b994-f58a98fb4e43[**YouTrack**^]
-
-[%auto-animate]
-== !
-
-Matched element will be animated automatically!
-
-[%auto-animate]
-== !
-
-[.highlight]
-Matched element will be animated automatically!
-
-And move to the right position!
-
-[%hardbreaks]
-⬆️
-⬆️
-⬆️
-
-
-[%auto-animate]
-== !
-
-[source%linenums,js,data-id=planets]
-----
-let planets = [
-  { name: 'mars', diameter: 6779 },
-]
-----
-
-[%auto-animate]
-== !
-
-[source%linenums,js,data-id=planets]
-----
-let planets = [
-  { name: 'mars', diameter: 6779 },
-  { name: 'earth', diameter: 12742 },
-  { name: 'jupiter', diameter: 139820 }
-]
-----
-
-[%auto-animate]
-== !
-
-[source%linenums,js,data-id=planets]
-----
-let circumferenceReducer = ( c, planet ) => {
-  return c + planet.diameter * Math.PI;
-}
-
-let planets = [
-  { name: 'mars', diameter: 6779 },
-  { name: 'earth', diameter: 12742 },
-  { name: 'jupiter', diameter: 139820 }
-]
-
-let c = planets.reduce( circumferenceReducer, 0 )
-----
-
-
-[%auto-animate,auto-animate-unmatched=false]
-== Unmatched
-
-Introduction. (matched)
-
-[%auto-animate,auto-animate-unmatched=false]
-== Unmatched
-
-Introduction. (matched)
-
-This will be shown instantly ⚡ (unmatched)
-
-
-[%auto-animate,auto-animate-duration=5]
-== Duration
-
-This animation...
-
-[%auto-animate,auto-animate-duration=5]
-== Duration
-
-This animation...
-
-...will take 5 seconds! ⌚
 
