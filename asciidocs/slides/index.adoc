@@ -27,6 +27,7 @@ endif::[]
 ifndef::env-ide[]
 :imagesdir: images
 endif::[]
+:revealjs_backgroundColor:rgb(58, 58, 58)
 //:revealjs_theme: sky
 //:title-slide-background-image: img.png
 :title-slide-transition: zoom
@@ -47,22 +48,18 @@ Ein Fragebogen für die Aufnahme Prüfung von der HTL Leonding
 * link:https://2425-3ahif-syp.github.io/02-projekte-fragebogen-htl/docs/projektauftrag[**Projektauftrag**^]
 * link:https://vm81.htl-leonding.ac.at/projects/9502dfe3-38ca-4000-b994-f58a98fb4e43[**YouTrack**^]
 
-== Features & Technisches
 
-* *Kernfunktionen:*
-** Multiple-Choice System
-** Automatische Auswertung
-** Sofortiges Feedback
-** Datenbankintegration
+== Problemstellung
 
-* *Technologie:*
-** JavaFX Implementation
-** Plattformunabhängig (Windows, macOS, Linux)
+* Seit 1997 keine Aufnahmeprüfung mehr an der HTL Leonding
+* Schüler können ihr Wissensniveau nicht einschätzen
+* Keine Möglichkeit zur Selbsteinschätzung vor Schuleintritt
 
-== Projektphasen
+== Aufgabenstellung
 
-[%step]
-* Projektstart: Februar 2025
-* Analyse & Entwurf: Februar - März 2025
-* Implementierung: April - Mai 2025
-* Testing & Abnahme: Juni 2025
+* Entwicklung einer digitalen Testplattform
+* Implementierung eines Multiple-Choice Systems
+* Integration einer automatischen Auswertung
+* Bereitstellung von sofortigem Feedback
+* Verwaltung der Testfragen in einer Datenbank
+
