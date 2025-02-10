@@ -36,9 +36,9 @@ Ein Fragebogen für die Aufnahme Prüfung von der HTL Leonding
 
 == Links
 
-* link:https://2425-3ahif-syp.github.io/02-projekte-fragebogen-htl/docs/pflichtenheft/[**Pflichtenheft**]
-* link:https://2425-3ahif-syp.github.io/02-projekte-fragebogen-htl/docs/projektauftrag/[**Projektauftrag**]
-* link:https://vm81.htl-leonding.ac.at/projects/9502dfe3-38ca-4000-b994-f58a98fb4e43/[**YouTrack**]
+* link:https://2425-3ahif-syp.github.io/02-projekte-fragebogen-htl/docs/pflichtenheft[**Pflichtenheft**^]
+* link:https://2425-3ahif-syp.github.io/02-projekte-fragebogen-htl/docs/projektauftrag[**Projektauftrag**^]
+* link:https://vm81.htl-leonding.ac.at/projects/9502dfe3-38ca-4000-b994-f58a98fb4e43[**YouTrack**^]
 
 [%auto-animate]
 == !
@@ -124,5 +124,4 @@ This animation...
 This animation...
 
 ...will take 5 seconds! ⌚
-
 
