@@ -105,6 +105,26 @@ Test ||--o{ TestResult : generiert
 @enduml
 ....
 
+=== Use Case Diagram 
+
+[plantuml,use-case,png]
+....
+@startuml
+left to right direction
+actor "Schüler" as Student
+actor "Administrator" as Admin
+
+rectangle "Aufnahmetest System" {
+  Student --> (Test durchführen)
+  Student --> (Ergebnis einsehen)
+  Student --> (Fragen anzeigen)
+
+  Admin --> (Fragen verwalten)
+  Admin --> (Statistiken einsehen)
+  Admin --> (Testergebnisse verwalten)
+}
+@enduml
+....
 
 == Link
 
