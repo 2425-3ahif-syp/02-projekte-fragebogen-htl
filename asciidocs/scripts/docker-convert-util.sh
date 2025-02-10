@@ -69,5 +69,4 @@ convertFilesToHTML() {
 
   mv $buildPath/docs/pflichtenheft/pflichtenheft.html $buildPath/docs/pflichtenheft/index.html
   mv $buildPath/docs/projektauftrag/projektauftrag.html $buildPath/docs/projektauftrag/index.html
-  
 }
