@@ -30,8 +30,6 @@ endif::[]
 * *Zeitraum:* Februar 2025 - Juni 2025
 * *Projektziel:* Digitale Testumgebung für Eignungsprüfung
 
-
-
 === Problemstellung
 
 * Seit 1997 keine Aufnahmeprüfung mehr an der HTL Leonding
@@ -113,5 +111,3 @@ rectangle "Aufnahmetest System" {
 }
 @enduml
 ....
-
-
