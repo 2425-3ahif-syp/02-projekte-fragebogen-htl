@@ -14,7 +14,6 @@ endif::[]
 ifndef::env-ide[]
 :imagesdir: images
 endif::[]
-:revealjs_backgroundColor:rgb(255, 255, 255):
 :title-slide-transition: zoom
 :title-slide-transition-speed: fast
 
