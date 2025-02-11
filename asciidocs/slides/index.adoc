@@ -99,13 +99,13 @@ actor "Schüler" as Student
 actor "Administrator" as Admin
 
 rectangle "Aufnahmetest System" {
-  Student --> (Test durchführen)
-  Student --> (Ergebnis einsehen)
-  Student --> (Fragen anzeigen)
+  Student -- (Test durchführen)
+  Student -- (Ergebnis einsehen)
+  Student -- (Fragen anzeigen)
 
-  Admin --> (Fragen verwalten)
-  Admin --> (Statistiken einsehen)
-  Admin --> (Testergebnisse verwalten)
+  Admin -- (Fragen verwalten)
+  Admin -- (Statistiken einsehen)
+  Admin -- (Testergebnisse verwalten)
 }
 @enduml
 ....
