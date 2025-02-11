@@ -6,7 +6,6 @@
 :lang: de
 :doctype: article
 :icons: font
-:source-highlighter: highlightjs
 :iconfont-remote!:
 ifdef::env-ide[]
 :imagesdir: ../images
