@@ -1,7 +1,6 @@
 = HTL Fragebogen
 :revnumber: 1.0
 :revdate: {docdate}
-:revremark: SLIDEDEMO @ HTL Leonding
 :encoding: utf-8
 :lang: de
 :doctype: article
