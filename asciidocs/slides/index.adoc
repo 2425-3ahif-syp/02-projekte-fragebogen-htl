@@ -109,3 +109,13 @@ rectangle "Aufnahmetest System" {
 }
 @enduml
 ....
+
+== GUI Desgin 
+
+=== Startseite
+
+image::./startseite.png[]
+
+=== Standart Testseite
+
+image::frage_ohne_antwort.png[]
