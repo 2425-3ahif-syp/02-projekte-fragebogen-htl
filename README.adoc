@@ -12,3 +12,5 @@
 link:https://2425-3ahif-syp.github.io/02-projekte-fragebogen-htl/docs/pflichtenheft/[**Pflichtenheft**^]
 
 link:https://2425-3ahif-syp.github.io/02-projekte-fragebogen-htl/docs/projektauftrag/[**Projektauftrag**^]
+
+link:https://2425-3ahif-syp.github.io/02-projekte-fragebogen-htl/[**Slideshow**^]
