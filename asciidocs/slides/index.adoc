@@ -119,3 +119,11 @@ image::./startseite.png[]
 === Standart Testseite
 
 image::frage_ohne_antwort.png[]
+
+=== Testseite mit Antwort ausgewählt 
+
+image::frage_mit_antwort.png[]
+
+=== Abbruch von dem Test
+
+image::test_abbrechen.png[]
