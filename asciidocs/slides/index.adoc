@@ -127,3 +127,11 @@ image::frage_mit_antwort.png[]
 === Abbruch von dem Test
 
 image::test_abbrechen.png[]
+
+=== Test beenden
+
+image::test_beenden.png[]
+
+=== Testergebnis
+
+image::test_resultate_geschafft.png[]
