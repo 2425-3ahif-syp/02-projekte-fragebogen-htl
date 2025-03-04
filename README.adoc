@@ -2,10 +2,10 @@
 
 == Teammitglieder
 
-- **Mark Grünzweil**
-- **Henry Ladstätter**
-- **Melanie Bauer**
-- **Kathi Einzenberger**
+- **Mark Grünzweil**, 3AHIF 24/25
+- **Henry Ladstätter**, 3AHIF 24/25
+- **Melanie Bauer**, 3AHIF 24/25
+- **Kathi Einzenberger**, 3AHIF 24/25
 
 == Dokumente
 
@@ -14,3 +14,6 @@ link:https://2425-3ahif-syp.github.io/02-projekte-fragebogen-htl/docs/pflichtenh
 link:https://2425-3ahif-syp.github.io/02-projekte-fragebogen-htl/docs/projektauftrag/[**Projektauftrag**^]
 
 link:https://2425-3ahif-syp.github.io/02-projekte-fragebogen-htl/[**Slideshow**^]
+
+== User Stories
+link:https://vm81.htl-leonding.ac.at/projects/9502dfe3-38ca-4000-b994-f58a98fb4e43[**Scrum Board**^]
