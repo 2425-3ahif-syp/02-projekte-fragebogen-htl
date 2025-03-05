@@ -1,11 +1,15 @@
 = HTL Fragebogen
 
+== Projektbeschreibung
+
+Das Projekt zielt darauf ab, eine Anwendung zu entwickeln, mit der Schüler der HTL Leonding einen Aufnahmetest absolvieren können. Da es seit 1997 keine Aufnahmeprüfungen mehr gibt, soll die Anwendung den Schülern die Möglichkeit bieten, ihr Wissen zu testen und herauszufinden, ob sie die damalige Aufnahmeprüfung bestanden hätten.
+
 == Teammitglieder
 
 - **Mark Grünzweil**, 3AHIF 24/25
 - **Henry Ladstätter**, 3AHIF 24/25
 - **Melanie Bauer**, 3AHIF 24/25
-- **Kathi Einzenberger**, 3AHIF 24/25
+- **Katharina Einzenberger**, 3AHIF 24/25
 
 == Dokumente
 
