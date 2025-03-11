@@ -110,13 +110,13 @@ rectangle "Aufnahmetest System" {
 @enduml
 ....
 
-== GUI Desgin 
+== GUI Design 
 
 === Startseite
 
 image::./startseite.png[]
 
-=== Standart Testseite
+=== Standard Testseite
 
 image::frage_ohne_antwort.png[]
 
@@ -124,7 +124,7 @@ image::frage_ohne_antwort.png[]
 
 image::frage_mit_antwort.png[]
 
-=== Abbruch von dem Test
+=== Abbruch des Tests
 
 image::test_abbrechen.png[]
 
@@ -136,10 +136,10 @@ image::test_beenden.png[]
 
 image::test_resultate_geschafft.png[]
 
-=== Testergebnis Antwort anschauen
+=== Testergebnis: Antwort anschauen
 image::test_resultate_antwort_anschauen.png[]
 
-=== Testergebnis nicht geschafft
+=== Testergebnis: nicht geschafft
 image::test_resultate_nicht_geschafft.png[]
 
 === Wireframe
