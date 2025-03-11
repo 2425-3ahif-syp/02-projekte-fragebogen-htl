@@ -1,0 +1,38 @@
+= GUI Desgin 
+ifndef::imagesdir[:imagesdir: ../images]
+
+== Startseite
+
+image::./startseite.png[]
+
+== Standart Testseite
+
+image::frage_ohne_antwort.png[]
+
+== Testseite mit Antwort ausgewählt 
+
+image::frage_mit_antwort.png[]
+
+== Abbruch von dem Test
+
+image::test_abbrechen.png[]
+
+== Test beenden
+
+image::test_beenden.png[]
+
+== Testergebnis
+
+image::test_resultate_geschafft.png[]
+
+== Testergebnis Antwort anschauen
+
+image::test_resultate_antwort_anschauen.png[]
+
+== Testergebnis nicht geschafft
+
+image::test_resultate_nicht_geschafft.png[]
+
+== Wireframe
+
+image::wireframe.png[]
