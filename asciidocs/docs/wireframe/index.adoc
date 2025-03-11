@@ -1,7 +1,7 @@
 = GUI Desgin 
-ifndef::imagesdir[:imagesdir: ../images]
+ifndef::imagesdir[:imagesdir: ./../images]
 ifndef::env-ide[]
-:imagesdir: ../images
+:imagesdir: ./../images
 endif::[]
 
 == Startseite
