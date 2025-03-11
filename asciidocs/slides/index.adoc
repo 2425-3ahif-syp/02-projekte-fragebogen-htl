@@ -137,7 +137,7 @@ image::test_beenden.png[]
 image::test_resultate_geschafft.png[]
 
 === Testergebnis Antwort anschauen
-image::test_resultate_antwort_anschauen.jpg[]
+image::test_resultate_antwort_anschauen.png[]
 
 === Testergebnis nicht geschafft
 image::test_resultate_nicht_geschafft.png[]
