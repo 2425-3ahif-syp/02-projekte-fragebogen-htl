@@ -1,5 +1,7 @@
 = GUI Desgin 
-ifndef::imagesdir[:imagesdir: ./../images]
+ifdef::env-ide[]
+:imagesdir: ./../images
+endif::[]
 ifndef::env-ide[]
 :imagesdir: ./../images
 endif::[]
