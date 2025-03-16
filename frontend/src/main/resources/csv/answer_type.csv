@@ -1,6 +1,6 @@
-id,description
-1,Letter
-2,Number
-3,Text
-4,Fraction
-5,Number Field
+id;description
+1;Letter
+2;Number
+3;Text
+4;Fraction
+5;Number Field
