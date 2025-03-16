@@ -2,6 +2,7 @@ package syp.htlfragebogenapplication.database;
 
 import org.h2.tools.Server;
 
+import java.io.File;
 import java.sql.SQLException;
 
 public class H2Server {
@@ -10,11 +11,12 @@ public class H2Server {
     public static void start() {
         if (server == null) {
             try {
-                server = Server.createTcpServer("-ifNotExists", "-baseDir", "../backend/db").start();
+                String baseDir = new File("../backend/db").getCanonicalPath();
+                server = Server.createTcpServer("-ifNotExists", "-baseDir", baseDir).start();
                 System.out.println("TCP server running at tcp://127.0.1.1:46757 (only local connections)\n" +
                         "PG server running at pg://127.0.1.1:5435 (only local connections)\n" +
                         "Web Console server running at http://127.0.1.1:8082 (only local connections)");
-            } catch (SQLException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
