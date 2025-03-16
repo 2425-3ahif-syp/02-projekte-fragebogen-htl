@@ -59,7 +59,7 @@ public class DatabaseInitializer {
 
                 long insertedRows = reader.lines().skip(1).filter(line -> !line.trim().isEmpty()).map(line -> {
                     try {
-                        String[] values = line.split(",");
+                        String[] values = line.split(";");
                         for (int i = 0; i < values.length; i++) {
                             pstmt.setString(i + 1, values[i].trim());
                         }

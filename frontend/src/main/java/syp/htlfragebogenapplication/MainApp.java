@@ -10,6 +10,7 @@ import javafx.fxml.FXML;
 import javafx.event.ActionEvent;
 import syp.htlfragebogenapplication.database.Database;
 import syp.htlfragebogenapplication.database.H2Server;
+import syp.htlfragebogenapplication.database.TestRepository;
 
 
 import java.io.IOException;
@@ -27,6 +28,10 @@ public class MainApp extends Application {
         Scene scene = new Scene(root, 500, 500);
         stage.setScene(scene);
         stage.show();
+
+        TestRepository testRepository = new TestRepository();
+        System.out.println(testRepository.getAllTests());
+        System.out.println(testRepository.getTestById(6));
 
     }
     @Override
