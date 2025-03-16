@@ -17,7 +17,7 @@ public class Database {
     private Database() {
         try {
             connection = createConnection();
-            initialize();
+            DatabaseInitializer.initialize();
         } catch (SQLException e)
         {
             e.printStackTrace();
@@ -47,11 +47,6 @@ public class Database {
     }
     private static Connection createConnection() throws SQLException {
         return DriverManager.getConnection(URL, USER, PASSWORD);
-    }
-
-    private void initialize() {
-        // TODO
-
     }
 
     public void closeConnection() {
