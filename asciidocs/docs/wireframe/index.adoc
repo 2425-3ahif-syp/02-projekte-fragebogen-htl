@@ -1,43 +1,37 @@
 = GUI Desgin 
-ifdef::env-ide[]
-:imagesdir: ./../images
-endif::[]
-ifndef::env-ide[]
-:imagesdir: ./../images
-endif::[]
 
 == Startseite
 
-image::./startseite.png[]
+image::../images/startseite.png[]
 
 == Standart Testseite
 
-image::frage_ohne_antwort.png[]
+image::./../images/frage_ohne_antwort.png[]
 
 == Testseite mit Antwort ausgewählt 
 
-image::frage_mit_antwort.png[]
+image::./../images/frage_mit_antwort.png[]
 
 == Abbruch von dem Test
 
-image::test_abbrechen.png[]
+image::./../images/test_abbrechen.png[]
 
 == Test beenden
 
-image::test_beenden.png[]
+image::./../images/test_beenden.png[]
 
 == Testergebnis
 
-image::test_resultate_geschafft.png[]
+image::./../images/test_resultate_geschafft.png[]
 
 == Testergebnis Antwort anschauen
 
-image::test_resultate_antwort_anschauen.png[]
+image::./../images/test_resultate_antwort_anschauen.png[]
 
 == Testergebnis nicht geschafft
 
-image::test_resultate_nicht_geschafft.png[]
+image::./../images/test_resultate_nicht_geschafft.png[]
 
 == Wireframe
 
-image::wireframe.png[]
+image::./../images/wireframe.png[]
