@@ -8,6 +8,13 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.Priority?>
 
 <BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="syp.htlfragebogenapplication.controllers.Controller">
     <top>
@@ -20,14 +27,43 @@
                 </Label>
             </HBox>
             <HBox alignment="CENTER_RIGHT" spacing="10" style="-fx-padding: 10px; -fx-background-color: #e0e0e0;">
-                <TextField fx:id="searchField" promptText="Search..." prefWidth="200"  HBox.hgrow="ALWAYS"/>
+                <TextField fx:id="searchField" promptText="Search..." HBox.hgrow="ALWAYS"/>
                 <Button fx:id="searchButton" text="Search" />
             </HBox>
         </VBox>
     </top>
     <center>
-        <AnchorPane>
+        <GridPane fx:id="testGrid" hgap="20" vgap="20" alignment="CENTER" style="-fx-padding: 20;">
 
-        </AnchorPane>
+            <columnConstraints>
+                <ColumnConstraints hgrow="ALWAYS" percentWidth="33.33" />
+                <ColumnConstraints hgrow="ALWAYS" percentWidth="33.33" />
+                <ColumnConstraints hgrow="ALWAYS" percentWidth="33.33" />
+            </columnConstraints>
+
+            <!-- Row constraints to make rows grow -->
+            <rowConstraints>
+                <RowConstraints vgrow="ALWAYS" percentHeight="50" />
+                <RowConstraints vgrow="ALWAYS" percentHeight="50" />
+            </rowConstraints>
+
+            <VBox GridPane.rowIndex="0" GridPane.columnIndex="0" style="-fx-border-color: #404040; -fx-border-width: 2; -fx-border-radius: 15; -fx-padding: 15;" maxHeight="Infinity" maxWidth="Infinity">
+                <GridPane.margin>
+                    <Insets top="5" right="5" bottom="5" left="5" />
+                </GridPane.margin>
+                <Label text="Physik 1988" style="-fx-font-size: 18; -fx-font-weight: bold;" wrapText="true">
+                    <VBox.margin>
+                        <Insets bottom="10" />
+                    </VBox.margin>
+                </Label>
+                <Region VBox.vgrow="ALWAYS" />
+                <Button fx:id="physik1988Button" text="Test durchführen" maxWidth="Infinity"
+                        style="-fx-background-color: #f2f2f2; -fx-border-color: #d0d0d0; -fx-border-radius: 5; -fx-cursor: hand; -fx-font-size: 14;">
+                    <padding>
+                        <Insets top="10" right="15" bottom="10" left="15" />
+                    </padding>
+                </Button>
+            </VBox>
+        </GridPane>
     </center>
 </BorderPane>

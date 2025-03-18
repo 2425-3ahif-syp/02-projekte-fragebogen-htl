@@ -26,7 +26,6 @@ public class MainApp extends Application {
         TestRepository testRepository = new TestRepository();
         System.out.println(testRepository.getAllTests());
         System.out.println(testRepository.getTestById(6));*/
-
         FXMLLoader fxmlLoader = new FXMLLoader(MainApp.class.getResource("MainView.fxml"));
         Parent root = fxmlLoader.load();  // This line should not return null.
         Scene scene = new Scene(root, 500, 500);
