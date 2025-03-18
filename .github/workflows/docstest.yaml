@@ -25,7 +25,7 @@ jobs:
         run: |
           find . -name "*.sh" -exec chmod +x {} \;
 
-      # Setup directories for all document types
+
       - name: Create output directories
         run: |
           mkdir -p ${{ env.INPUTPATH }}/docs/wireframe/images
@@ -33,24 +33,19 @@ jobs:
           mkdir -p ${{ env.INPUTPATH }}/docs/projektauftrag/images
           mkdir -p ${{ env.INPUTPATH }}/slides/images
 
-      # Copy images to all document directories
       - name: Copy images to document directories
         run: |
-          # Copy images to wireframe
           cp -R ${{ env.INPUTPATH }}/docs/images/* ${{ env.INPUTPATH }}/docs/wireframe/images/ || true
           
-          # Copy images to pflichtenheft
           cp -R ${{ env.INPUTPATH }}/images/* ${{ env.INPUTPATH }}/docs/pflichtenheft/images/ || true
           cp -R ${{ env.INPUTPATH }}/docs/images/* ${{ env.INPUTPATH }}/docs/pflichtenheft/images/ || true
           
-          # Copy images to projektauftrag
           cp -R ${{ env.INPUTPATH }}/images/* ${{ env.INPUTPATH }}/docs/projektauftrag/images/ || true
           cp -R ${{ env.INPUTPATH }}/docs/images/* ${{ env.INPUTPATH }}/docs/projektauftrag/images/ || true
           
-          # Copy images to slides
           cp -R ${{ env.INPUTPATH }}/images/* ${{ env.INPUTPATH }}/slides/images/ || true
 
-      # Run docker-convert.sh with environment variables for document-specific configurations
+
       - name: Run docker conversion script
         run: |
           # Create configuration file with document-specific settings

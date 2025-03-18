@@ -19,6 +19,7 @@ endif::[]
 
 * link:https://2425-3ahif-syp.github.io/02-projekte-fragebogen-htl/docs/pflichtenheft[**Pflichtenheft**^]
 * link:https://2425-3ahif-syp.github.io/02-projekte-fragebogen-htl/docs/projektauftrag[**Projektauftrag**^]
+* link:https://2425-3ahif-syp.github.io/02-projekte-fragebogen-htl/docs/wireframe/[**Wireframe**^]
 * link:https://vm81.htl-leonding.ac.at/projects/9502dfe3-38ca-4000-b994-f58a98fb4e43[**YouTrack**^]
 
 == Zusammenfassung
