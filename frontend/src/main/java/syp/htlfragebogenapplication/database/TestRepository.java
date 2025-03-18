@@ -13,6 +13,7 @@ public class TestRepository {
         Database.getInstance();
         connection = Database.getConnection();
     }
+
     public List<Test> getAllTests() {
         List<Test> testList = new ArrayList<>();
         String sql = "SELECT id, name, description, question_count FROM Test";
