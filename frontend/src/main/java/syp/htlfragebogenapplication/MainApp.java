@@ -28,8 +28,8 @@ public class MainApp extends Application {
         System.out.println(testRepository.getTestById(6));
 
         FXMLLoader fxmlLoader = new FXMLLoader(MainApp.class.getResource("MainView.fxml"));
-        Parent root = fxmlLoader.load();  // This line should not return null.
-        Scene scene = new Scene(root, 500, 500);
+        Parent root = fxmlLoader.load();
+        Scene scene = new Scene(root, 1500, 800);
         stage.setScene(scene);
         stage.show();
 

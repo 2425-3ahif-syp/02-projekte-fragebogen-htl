@@ -33,37 +33,25 @@
         </VBox>
     </top>
     <center>
-        <GridPane fx:id="testGrid" hgap="20" vgap="20" alignment="CENTER" style="-fx-padding: 20;">
+        <GridPane fx:id="testGrid" hgap="20" vgap="20" alignment="CENTER"
+                  style="-fx-padding: 40; -fx-background-color: white;">
 
             <columnConstraints>
-                <ColumnConstraints hgrow="ALWAYS" percentWidth="33.33" />
-                <ColumnConstraints hgrow="ALWAYS" percentWidth="33.33" />
-                <ColumnConstraints hgrow="ALWAYS" percentWidth="33.33" />
+                <ColumnConstraints percentWidth="20" />
+                <ColumnConstraints percentWidth="20" />
+                <ColumnConstraints percentWidth="20" />
+                <ColumnConstraints percentWidth="20" />
+                <ColumnConstraints percentWidth="20" />
             </columnConstraints>
 
-            <!-- Row constraints to make rows grow -->
+
+
             <rowConstraints>
-                <RowConstraints vgrow="ALWAYS" percentHeight="50" />
-                <RowConstraints vgrow="ALWAYS" percentHeight="50" />
+                <RowConstraints vgrow="ALWAYS" percentHeight="33.33" />
+                <RowConstraints vgrow="ALWAYS" percentHeight="33.33" />
+                <RowConstraints vgrow="ALWAYS" percentHeight="33.33" />
             </rowConstraints>
 
-            <VBox GridPane.rowIndex="0" GridPane.columnIndex="0" style="-fx-border-color: #404040; -fx-border-width: 2; -fx-border-radius: 15; -fx-padding: 15;" maxHeight="Infinity" maxWidth="Infinity">
-                <GridPane.margin>
-                    <Insets top="5" right="5" bottom="5" left="5" />
-                </GridPane.margin>
-                <Label text="Physik 1988" style="-fx-font-size: 18; -fx-font-weight: bold;" wrapText="true">
-                    <VBox.margin>
-                        <Insets bottom="10" />
-                    </VBox.margin>
-                </Label>
-                <Region VBox.vgrow="ALWAYS" />
-                <Button fx:id="physik1988Button" text="Test durchführen" maxWidth="Infinity"
-                        style="-fx-background-color: #f2f2f2; -fx-border-color: #d0d0d0; -fx-border-radius: 5; -fx-cursor: hand; -fx-font-size: 14;">
-                    <padding>
-                        <Insets top="10" right="15" bottom="10" left="15" />
-                    </padding>
-                </Button>
-            </VBox>
         </GridPane>
     </center>
 </BorderPane>
