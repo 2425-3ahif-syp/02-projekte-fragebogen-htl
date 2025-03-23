@@ -1,5 +1,28 @@
 #!/usr/bin/env bash
 
+createDirectoriesAndCopyImages() {
+  buildPath=$1
+  
+  # Create necessary directories
+  mkdir -p $buildPath/docs/wireframe/images
+  mkdir -p $buildPath/docs/pflichtenheft/images
+  mkdir -p $buildPath/docs/projektauftrag/images
+  mkdir -p $buildPath/slides/images
+  
+  # Copy images to various document directories
+  cp -R $buildPath/docs/images/* $buildPath/docs/wireframe/images/ 2>/dev/null || true
+  
+  cp -R $buildPath/images/* $buildPath/docs/pflichtenheft/images/ 2>/dev/null || true
+  cp -R $buildPath/docs/images/* $buildPath/docs/pflichtenheft/images/ 2>/dev/null || true
+  
+  cp -R $buildPath/images/* $buildPath/docs/projektauftrag/images/ 2>/dev/null || true
+  cp -R $buildPath/docs/images/* $buildPath/docs/projektauftrag/images/ 2>/dev/null || true
+  
+  cp -R $buildPath/images/* $buildPath/slides/images/ 2>/dev/null || true
+  
+  echo "Created directories and copied images successfully"
+}
+
 convertFilesToSlides() {
   buildPath=$1
   asciidoctorVersion=$2
