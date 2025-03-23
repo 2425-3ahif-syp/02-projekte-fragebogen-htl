@@ -8,9 +8,9 @@ import java.sql.Statement;
 public class Database {
     private static Database instance;
 
-    private  static final  String URL = "jdbc:h2:tcp://localhost:9092/./questionnaireDb";
-    private  final static String USER = "sa";
-    private  final static String PASSWORD = "";
+    private static final String URL = "jdbc:h2:tcp://localhost:9092/./questionnaireDb";
+    private final static String USER = "sa";
+    private final static String PASSWORD = "";
 
     private static Connection connection;
 
@@ -18,16 +18,15 @@ public class Database {
         try {
             connection = createConnection();
             DatabaseInitializer.initialize();
-        } catch (SQLException e)
-        {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
     public static Database getInstance() {
-        if(instance == null) {
+        if (instance == null) {
             synchronized (Database.class) {
-                if(instance == null) {
+                if (instance == null) {
                     instance = new Database();
                 }
             }
@@ -45,12 +44,13 @@ public class Database {
         }
         return connection;
     }
+
     private static Connection createConnection() throws SQLException {
         return DriverManager.getConnection(URL, USER, PASSWORD);
     }
 
     public void closeConnection() {
-        if(connection != null) {
+        if (connection != null) {
             try {
                 connection.close();
                 connection = null;

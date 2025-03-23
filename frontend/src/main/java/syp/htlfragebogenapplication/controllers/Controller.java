@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-
 public class Controller {
     private Connection connection = Database.getInstance().getConnection();
     public GridPane testGrid;
@@ -60,7 +59,6 @@ public class Controller {
             vbox.getChildren().addAll(label, spacer, button);
 
 
-
             GridPane.setConstraints(vbox, columnIndex, rowIndex);
 
             testGrid.getChildren().add(vbox);
@@ -77,13 +75,12 @@ public class Controller {
 
         }
 
-
         testGrid.requestLayout();
-
-
     }
+
     public Controller() {
     }
+
     @FXML
     private Button myButton;
 

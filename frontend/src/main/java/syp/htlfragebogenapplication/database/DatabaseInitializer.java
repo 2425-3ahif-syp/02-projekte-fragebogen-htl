@@ -70,7 +70,8 @@ public class DatabaseInitializer {
                     }
                 }).filter(rows -> rows > 0).count();
 
-                System.out.println("Imported " + insertedRows + " rows from: " + filePath);            }
+                System.out.println("Imported " + insertedRows + " rows from: " + filePath);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -34,6 +34,7 @@ public class MainApp extends Application {
         stage.show();
 
     }
+
     @Override
     public void stop() {
         System.out.println("🔄 Shutting down application...");

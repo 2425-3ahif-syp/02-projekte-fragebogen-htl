@@ -33,10 +33,10 @@ public class TestRepository {
         }
         return testList;
     }
+
     public Test getTestById(int id) {
         String sql = "SELECT id, name, description, question_count FROM Test WHERE id = ?";
-        try (PreparedStatement pstmt = connection.prepareStatement(sql))
-        {
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setInt(1, id);
             ResultSet rs = pstmt.executeQuery();
 
