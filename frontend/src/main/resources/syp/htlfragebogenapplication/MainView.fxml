@@ -28,7 +28,6 @@
             </HBox>
             <HBox id="search-box"  alignment="CENTER_RIGHT" spacing="10">
                 <TextField  id="search-field" fx:id="searchField" promptText="Search..." HBox.hgrow="ALWAYS"/>
-                <Button id="search-button" fx:id="searchButton" text="Search" onAction="#onSearchButtonClicked" />
             </HBox>
         </VBox>
     </top>

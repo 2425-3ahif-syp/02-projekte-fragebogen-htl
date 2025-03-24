@@ -1,5 +1,6 @@
 package syp.htlfragebogenapplication.controllers;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
@@ -41,15 +42,13 @@ public class Controller {
         List<Test> testList = new TestRepository().getAllTests();
         displayTests(testList);
 
-        // Add listener for text changes in the search field
         searchField.textProperty().addListener((observable, oldValue, newValue) -> {
             performSearch(newValue);
         });
-    }
 
-    public void onSearchButtonClicked(ActionEvent actionEvent) {
-        String searchTerm = searchField.getText();
-        performSearch(searchTerm);
+        Platform.runLater(() -> {
+            searchField.getParent().requestFocus();
+        });
     }
 
     private void performSearch(String searchTerm) {
