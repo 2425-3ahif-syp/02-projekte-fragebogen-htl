@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="syp.htlfragebogenapplication.controllers.TestViewController"
+            prefHeight="600.0" prefWidth="800.0">
+    <top>
+        <VBox spacing="10" style="-fx-padding: 20;">
+            <Label fx:id="testNameLabel" style="-fx-font-size: 24; -fx-font-weight: bold;"/>
+            <Label fx:id="testDescriptionLabel" style="-fx-font-size: 14;"/>
+            <Separator/>
+        </VBox>
+    </top>
+    <center>
+        <VBox fx:id="questionsContainer" spacing="20" style="-fx-padding: 20;"/>
+    </center>
+    <bottom>
+        <HBox alignment="CENTER_RIGHT" spacing="10" style="-fx-padding: 20;">
+            <Button fx:id="backButton" text="Back" onAction="#onBackButtonClicked"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Button text="Submit" onAction="#onSubmitButtonClicked"/>
+        </HBox>
+    </bottom>
+
+</BorderPane>
