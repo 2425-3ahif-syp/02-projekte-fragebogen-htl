@@ -16,6 +16,8 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.Priority?>
 
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
 <BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="syp.htlfragebogenapplication.controllers.Controller">
     <top>
         <VBox>
@@ -27,7 +29,7 @@
                 </Label>
             </HBox>
             <HBox id="search-box"  alignment="CENTER_RIGHT" spacing="10">
-                <TextField  id="search-field" fx:id="searchField" promptText="Search..." HBox.hgrow="ALWAYS"/>
+                <TextField  id="search-field" fx:id="searchField" promptText="Suchen..." HBox.hgrow="ALWAYS"/>
             </HBox>
         </VBox>
     </top>

@@ -29,6 +29,7 @@
 }
 
 #search-field {
+    -fx-font-size: 15px;
     -fx-pref-width: 250px;
     -fx-padding: 8px;
     -fx-border-radius: 8px;
