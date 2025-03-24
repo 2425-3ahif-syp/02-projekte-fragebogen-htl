@@ -8,6 +8,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.fxml.FXML;
 import javafx.event.ActionEvent;
+import syp.htlfragebogenapplication.controllers.MainViewController;
 import syp.htlfragebogenapplication.database.Database;
 import syp.htlfragebogenapplication.database.H2Server;
 import syp.htlfragebogenapplication.database.TestRepository;
@@ -27,14 +28,8 @@ public class MainApp extends Application {
         System.out.println(testRepository.getAllTests());
         System.out.println(testRepository.getTestById(6));
 
-        FXMLLoader fxmlLoader = new FXMLLoader(MainApp.class.getResource("MainView.fxml"));
-        Parent root = fxmlLoader.load();
-        Scene scene = new Scene(root, 1500, 800);
-        // add the stylesheet
-        scene.getStylesheets().add(getClass().getResource("MainView.css").toExternalForm());
-        stage.setScene(scene);
-        stage.show();
-
+        // Use the static show method
+        MainViewController.show(stage);
     }
 
     @Override

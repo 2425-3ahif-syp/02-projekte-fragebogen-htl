@@ -2,34 +2,38 @@ package syp.htlfragebogenapplication.controllers;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
+import javafx.stage.Stage;
 import syp.htlfragebogenapplication.database.Database;
 import syp.htlfragebogenapplication.database.TestRepository;
 import syp.htlfragebogenapplication.model.Test;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.util.List;
 
 
 public class MainViewController {
-    private final Connection connection = Database.getInstance().getConnection();
-
     @FXML
     public GridPane testGrid;
 
     @FXML
     public TextField searchField;
 
-    public MainViewController() {
-    }
+    private final Connection connection = Database.getInstance().getConnection();
+
+    private static Stage primaryStage;
 
     public void initialize() {
-        System.out.println("🚀 Initializing Controller...");
         List<Test> testList = new TestRepository().getAllTests();
         displayTests(testList);
 
@@ -126,8 +130,43 @@ public class MainViewController {
         button.setMaxWidth(Double.MAX_VALUE);
         button.setPadding(new Insets(10, 15, 10, 15));
 
+        // Add event handler for the button
+        button.setOnAction(event -> openTestView(test.getId()));
+
         vbox.getChildren().addAll(label, spacer, button);
 
         return vbox;
+    }
+
+    public static void show(Stage stage) {
+        try {
+            primaryStage = stage;
+            FXMLLoader loader = new FXMLLoader(MainViewController.class.getResource("/syp/htlfragebogenapplication/MainView.fxml"));
+            Parent root = loader.load();
+
+            Scene scene = new Scene(root, 1500, 800);
+            scene.getStylesheets().add(MainViewController.class.getResource("/syp/htlfragebogenapplication/MainView.css").toExternalForm());
+
+            stage.setTitle("HTL Fragebogen Application");
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            showErrorAlert("Could not load main view: " + e.getMessage());
+        }
+    }
+
+    private static void showErrorAlert(String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
+    // Modify openTestView to use the TestViewController.show method
+    private void openTestView(int testId) {
+        Test test = new TestRepository().getTestById(testId);
+        TestViewController.show(primaryStage, test);
     }
 }
