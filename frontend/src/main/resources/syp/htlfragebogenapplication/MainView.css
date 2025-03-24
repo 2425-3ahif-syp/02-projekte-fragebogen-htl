@@ -1,0 +1,74 @@
+/* General Scene Background */
+.root {
+    -fx-background-color: #f8f9fa;
+    -fx-padding: 20px;
+}
+
+/* Header */
+#header {
+    -fx-pref-height: 90px;
+    -fx-padding: 15px;
+    -fx-background-color: #8d1818;
+    -fx-font-weight: bold;
+    -fx-alignment: center;
+    -fx-border-radius: 12px 12px 0 0;
+    -fx-background-radius: 12px 12px 0 0;
+}
+
+#header-label {
+    -fx-text-fill: white;
+    -fx-font-size: 30;
+}
+
+/* Search Bar */
+#search-box {
+    -fx-background-color: #d07474;
+    -fx-border-radius: 0 0 12px 12px;
+    -fx-background-radius: 0 0 12px 12px;
+    -fx-padding: 15px;
+}
+
+#search-field {
+    -fx-pref-width: 250px;
+    -fx-padding: 8px;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-border-color: #ccc;
+    -fx-background-color: white;
+}
+
+/* Test cards */
+.card {
+    -fx-background-color: white;
+    -fx-border-color: #ddd;
+    -fx-border-radius: 12px;
+    -fx-background-radius: 12px;
+    -fx-padding: 15px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.15), 10, 0, 2, 2);
+    -fx-transition: all 0.3s ease-in-out;
+}
+
+.card:hover {
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 15, 0, 4, 4);
+    -fx-scale-x: 1.03;
+    -fx-scale-y: 1.03;
+}
+
+.card-label {
+    -fx-font-size: 18;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333;
+}
+
+Button {
+    -fx-background-color: #f8f8f8;
+    -fx-text-fill: black;
+    -fx-font-weight: bold;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-padding: 10px;
+}
+
+Button:hover {
+    -fx-background-color: #d9d8d8;
+}

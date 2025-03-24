@@ -32,14 +32,14 @@ public class Controller {
 
         for (Test test : testList) {
             VBox vbox = new VBox();
-            vbox.setStyle("-fx-border-color: #404040; -fx-border-width: 2; -fx-border-radius: 15; -fx-padding: 15;");
+            vbox.getStyleClass().add("card");
             vbox.setMaxHeight(200);
             vbox.setMaxWidth(400);
             VBox.setMargin(vbox, new Insets(10));
 
 
             Label label = new Label(test.getName());
-            label.setStyle("-fx-font-size: 18; -fx-font-weight: bold;");
+            label.getStyleClass().add("card-label");
             label.setWrapText(true);
             label.setMaxWidth(Double.MAX_VALUE);
             VBox.setMargin(label, new Insets(0, 0, 10, 0));
@@ -53,7 +53,6 @@ public class Controller {
             button.setAlignment(Pos.BASELINE_CENTER);
             button.setId(String.valueOf(test.getId()));
             button.setMaxWidth(Double.MAX_VALUE);
-            button.setStyle("-fx-background-color: #f2f2f2; -fx-border-color: #d0d0d0; -fx-border-radius: 5; -fx-cursor: hand; -fx-font-size: 14;");
             button.setPadding(new Insets(10, 15, 10, 15));
 
             vbox.getChildren().addAll(label, spacer, button);

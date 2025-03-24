@@ -30,6 +30,8 @@ public class MainApp extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(MainApp.class.getResource("MainView.fxml"));
         Parent root = fxmlLoader.load();
         Scene scene = new Scene(root, 1500, 800);
+        // add the stylesheet
+        scene.getStylesheets().add(getClass().getResource("MainView.css").toExternalForm());
         stage.setScene(scene);
         stage.show();
 
