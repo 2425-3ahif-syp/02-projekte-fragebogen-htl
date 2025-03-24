@@ -1,11 +1,9 @@
 package syp.htlfragebogenapplication.controllers;
 
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -15,14 +13,10 @@ import syp.htlfragebogenapplication.database.TestRepository;
 import syp.htlfragebogenapplication.model.Test;
 
 import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.List;
 
 
-public class Controller {
+public class MainViewController {
     private final Connection connection = Database.getInstance().getConnection();
 
     @FXML
@@ -31,10 +25,7 @@ public class Controller {
     @FXML
     public TextField searchField;
 
-    @FXML
-    public Button searchButton;
-
-    public Controller() {
+    public MainViewController() {
     }
 
     public void initialize() {
@@ -67,6 +58,11 @@ public class Controller {
     private void displayTests(List<Test> tests) {
         testGrid.getChildren().clear();
 
+        if (tests.isEmpty()) {
+            showNoResultsMessage();
+            return;
+        }
+
         int rowIndex = 0;
         int columnIndex = 0;
 
@@ -87,6 +83,25 @@ public class Controller {
         }
 
         testGrid.requestLayout();
+    }
+
+    private void showNoResultsMessage() {
+        VBox messageBox = new VBox();
+        messageBox.setAlignment(Pos.CENTER);
+        messageBox.setPrefWidth(testGrid.getWidth());
+        messageBox.setPrefHeight(300);
+
+        Label noResultsLabel = new Label("Keine Tests gefunden");
+        noResultsLabel.setStyle("-fx-font-size: 18px; -fx-text-fill: #666;");
+
+        messageBox.getChildren().add(noResultsLabel);
+
+        GridPane.setRowIndex(messageBox, 0);
+        GridPane.setColumnIndex(messageBox, 0);
+        GridPane.setColumnSpan(messageBox, 5);
+        GridPane.setRowSpan(messageBox, 3);
+
+        testGrid.getChildren().add(messageBox);
     }
 
     private VBox createTestCard(Test test) {

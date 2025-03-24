@@ -18,7 +18,7 @@
 
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.image.Image?>
-<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="syp.htlfragebogenapplication.controllers.Controller">
+<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="syp.htlfragebogenapplication.controllers.MainViewController">
     <top>
         <VBox>
             <HBox id="header" styleClass="header">
