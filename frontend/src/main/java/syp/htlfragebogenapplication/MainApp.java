@@ -28,7 +28,6 @@ public class MainApp extends Application {
         System.out.println(testRepository.getAllTests());
         System.out.println(testRepository.getTestById(6));
 
-        // Use the static show method
         MainViewController.show(stage);
     }
 

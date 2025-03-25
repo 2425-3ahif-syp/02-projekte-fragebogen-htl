@@ -141,11 +141,11 @@ public class MainViewController {
     public static void show(Stage stage) {
         try {
             primaryStage = stage;
-            FXMLLoader loader = new FXMLLoader(MainViewController.class.getResource("/syp/htlfragebogenapplication/MainView.fxml"));
+            FXMLLoader loader = new FXMLLoader(MainViewController.class.getResource("/syp/htlfragebogenapplication/MainView/MainView.fxml"));
             Parent root = loader.load();
 
             Scene scene = new Scene(root, 1500, 800);
-            scene.getStylesheets().add(MainViewController.class.getResource("/syp/htlfragebogenapplication/MainView.css").toExternalForm());
+            scene.getStylesheets().add(MainViewController.class.getResource("/syp/htlfragebogenapplication/MainView/MainView.css").toExternalForm());
 
             stage.setTitle("HTL Fragebogen Application");
             stage.setScene(scene);

@@ -12,6 +12,7 @@ import javafx.stage.Stage;
 import syp.htlfragebogenapplication.model.Test;
 
 import java.io.IOException;
+
 public class TestViewController {
 
     @FXML
@@ -49,7 +50,7 @@ public class TestViewController {
     public static void show(Stage stage, Test test) {
         try {
             primaryStage = stage;
-            FXMLLoader loader = new FXMLLoader(TestViewController.class.getResource("/syp/htlfragebogenapplication/TestView.fxml"));
+            FXMLLoader loader = new FXMLLoader(TestViewController.class.getResource("/syp/htlfragebogenapplication/TestView/TestView.fxml"));
             Parent root = loader.load();
 
             TestViewController controller = loader.getController();
@@ -57,7 +58,7 @@ public class TestViewController {
 
             Scene scene = new Scene(root, stage.getScene().getWidth(), stage.getScene().getHeight());
             try {
-                scene.getStylesheets().add(TestViewController.class.getResource("/syp/htlfragebogenapplication/TestView.css").toExternalForm());
+                scene.getStylesheets().add(TestViewController.class.getResource("/syp/htlfragebogenapplication/TestView/TestView.css").toExternalForm());
             } catch (Exception e) {
                 System.out.println("CSS file not found, continuing without styling");
             }
