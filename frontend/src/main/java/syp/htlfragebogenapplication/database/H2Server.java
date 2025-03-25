@@ -10,7 +10,21 @@ public class H2Server {
     public static void start() {
         if (server == null) {
             try {
-                String baseDir = new File("../backend/db").getCanonicalPath();
+                File cwd = new File(System.getProperty("user.dir"));
+
+                File projectRoot;
+
+                if (new File(cwd, "backend/db").exists()) {
+                    projectRoot = cwd;
+                } else if (new File(cwd, "../backend/db").exists()) {
+                    projectRoot = cwd.getParentFile();
+                } else {
+                    throw new RuntimeException("Cannot locate backend/db folder from current directory: " + cwd);
+                }
+
+                File dbDir = new File(projectRoot, "backend/db");
+                String baseDir = dbDir.getCanonicalPath();
+
                 server = Server.createTcpServer("-ifNotExists", "-baseDir", baseDir).start();
 
                 String serverInfo = """
