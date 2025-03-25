@@ -1,3 +1,15 @@
-/*
-CSS for the TestView
-*/
+.nav-btn {
+    -fx-border-color: #d5d5d5;
+    -fx-border-width: 2px;
+    -fx-background-color: #f4f4f4;
+}
+
+#submit-btn {
+    -fx-text-fill: white;
+    -fx-border-color: none;
+    -fx-background-color: #00af50;
+}
+
+Button {
+    -fx-pref-width: 100px;
+}

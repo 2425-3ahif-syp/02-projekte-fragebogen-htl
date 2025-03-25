@@ -19,9 +19,10 @@
     </center>
     <bottom>
         <HBox alignment="CENTER_RIGHT" spacing="10" style="-fx-padding: 20;">
-            <Button fx:id="backButton" text="Back" onAction="#onBackButtonClicked"/>
+            <!--nav-button are the button 'back' and 'next', which should be styled the same-->
+            <Button styleClass="nav-btn" fx:id="backButton" text="Zurück" onAction="#onBackButtonClicked"/>
             <Region HBox.hgrow="ALWAYS"/>
-            <Button text="Submit" onAction="#onSubmitButtonClicked"/>
+            <Button id="submit-btn" text="Abschließen" onAction="#onSubmitButtonClicked"/>
         </HBox>
     </bottom>
 
