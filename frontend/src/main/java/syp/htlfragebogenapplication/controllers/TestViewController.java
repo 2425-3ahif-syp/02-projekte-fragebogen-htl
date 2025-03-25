@@ -50,7 +50,7 @@ public class TestViewController {
     public static void show(Stage stage, Test test) {
         try {
             primaryStage = stage;
-            FXMLLoader loader = new FXMLLoader(TestViewController.class.getResource("/syp/htlfragebogenapplication/testview/TestView.fxml"));
+            FXMLLoader loader = new FXMLLoader(TestViewController.class.getResource("/syp/htlfragebogenapplication/testview/test-view.fxml"));
             Parent root = loader.load();
 
             TestViewController controller = loader.getController();
@@ -59,7 +59,7 @@ public class TestViewController {
             Scene scene = new Scene(root, stage.getScene().getWidth(), stage.getScene().getHeight());
             try {
                 scene.getStylesheets().add(MainViewController.class.getResource("/syp/htlfragebogenapplication/Base.css").toExternalForm());
-                scene.getStylesheets().add(TestViewController.class.getResource("/syp/htlfragebogenapplication/testview/TestView.css").toExternalForm());
+                scene.getStylesheets().add(TestViewController.class.getResource("/syp/htlfragebogenapplication/testview/test-view.css").toExternalForm());
             } catch (Exception e) {
                 System.out.println("CSS file not found, continuing without styling");
             }
