@@ -58,6 +58,7 @@ public class TestViewController {
 
             Scene scene = new Scene(root, stage.getScene().getWidth(), stage.getScene().getHeight());
             try {
+                scene.getStylesheets().add(MainViewController.class.getResource("/syp/htlfragebogenapplication/Base.css").toExternalForm());
                 scene.getStylesheets().add(TestViewController.class.getResource("/syp/htlfragebogenapplication/TestView/TestView.css").toExternalForm());
             } catch (Exception e) {
                 System.out.println("CSS file not found, continuing without styling");
