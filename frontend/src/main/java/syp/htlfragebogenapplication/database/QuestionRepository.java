@@ -20,9 +20,9 @@ public class QuestionRepository {
         List<Question> questionList = new ArrayList<>();
         String sql = """
                 SELECT q.id, q.test_id, q.answer_type_id, q.image_path, q.possible_answer_count, q.num_in_test,
-                       pat.name AS answer_type_name
+                       a.description AS answer_type_name
                 FROM question q
-                JOIN possible_answer_type pat ON q.answer_type_id = pat.id
+                JOIN AnswerType a ON q.answer_type_id = a.id
                 WHERE q.test_id = ?
                 """;
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
