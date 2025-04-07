@@ -31,6 +31,7 @@ public class Question {
     public String getImagePath() { return imagePath.get(); }
     public int getPossibleAnswerCount() { return possibleAnswerCount.get(); }
     public int getNumInTest() { return numInTest.get(); }
+    public AnswerType getAnswerType() { return answerType; }
 
     public IntegerProperty idProperty() { return id; }
     public IntegerProperty testIdProperty() { return testId; }

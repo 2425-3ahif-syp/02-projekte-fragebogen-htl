@@ -1,17 +1,27 @@
 package syp.htlfragebogenapplication.controllers;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
+import javafx.util.Duration;
+import syp.htlfragebogenapplication.database.QuestionRepository;
+import syp.htlfragebogenapplication.model.Question;
 import syp.htlfragebogenapplication.model.Test;
 
 import java.io.IOException;
+import java.util.List;
 
 public class TestViewController {
 
@@ -19,32 +29,105 @@ public class TestViewController {
     private Label testNameLabel;
 
     @FXML
-    private Label testDescriptionLabel;
+    private VBox questionsContainer;
 
     @FXML
-    private VBox questionsContainer;
+    private Button nextButton;
+
+    @FXML
+    private Button backButton;
+
+    @FXML
+    private Button cancelButton;
+
+    @FXML
+    private Label questionCount;
+
+    @FXML
+    private Label timeCount;
 
     private static Stage primaryStage;
 
     private Test test;
+    private List<Question> questions;
+    private int currentQuestionIndex = 0;
+    private Timeline timeline;
+    private int timeSeconds = 0;
 
     public void initData(Test test) {
         this.test = test;
         testNameLabel.setText(test.getName());
-        testDescriptionLabel.setText(test.getDescription());
+        questionCount.setText("Frage: " + (currentQuestionIndex + 1) + "/" + test.getQuestionCount());
 
-        // TODO: Load questions from the database
         loadQuestions();
+        displayCurrentQuestion();
+        startTimer();
     }
 
     private void loadQuestions() {
-        // TODO: Implement question loading from database
-        // This will depend on your Question model and database structure
+        QuestionRepository questionRepository = new QuestionRepository();
+        questions = questionRepository.getAllQuestionsFromTest(test.getId());
+    }
+
+    private void displayCurrentQuestion() {
+        questionsContainer.getChildren().clear();
+        if (questions != null && !questions.isEmpty()) {
+            Question currentQuestion = questions.get(currentQuestionIndex);
+            String imagePath = getClass().getResource(currentQuestion.getImagePath()).toExternalForm();
+            Image image = new Image(imagePath);
+            ImageView imageView = new ImageView(image);
+            imageView.setFitWidth(800);
+            imageView.setPreserveRatio(true);
+            questionsContainer.getChildren().add(imageView);
+
+            questionCount.setText("Frage: " + (currentQuestionIndex + 1) + "/" + questions.size());
+
+            int possibleAnswerCount = currentQuestion.getPossibleAnswerCount();
+            String answerTypeName = currentQuestion.getAnswerType().getName();
+
+            for (int i = 0; i < possibleAnswerCount; i++) {
+                String optionText;
+                if ("Letter".equals(answerTypeName)) {
+                    optionText = String.valueOf((char) ('A' + i));
+                } else {
+                    optionText = "Option " + (i + 1);
+                }
+                CheckBox checkBox = new CheckBox(optionText);
+                questionsContainer.getChildren().add(checkBox);
+            }
+        }
+    }
+
+    private void startTimer() {
+        timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
+            timeSeconds++;
+            int minutes = timeSeconds / 60;
+            int seconds = timeSeconds % 60;
+            timeCount.setText(String.format("Zeit: %02d:%02d", minutes, seconds));
+        }));
+        timeline.setCycleCount(Timeline.INDEFINITE);
+        timeline.play();
     }
 
     @FXML
-    private void onSubmitButtonClicked() {
-        // TODO: Implement test submission logic
+    private void onNextButtonClicked() {
+        if (currentQuestionIndex < questions.size() - 1) {
+            currentQuestionIndex++;
+            displayCurrentQuestion();
+        }
+    }
+
+    @FXML
+    private void onBackButtonClicked() {
+        if (currentQuestionIndex > 0) {
+            currentQuestionIndex--;
+            displayCurrentQuestion();
+        }
+    }
+
+    @FXML
+    private void onCancelButtonClicked() {
+        MainViewController.show(primaryStage);
     }
 
     public static void show(Stage stage, Test test) {
@@ -78,10 +161,5 @@ public class TestViewController {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
-    }
-
-
-    public void onBackButtonClicked(ActionEvent actionEvent) {
-        MainViewController.show(primaryStage);
     }
 }

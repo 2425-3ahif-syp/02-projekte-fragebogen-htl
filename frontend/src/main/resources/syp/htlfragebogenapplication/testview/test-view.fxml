@@ -10,7 +10,10 @@
     <top>
         <VBox spacing="10" style="-fx-padding: 20;">
             <Label fx:id="testNameLabel" style="-fx-font-size: 24; -fx-font-weight: bold;"/>
-            <Label fx:id="testDescriptionLabel" style="-fx-font-size: 14;"/>
+            <HBox spacing="20">
+                <Label text="Zeit: 00:00" fx:id="timeCount"/>
+                <Label fx:id="questionCount"/>
+            </HBox>
             <Separator/>
         </VBox>
     </top>
@@ -19,11 +22,10 @@
     </center>
     <bottom>
         <HBox alignment="CENTER_RIGHT" spacing="10" style="-fx-padding: 20;">
-            <!--nav-button are the button 'back' and 'next', which should be styled the same-->
-            <Button styleClass="nav-btn" fx:id="backButton" text="Zurück" onAction="#onBackButtonClicked"/>
+            <Button styleClass="nav-btn" fx:id="cancelButton" text="Test abbrechen" onAction="#onCancelButtonClicked"/>
             <Region HBox.hgrow="ALWAYS"/>
-            <Button id="submit-btn" text="Abschließen" onAction="#onSubmitButtonClicked"/>
+            <Button styleClass="nav-btn" fx:id="backButton" text="Zurück" onAction="#onBackButtonClicked"/>
+            <Button id="submit-btn" fx:id="nextButton" text="Weiter" onAction="#onNextButtonClicked"/>
         </HBox>
     </bottom>
-
 </BorderPane>
