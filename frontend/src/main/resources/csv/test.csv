@@ -8,4 +8,4 @@ id;name;description;question_count
 7;Räumliches Denken;Eine geometrische Figur wird dargestellt, und die richtige Ansicht der Figur aus einer bestimmten Perspektive muss gewählt werden. Es kann nur eine Antwort ausgewählt werden.;10
 8;Mathematische Sachaufgaben;Es handelt sich um mathematische Sachaufgaben, bei denen die errechnete Lösung bestimmt, und alle enthaltenen Ziffern durch Ankreuzen ausgewählt werden müssen.;9
 9;Angewandte Physik 2;Jede Frage beschreibt eine physikalische Situation, welche gemäß der physikalischen Gesetze beantwortet werden muss. Es kann nur eine Antwort ausgewählt werden.;20
-10;Einheiten und 10er Potenzen;Es müssen Einheiten umgerechnet oder Rechnungen mit Multiplikation/Division ohne Taschenrechner durchgeführt werden. Die Antwort wird in einem standardisierten Feld eingegeben.;20
+10;Einheiten und 10er Potenzen;Es müssen Einheiten umgerechnet oder Rechnungen mit Multiplikation/Division ohne Taschenrechner durchgeführt werden. Anschließend muss der Beistrich bei der vorgegebenen Zahl korrekt gesetzt werden;20

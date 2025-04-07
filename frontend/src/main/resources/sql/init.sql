@@ -28,6 +28,7 @@ CREATE TABLE Question
     answer_type_id        INT NOT NULL,
     image_path            VARCHAR(255),
     possible_answer_count INT CHECK (possible_answer_count > 0),
+    num_in_test           INT NOT NULL,
     FOREIGN KEY (test_id) REFERENCES Test (id) ON DELETE CASCADE,
     FOREIGN KEY (answer_type_id) REFERENCES AnswerType (id) ON DELETE CASCADE
 );
