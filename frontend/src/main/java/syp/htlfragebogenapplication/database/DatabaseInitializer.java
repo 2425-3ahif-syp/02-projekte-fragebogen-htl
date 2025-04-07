@@ -47,7 +47,7 @@ public class DatabaseInitializer {
     private static void importCSVData(Connection conn) {
         importCSV(conn, "/csv/test.csv", "INSERT INTO Test (id, name, description, question_count) VALUES (?, ?, ?, ?)");
         importCSV(conn, "/csv/answer_type.csv", "INSERT INTO AnswerType (id, description) VALUES (?, ?)");
-        importCSV(conn, "/csv/question.csv", "INSERT INTO Question (id, test_id, answer_type_id, image_path, possible_answer_count) VALUES (?, ?, ?, ?, ?)");
+        importCSV(conn, "/csv/question.csv", "INSERT INTO Question (id, test_id, answer_type_id, image_path, possible_answer_count, num_in_test) VALUES (?, ?, ?, ?, ?, ?)");
         importCSV(conn, "/csv/answer.csv", "INSERT INTO Answer (id, question_id, answer_text) VALUES (?, ?, ?)");
     }
 
