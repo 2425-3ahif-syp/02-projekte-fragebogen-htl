@@ -24,7 +24,6 @@ public class Test {
     public String getDescription() { return description.get(); }
     public int getQuestionCount() { return questionCount.get(); }
 
-    // Property getters (for binding)
     public IntegerProperty idProperty() { return id; }
     public StringProperty nameProperty() { return name; }
     public StringProperty descriptionProperty() { return description; }

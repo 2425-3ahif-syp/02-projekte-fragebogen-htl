@@ -17,8 +17,8 @@ public class DatabaseInitializer {
             return;
         }
 
-        executeSQLFile(conn, "/sql/init.sql");  // Drops & creates tables
-        importCSVData(conn);                    // Reads CSV files & inserts data
+        executeSQLFile(conn, "/sql/init.sql");
+        importCSVData(conn);
         System.out.println("Database initialization complete.");
     }
 
