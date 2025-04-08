@@ -2,6 +2,7 @@
     -fx-border-color: #d5d5d5;
     -fx-border-width: 2px;
     -fx-background-color: #f4f4f4;
+
 }
 
 #submit-btn {
@@ -12,4 +13,12 @@
 
 Button {
     -fx-pref-width: 100px;
+}
+
+.stop-btn {
+    -fx-min-width: 200px;
+    -fx-background-color: #d07474;
+    -fx-border-color: #8d1818;
+    -fx-border-width: 2px;
+
 }

@@ -22,7 +22,7 @@
     </center>
     <bottom>
         <HBox alignment="CENTER_RIGHT" spacing="10" style="-fx-padding: 20;">
-            <Button styleClass="nav-btn" fx:id="cancelButton" text="Test abbrechen" onAction="#onCancelButtonClicked"/>
+            <Button styleClass="stop-btn" fx:id="cancelButton" text="Test abbrechen" onAction="#onCancelButtonClicked"/>
             <Region HBox.hgrow="ALWAYS"/>
             <Button styleClass="nav-btn" fx:id="backButton" text="Zurück" onAction="#onBackButtonClicked"/>
             <Button id="submit-btn" fx:id="nextButton" text="Weiter" onAction="#onNextButtonClicked"/>
