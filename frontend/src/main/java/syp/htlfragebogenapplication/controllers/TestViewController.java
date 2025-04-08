@@ -73,6 +73,14 @@ public class TestViewController {
         questionsContainer.getChildren().clear();
         if (questions != null && !questions.isEmpty()) {
             Question currentQuestion = questions.get(currentQuestionIndex);
+            if(currentQuestionIndex == questions.size() -1)
+            {
+                nextButton.setText("Beenden");
+            }
+            else
+            {
+                nextButton.setText("Weiter");
+            }
             String imagePath = getClass().getResource(currentQuestion.getImagePath()).toExternalForm();
             Image image = new Image(imagePath);
             ImageView imageView = new ImageView(image);
@@ -88,7 +96,7 @@ public class TestViewController {
             for (int i = 0; i < possibleAnswerCount; i++) {
                 String optionText;
                 if ("Letter".equals(answerTypeName)) {
-                    optionText = String.valueOf((char) ('A' + i));
+                    optionText = String.valueOf((char) ('a' + i));
                 } else {
                     optionText = "Option " + (i + 1);
                 }
