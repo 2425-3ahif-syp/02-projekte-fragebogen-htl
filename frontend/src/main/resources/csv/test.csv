@@ -3,7 +3,7 @@ id;name;description;question_count
 2;Angewandte Physik 1;Jede Frage beschreibt eine physikalische Situation, welche gemäß der physikalischen Gesetze beantwortet werden muss. Es kann nur eine Antwort ausgewählt werden.;20
 3;Mathematisches Textverständnis;Es wird ein Text präsentiert, der logisches und mathematisches Verständnis erfordert. Die Lösung liegt zwischen 1-9 und es kann nur eine Antwort ausgewählt werden.;15
 4;Visuelle Logik- und Mustererkennung;Ein Bild muss interpretiert werden und das logisch nächste Muster aus mehreren Möglichkeiten gewählt werden. Es kann nur eine Antwort ausgewählt werden.;12
-5;Bruchrechnen;Die Antwort muss direkt in Bruchschreibweise in ein Eingabefeld eingegeben werden. Es gibt keine Antwortmöglichkeiten zur Auswahl.;10
+5;Bruchrechnen;Die Antwort muss direkt in Bruchschreibweise in ein Eingabefeld eingegeben werden. Es gibt keine Antwortmöglichkeiten zur Auswahl und es muss so weit gekürzt werden wie möglich.;10
 6;Rechtschreibfehler finden;Ein durchgehender Text enthält mehrere Rechtschreibfehler, die gefunden und korrigiert werden müssen. Jedes Wort ist klickbar und kann in einer Textbox geändert werden.;1
 7;Räumliches Denken;Eine geometrische Figur wird dargestellt, und die richtige Ansicht der Figur aus einer bestimmten Perspektive muss gewählt werden. Es kann nur eine Antwort ausgewählt werden.;10
 8;Mathematische Sachaufgaben;Es handelt sich um mathematische Sachaufgaben, bei denen die errechnete Lösung bestimmt, und alle enthaltenen Ziffern durch Ankreuzen ausgewählt werden müssen.;9
