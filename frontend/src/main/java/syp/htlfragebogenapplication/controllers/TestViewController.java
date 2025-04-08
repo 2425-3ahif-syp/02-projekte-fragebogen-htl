@@ -7,10 +7,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
@@ -21,6 +18,7 @@ import syp.htlfragebogenapplication.model.Question;
 import syp.htlfragebogenapplication.model.Test;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 public class TestViewController {
@@ -54,10 +52,16 @@ public class TestViewController {
     private Timeline timeline;
     private int timeSeconds = 0;
 
+    private int[] answerSelections;
+
+
     public void initData(Test test) {
         this.test = test;
         testNameLabel.setText(test.getName());
         questionCount.setText("Frage: " + (currentQuestionIndex + 1) + "/" + test.getQuestionCount());
+        answerSelections = new int[test.getQuestionCount()];
+        Arrays.fill(answerSelections, -1);
+
 
         loadQuestions();
         displayCurrentQuestion();
@@ -93,15 +97,21 @@ public class TestViewController {
             int possibleAnswerCount = currentQuestion.getPossibleAnswerCount();
             String answerTypeName = currentQuestion.getAnswerType().getName();
 
+            ToggleGroup toggleGroup = new ToggleGroup();
             for (int i = 0; i < possibleAnswerCount; i++) {
-                String optionText;
+                String optionText = "Option " + (i + 1);
                 if ("Letter".equals(answerTypeName)) {
                     optionText = String.valueOf((char) ('a' + i));
-                } else {
-                    optionText = "Option " + (i + 1);
                 }
-                CheckBox checkBox = new CheckBox(optionText);
-                questionsContainer.getChildren().add(checkBox);
+                RadioButton radioButton = new RadioButton(optionText);
+                radioButton.setToggleGroup(toggleGroup);
+                final int selectedIndex = i;
+                radioButton.setOnAction(e -> answerSelections[currentQuestionIndex] = selectedIndex);
+                questionsContainer.getChildren().add(radioButton);
+
+                if (answerSelections[currentQuestionIndex] != -1 && answerSelections[currentQuestionIndex] == i) {
+                    radioButton.setSelected(true);
+                }
             }
         }
     }
