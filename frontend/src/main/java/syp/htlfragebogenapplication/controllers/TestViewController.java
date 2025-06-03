@@ -2,10 +2,6 @@ package syp.htlfragebogenapplication.controllers;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -13,35 +9,22 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import syp.htlfragebogenapplication.view.TestView;
 import syp.htlfragebogenapplication.database.QuestionRepository;
 import syp.htlfragebogenapplication.model.Question;
 import syp.htlfragebogenapplication.model.Test;
 
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
 public class TestViewController {
 
-    @FXML
     private Label testNameLabel;
-
-    @FXML
     private VBox questionsContainer;
-
-    @FXML
     private Button nextButton;
-
-    @FXML
     private Button backButton;
-
-    @FXML
     private Button cancelButton;
-
-    @FXML
     private Label questionCount;
-
-    @FXML
     private Label timeCount;
 
     private static Stage primaryStage;
@@ -54,6 +37,34 @@ public class TestViewController {
 
     private int[] answerSelections;
 
+    // Setters for the TestView to inject components
+    public void setTestNameLabel(Label testNameLabel) {
+        this.testNameLabel = testNameLabel;
+    }
+
+    public void setQuestionsContainer(VBox questionsContainer) {
+        this.questionsContainer = questionsContainer;
+    }
+
+    public void setNextButton(Button nextButton) {
+        this.nextButton = nextButton;
+    }
+
+    public void setBackButton(Button backButton) {
+        this.backButton = backButton;
+    }
+
+    public void setCancelButton(Button cancelButton) {
+        this.cancelButton = cancelButton;
+    }
+
+    public void setQuestionCount(Label questionCount) {
+        this.questionCount = questionCount;
+    }
+
+    public void setTimeCount(Label timeCount) {
+        this.timeCount = timeCount;
+    }
 
     public void initData(Test test) {
         this.test = test;
@@ -61,7 +72,6 @@ public class TestViewController {
         questionCount.setText("Frage: " + (currentQuestionIndex + 1) + "/" + test.getQuestionCount());
         answerSelections = new int[test.getQuestionCount()];
         Arrays.fill(answerSelections, -1);
-
 
         loadQuestions();
         displayCurrentQuestion();
@@ -77,12 +87,9 @@ public class TestViewController {
         questionsContainer.getChildren().clear();
         if (questions != null && !questions.isEmpty()) {
             Question currentQuestion = questions.get(currentQuestionIndex);
-            if(currentQuestionIndex == questions.size() -1)
-            {
+            if (currentQuestionIndex == questions.size() - 1) {
                 nextButton.setText("Beenden");
-            }
-            else
-            {
+            } else {
                 nextButton.setText("Weiter");
             }
             String imagePath = getClass().getResource(currentQuestion.getImagePath()).toExternalForm();
@@ -127,47 +134,45 @@ public class TestViewController {
         timeline.play();
     }
 
-    @FXML
-    private void onNextButtonClicked() {
+    public void onNextButtonClicked() {
         if (currentQuestionIndex < questions.size() - 1) {
             currentQuestionIndex++;
             displayCurrentQuestion();
         }
     }
 
-    @FXML
-    private void onBackButtonClicked() {
+    public void onBackButtonClicked() {
         if (currentQuestionIndex > 0) {
             currentQuestionIndex--;
             displayCurrentQuestion();
         }
     }
 
-    @FXML
-    private void onCancelButtonClicked() {
+    public void onCancelButtonClicked() {
         MainViewController.show(primaryStage);
     }
 
     public static void show(Stage stage, Test test) {
         try {
             primaryStage = stage;
-            FXMLLoader loader = new FXMLLoader(TestViewController.class.getResource("/syp/htlfragebogenapplication/testview/test-view.fxml"));
-            Parent root = loader.load();
+            TestViewController controller = new TestViewController();
+            TestView testView = new TestView(controller);
 
-            TestViewController controller = loader.getController();
             controller.initData(test);
 
-            Scene scene = new Scene(root, stage.getScene().getWidth(), stage.getScene().getHeight());
+            Scene scene = new Scene(testView, stage.getScene().getWidth(), stage.getScene().getHeight());
             try {
-                scene.getStylesheets().add(MainViewController.class.getResource("/syp/htlfragebogenapplication/Base.css").toExternalForm());
-                scene.getStylesheets().add(TestViewController.class.getResource("/syp/htlfragebogenapplication/testview/test-view.css").toExternalForm());
+                scene.getStylesheets().add(MainViewController.class
+                        .getResource("/syp/htlfragebogenapplication/Base.css").toExternalForm());
+                scene.getStylesheets().add(TestViewController.class
+                        .getResource("/syp/htlfragebogenapplication/testview/test-view.css").toExternalForm());
             } catch (Exception e) {
                 System.out.println("CSS file not found, continuing without styling");
             }
 
             stage.setTitle("Test: " + test.getName());
             stage.setScene(scene);
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             showErrorAlert("Could not load test view: " + e.getMessage());
         }

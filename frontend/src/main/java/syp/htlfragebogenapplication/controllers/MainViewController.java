@@ -2,10 +2,8 @@ package syp.htlfragebogenapplication.controllers;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -13,23 +11,15 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
-import syp.htlfragebogenapplication.database.Database;
 import syp.htlfragebogenapplication.database.TestRepository;
 import syp.htlfragebogenapplication.model.Test;
+import syp.htlfragebogenapplication.view.MainView;
 
-import java.io.IOException;
-import java.sql.Connection;
 import java.util.List;
 
-
 public class MainViewController {
-    @FXML
-    public GridPane testGrid;
-
-    @FXML
-    public TextField searchField;
-
-    private final Connection connection = Database.getInstance().getConnection();
+    private GridPane testGrid;
+    private TextField searchField;
 
     private static Stage primaryStage;
 
@@ -141,17 +131,19 @@ public class MainViewController {
     public static void show(Stage stage) {
         try {
             primaryStage = stage;
-            FXMLLoader loader = new FXMLLoader(MainViewController.class.getResource("/syp/htlfragebogenapplication/mainview/main-view.fxml"));
-            Parent root = loader.load();
+            MainViewController controller = new MainViewController();
+            MainView mainView = new MainView(controller);
 
-            Scene scene = new Scene(root, 1500, 800);
-            scene.getStylesheets().add(MainViewController.class.getResource("/syp/htlfragebogenapplication/Base.css").toExternalForm());
-            scene.getStylesheets().add(MainViewController.class.getResource("/syp/htlfragebogenapplication/mainview/main-view.css").toExternalForm());
+            Scene scene = new Scene(mainView, 1500, 800);
+            scene.getStylesheets().add(
+                    MainViewController.class.getResource("/syp/htlfragebogenapplication/Base.css").toExternalForm());
+            scene.getStylesheets().add(MainViewController.class
+                    .getResource("/syp/htlfragebogenapplication/mainview/main-view.css").toExternalForm());
 
             stage.setTitle("HTL Fragebogen Application");
             stage.setScene(scene);
             stage.show();
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             showErrorAlert("Could not load main view: " + e.getMessage());
         }
@@ -165,9 +157,18 @@ public class MainViewController {
         alert.showAndWait();
     }
 
-    // Modify openTestView to use the TestViewController.show method
+    // Method to open the TestView
     private void openTestView(int testId) {
         Test test = new TestRepository().getTestById(testId);
         TestViewController.show(primaryStage, test);
+    }
+
+    // Setters for MainView to inject components
+    public void setTestGrid(GridPane testGrid) {
+        this.testGrid = testGrid;
+    }
+
+    public void setSearchField(TextField searchField) {
+        this.searchField = searchField;
     }
 }
