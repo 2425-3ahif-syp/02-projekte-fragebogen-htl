@@ -1,0 +1,104 @@
+.result-title-label {
+    -fx-font-size: 24;
+    -fx-font-weight: bold;
+    -fx-padding: 10px 0;
+}
+
+.main-btn {
+    -fx-text-fill: white;
+    -fx-border-color: none;
+    -fx-background-color: #4285f4;
+    -fx-pref-width: 180px;
+    -fx-cursor: hand;
+    -fx-background-radius: 4px;
+    -fx-padding: 10px 15px;
+}
+
+.review-btn {
+    -fx-text-fill: white;
+    -fx-border-color: none;
+    -fx-background-color: #00af50;
+    -fx-pref-width: 180px;
+    -fx-cursor: hand;
+    -fx-background-radius: 4px;
+    -fx-padding: 10px 15px;
+}
+
+.nav-btn {
+    -fx-border-color: #d5d5d5;
+    -fx-border-width: 2px;
+    -fx-background-color: #f4f4f4;
+    -fx-pref-width: 180px;
+    -fx-cursor: hand;
+    -fx-background-radius: 4px;
+    -fx-padding: 10px 15px;
+}
+
+Button {
+    -fx-pref-width: 180px;
+}
+
+.passed-label {
+    -fx-text-fill: #00af50;
+    -fx-font-weight: bold;
+}
+
+.failed-label {
+    -fx-text-fill: #d07474;
+    -fx-font-weight: bold;
+}
+
+/* Fixed bottom bar */
+.fixed-bottom-bar {
+    -fx-background-color: white;
+    -fx-border-color: #e0e0e0;
+    -fx-border-width: 1px 0 0 0;
+    -fx-padding: 15px;
+}
+
+.fixed-bottom-pane {
+    -fx-background-color: white;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, -5);
+}
+
+/* Score display */
+.score-container {
+    -fx-background-color: #f9f9f9;
+    -fx-border-color: #e0e0e0;
+    -fx-border-width: 1px;
+    -fx-border-radius: 8px;
+    -fx-padding: 20px;
+    -fx-alignment: center;
+}
+
+/* Search and filter controls */
+.search-filter-box {
+    -fx-spacing: 15px;
+    -fx-padding: 15px 0;
+    -fx-alignment: center-left;
+}
+
+.search-field {
+    -fx-pref-width: 300px;
+    -fx-prompt-text-fill: #888888;
+    -fx-background-radius: 4px;
+}
+
+/* Question card styling */
+.question-card {
+    -fx-background-color: white;
+    -fx-border-color: #ddd;
+    -fx-border-radius: 10px;
+    -fx-padding: 15px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 5, 0, 0, 5);
+}
+
+.question-scroll-pane {
+    -fx-background: transparent;
+    -fx-background-color: transparent;
+    -fx-padding: 10px 0;
+}
+
+.question-scroll-pane > .viewport {
+    -fx-background-color: transparent;
+}

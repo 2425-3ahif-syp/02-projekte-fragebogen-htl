@@ -138,6 +138,9 @@ public class TestViewController {
         if (currentQuestionIndex < questions.size() - 1) {
             currentQuestionIndex++;
             displayCurrentQuestion();
+        } else {
+            // We are on the last question, show the results
+            finishTest();
         }
     }
 
@@ -146,6 +149,15 @@ public class TestViewController {
             currentQuestionIndex--;
             displayCurrentQuestion();
         }
+    }
+
+    private void finishTest() {
+        if (timeline != null) {
+            timeline.stop();
+        }
+
+        // Show test results view
+        TestResultViewController.show(primaryStage, test, questions, answerSelections, timeSeconds);
     }
 
     public void onCancelButtonClicked() {
