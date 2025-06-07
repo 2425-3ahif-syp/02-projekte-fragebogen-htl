@@ -86,7 +86,7 @@ public class MainViewController {
         messageBox.setPrefHeight(300);
 
         Label noResultsLabel = new Label("Keine Tests gefunden");
-        noResultsLabel.setStyle("-fx-font-size: 18px; -fx-text-fill: #666;");
+        noResultsLabel.getStyleClass().add("no-results-label");
 
         messageBox.getChildren().add(noResultsLabel);
 

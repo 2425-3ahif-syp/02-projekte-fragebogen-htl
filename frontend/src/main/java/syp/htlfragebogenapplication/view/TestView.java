@@ -24,7 +24,7 @@ public class TestView extends BorderPane {
         topBox.setPadding(new Insets(20));
 
         testNameLabel = new Label();
-        testNameLabel.setStyle("-fx-font-size: 24; -fx-font-weight: bold;");
+        testNameLabel.getStyleClass().add("test-name-label");
 
         HBox timeBox = new HBox(20);
         timeCount = new Label("Zeit: 00:00");

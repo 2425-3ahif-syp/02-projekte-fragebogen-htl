@@ -32,6 +32,18 @@
     -fx-background-color: white;
 }
 
+/* Test grid */
+.test-grid {
+    -fx-padding: 40 0 0 0;
+    -fx-background-color: white;
+}
+
+/* No results message */
+.no-results-label {
+    -fx-font-size: 18px;
+    -fx-text-fill: #666;
+}
+
 /* Test cards */
 .card {
     -fx-background-color: white;

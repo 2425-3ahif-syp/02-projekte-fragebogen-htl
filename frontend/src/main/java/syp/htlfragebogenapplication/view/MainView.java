@@ -44,7 +44,7 @@ public class MainView extends BorderPane {
         testGrid.setHgap(20);
         testGrid.setVgap(20);
         testGrid.setAlignment(Pos.CENTER);
-        testGrid.setStyle("-fx-padding: 40 0 0 0; -fx-background-color: white;");
+        testGrid.getStyleClass().add("test-grid");
 
         for (int i = 0; i < 5; i++) {
             ColumnConstraints columnConstraints = new ColumnConstraints();

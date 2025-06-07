@@ -22,3 +22,8 @@ Button {
     -fx-border-width: 2px;
 
 }
+
+.test-name-label {
+    -fx-font-size: 24;
+    -fx-font-weight: bold;
+}
