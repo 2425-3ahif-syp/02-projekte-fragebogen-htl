@@ -126,8 +126,12 @@ public class TestResultViewController {
         boolean isPassed = percentage >= 50;
         Label scoreLabel = new Label(score + "/" + totalQuestions + " Punkten");
         scoreLabel.setFont(Font.font("System", FontWeight.BOLD, 36));
+        // Remove inline color, use CSS class
+        scoreLabel.getStyleClass().add(isPassed ? "passed-label" : "failed-label");
+
         Label percentageLabel = new Label(percentage + "% - " + (isPassed ? "bestanden" : "nicht bestanden"));
         percentageLabel.setFont(Font.font("System", FontWeight.BOLD, 24));
+        percentageLabel.getStyleClass().add(isPassed ? "passed-label" : "failed-label");
         Label timeLabel = new Label("Dauer: " + formattedTime);
         Color resultColor = isPassed ? Color.web("#00af50") : Color.web("#d07474");
         scoreLabel.setTextFill(resultColor);
@@ -147,30 +151,36 @@ public class TestResultViewController {
         for (int i = 0; i < questions.size(); i++) {
             Question question = questions.get(i);
             VBox questionCard = new VBox(10);
+
             questionCard.getStyleClass().add("question-card");
             questionCard.setMaxWidth(700);
+
             HBox header = new HBox(10);
             header.setAlignment(Pos.CENTER_LEFT);
+
             Label questionNumber = new Label("Frage " + (i + 1) + ":");
             questionNumber.setFont(Font.font("System", FontWeight.BOLD, 16));
+
             boolean isCorrect = userAnswers[i] == correctAnswers.get(question.getId());
             Label resultLabel = new Label(isCorrect ? "Richtig" : "Falsch");
-            resultLabel.setStyle(
-                    "-fx-padding: 5px 10px; -fx-background-radius: 5px; -fx-text-fill: white; -fx-background-color: "
-                            + (isCorrect ? "#00af50" : "#d07474"));
+            resultLabel.getStyleClass().add(isCorrect ? "passed-label" : "failed-label");
             header.getChildren().addAll(questionNumber, resultLabel);
+
             String imagePath = getClass().getResource(question.getImagePath()).toExternalForm();
             Image image = new Image(imagePath);
             ImageView imageView = new ImageView(image);
             imageView.setFitWidth(650);
             imageView.setPreserveRatio(true);
+
             HBox answerBox = new HBox(20);
             answerBox.setAlignment(Pos.CENTER_LEFT);
             String userAnswerText = userAnswers[i] == -1 ? "Keine Antwort"
                     : String.valueOf((char) ('a' + userAnswers[i]));
             String correctAnswerText = String.valueOf((char) ('a' + correctAnswers.get(question.getId())));
+
             Label userAnswerLabel = new Label("Deine Antwort: " + userAnswerText);
             Label correctAnswerLabel = new Label("Richtige Antwort: " + correctAnswerText);
+            
             answerBox.getChildren().addAll(userAnswerLabel, correctAnswerLabel);
             questionCard.getChildren().addAll(header, imageView, answerBox);
             questionReviewContainer.getChildren().add(questionCard);

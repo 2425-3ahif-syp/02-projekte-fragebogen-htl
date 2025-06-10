@@ -41,11 +41,17 @@ Button {
 .passed-label {
     -fx-text-fill: #00af50;
     -fx-font-weight: bold;
+    -fx-background-color: #e6f9ef;
+    -fx-background-radius: 5px;
+    -fx-padding: 5px 10px;
 }
 
 .failed-label {
     -fx-text-fill: #d07474;
     -fx-font-weight: bold;
+    -fx-background-color: #fdeaea;
+    -fx-background-radius: 5px;
+    -fx-padding: 5px 10px;
 }
 
 /* Fixed bottom bar */
@@ -101,4 +107,19 @@ Button {
 
 .question-scroll-pane > .viewport {
     -fx-background-color: transparent;
+}
+
+.question-count-label {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #444;
+}
+
+test-start-btn {
+    -fx-background-color: #4285f4;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 4px;
+    -fx-padding: 10px 15px;
+    -fx-cursor: hand;
 }
