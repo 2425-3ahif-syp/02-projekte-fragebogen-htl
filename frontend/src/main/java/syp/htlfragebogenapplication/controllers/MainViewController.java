@@ -17,6 +17,8 @@ import syp.htlfragebogenapplication.view.MainView;
 
 import java.util.List;
 
+
+
 public class MainViewController {
     private GridPane testGrid;
     private TextField searchField;
@@ -114,6 +116,16 @@ public class MainViewController {
         Region spacer = new Region();
         VBox.setVgrow(spacer, Priority.ALWAYS);
 
+        HBox questionCountBox = new HBox();
+        questionCountBox.setAlignment(Pos.CENTER_LEFT);
+        questionCountBox.setSpacing(8);
+        questionCountBox.setPadding(new Insets(0, 0, 10, 0));
+
+        Label labelCount = new Label("Fragenanzahl: " + test.getQuestionCount());
+        labelCount.setStyle("-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #444;");
+
+        questionCountBox.getChildren().add(labelCount);
+
         Button button = new Button("Test durchführen");
         button.setAlignment(Pos.BASELINE_CENTER);
         button.setId(String.valueOf(test.getId()));
@@ -123,7 +135,7 @@ public class MainViewController {
         // Add event handler for the button
         button.setOnAction(event -> openTestView(test.getId()));
 
-        vbox.getChildren().addAll(label, spacer, button);
+        vbox.getChildren().addAll(label, spacer,questionCountBox,button);
 
         return vbox;
     }
