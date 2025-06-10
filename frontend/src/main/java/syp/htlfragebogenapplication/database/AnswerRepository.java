@@ -51,20 +51,21 @@ public class AnswerRepository {
         return null;
     }
 
-    public Map<Integer, Integer> getCorrectAnswersMap() {
-        Map<Integer, Integer> correctAnswersMap = new HashMap<>();
+    public Map<Integer, String> getCorrectAnswersMap() {
+        Map<Integer, String> correctAnswersMap = new HashMap<>();
         List<Answer> answers = getAllAnswers();
 
         for (Answer answer : answers) {
-            // Convert letter (a, b, c, etc.) to index (0, 1, 2, etc.)
-            String letterAnswer = answer.getAnswerText();
-            if (letterAnswer != null && !letterAnswer.isEmpty()) {
-                char letter = letterAnswer.toLowerCase().charAt(0);
-                int index = letter - 'a';
-                correctAnswersMap.put(answer.getQuestionId(), index);
+            String textAnswer = answer.getAnswerText();
+            if (textAnswer != null && !textAnswer.trim().isEmpty()) {
+                correctAnswersMap.put(
+                        answer.getQuestionId(),
+                        textAnswer.trim()
+                );
             }
         }
 
         return correctAnswersMap;
     }
+
 }

@@ -37,7 +37,7 @@ public class TestViewController {
     private Timeline timeline;
     private int timeSeconds = 0;
 
-    private int[] answerSelections;
+    private String[] answerSelections;
 
     // Setters for the TestView to inject components
     public void setTestNameLabel(Label testNameLabel) {
@@ -72,8 +72,8 @@ public class TestViewController {
         this.test = test;
         testNameLabel.setText(test.getName());
         questionCount.setText("Frage: " + (currentQuestionIndex + 1) + "/" + test.getQuestionCount());
-        answerSelections = new int[test.getQuestionCount()];
-        Arrays.fill(answerSelections, -1);
+        answerSelections = new String[test.getQuestionCount()];
+        Arrays.fill(answerSelections, "");
 
         loadQuestions();
         displayCurrentQuestion();
@@ -123,11 +123,11 @@ public class TestViewController {
                     String optionText = String.valueOf((char) ('a' + i));
                     RadioButton rb = new RadioButton(optionText);
                     rb.setToggleGroup(toggleGroup);
-                    rb.setUserData(i + 1);
-                    rb.setOnAction(e -> answerSelections[currentQuestionIndex] = (int) rb.getUserData());
+                    rb.setUserData(optionText);
+                    rb.setOnAction(e -> answerSelections[currentQuestionIndex] = rb.getUserData().toString());
                     questionsContainer.getChildren().add(rb);
 
-                    if (answerSelections[currentQuestionIndex] == (i + 1)) {
+                    if (optionText.equals(answerSelections[currentQuestionIndex])) {
                         rb.setSelected(true);
                     }
                     answersBox.getChildren().add(rb);
@@ -138,11 +138,11 @@ public class TestViewController {
                     String optionText = String.valueOf(i);
                     RadioButton rb = new RadioButton(optionText);
                     rb.setToggleGroup(toggleGroup);
-                    rb.setUserData(i + 1);
-                    rb.setOnAction(e -> answerSelections[currentQuestionIndex] = (int) rb.getUserData());
+                    rb.setUserData(optionText);
+                    rb.setOnAction(e -> answerSelections[currentQuestionIndex] =  rb.getUserData().toString());
                     questionsContainer.getChildren().add(rb);
 
-                    if (answerSelections[currentQuestionIndex] == (i + 1)) {
+                    if (optionText.equals(answerSelections[currentQuestionIndex])) {
                         rb.setSelected(true);
                     }
                     answersBox.getChildren().add(rb);
