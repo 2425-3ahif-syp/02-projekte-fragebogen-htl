@@ -14,6 +14,7 @@ import javafx.stage.Stage;
 import syp.htlfragebogenapplication.view.TestResultView;
 import syp.htlfragebogenapplication.model.Question;
 import syp.htlfragebogenapplication.model.Test;
+import syp.htlfragebogenapplication.database.AnswerRepository;
 
 import java.util.HashMap;
 import java.util.List;
@@ -107,48 +108,86 @@ public class TestResultViewController {
         this.userAnswers = userAnswers;
         this.timeSeconds = timeSeconds;
         this.totalQuestions = questions.size();
-
-        // In a real-world scenario, these would be loaded from a database
-        // For this example, we'll simulate some correct answers (e.g., first option is
-        // correct)
         loadCorrectAnswers();
-
-        // Calculate score
         calculateScore();
+        displayResultsAndQuestions();
+    }
 
-        // Display results
-        displayResults();
+    private void displayResultsAndQuestions() {
+        // Set test name
+        testNameLabel.setText("Resultate " + test.getName());
+        scoreContainer.getChildren().clear();
+        VBox resultsBox = new VBox(15);
+        resultsBox.setAlignment(Pos.CENTER);
+        int minutes = timeSeconds / 60;
+        int seconds = timeSeconds % 60;
+        String formattedTime = String.format("%02d:%02d", minutes, seconds);
+        int percentage = (score * 100) / totalQuestions;
+        boolean isPassed = percentage >= 50;
+        Label scoreLabel = new Label(score + "/" + totalQuestions + " Punkten");
+        scoreLabel.setFont(Font.font("System", FontWeight.BOLD, 36));
+        Label percentageLabel = new Label(percentage + "% - " + (isPassed ? "bestanden" : "nicht bestanden"));
+        percentageLabel.setFont(Font.font("System", FontWeight.BOLD, 24));
+        Label timeLabel = new Label("Dauer: " + formattedTime);
+        Color resultColor = isPassed ? Color.web("#00af50") : Color.web("#d07474");
+        scoreLabel.setTextFill(resultColor);
+        percentageLabel.setTextFill(resultColor);
+        resultsBox.getChildren().addAll(scoreLabel, percentageLabel, timeLabel);
+        scoreContainer.setCenter(resultsBox);
+        // Show both results and questions
+        questionReviewContainer.getChildren().clear();
+        searchField.setVisible(true);
+        showWrongOnlyCheckBox.setVisible(true);
+        for (Node node : contentContainer.getChildren()) {
+            if (node instanceof HBox && ((HBox) node).getChildren().contains(searchField)) {
+                node.setVisible(true);
+                break;
+            }
+        }
+        for (int i = 0; i < questions.size(); i++) {
+            Question question = questions.get(i);
+            VBox questionCard = new VBox(10);
+            questionCard.getStyleClass().add("question-card");
+            questionCard.setMaxWidth(700);
+            HBox header = new HBox(10);
+            header.setAlignment(Pos.CENTER_LEFT);
+            Label questionNumber = new Label("Frage " + (i + 1) + ":");
+            questionNumber.setFont(Font.font("System", FontWeight.BOLD, 16));
+            boolean isCorrect = userAnswers[i] == correctAnswers.get(question.getId());
+            Label resultLabel = new Label(isCorrect ? "Richtig" : "Falsch");
+            resultLabel.setStyle(
+                    "-fx-padding: 5px 10px; -fx-background-radius: 5px; -fx-text-fill: white; -fx-background-color: "
+                            + (isCorrect ? "#00af50" : "#d07474"));
+            header.getChildren().addAll(questionNumber, resultLabel);
+            String imagePath = getClass().getResource(question.getImagePath()).toExternalForm();
+            Image image = new Image(imagePath);
+            ImageView imageView = new ImageView(image);
+            imageView.setFitWidth(650);
+            imageView.setPreserveRatio(true);
+            HBox answerBox = new HBox(20);
+            answerBox.setAlignment(Pos.CENTER_LEFT);
+            String userAnswerText = userAnswers[i] == -1 ? "Keine Antwort"
+                    : String.valueOf((char) ('a' + userAnswers[i]));
+            String correctAnswerText = String.valueOf((char) ('a' + correctAnswers.get(question.getId())));
+            Label userAnswerLabel = new Label("Deine Antwort: " + userAnswerText);
+            Label correctAnswerLabel = new Label("Richtige Antwort: " + correctAnswerText);
+            answerBox.getChildren().addAll(userAnswerLabel, correctAnswerLabel);
+            questionCard.getChildren().addAll(header, imageView, answerBox);
+            questionReviewContainer.getChildren().add(questionCard);
+        }
+        questionReviewContainer.setVisible(true);
+        questionScrollPane.setVisible(true);
+        scoreContainer.setVisible(true);
+        reviewQuestionsButton.setVisible(false);
+        backToResultsButton.setVisible(false);
     }
 
     private void loadCorrectAnswers() {
-        // Simulate loading correct answers
-        correctAnswers = new HashMap<>();
-
-        // For demonstration purposes, we'll use answer.csv data
-        // Example correct answers (based on the CSV provided)
-        correctAnswers.put(1, getLetterIndex("e")); // Question 1, answer e
-        correctAnswers.put(2, getLetterIndex("d")); // Question 2, answer d
-        correctAnswers.put(3, getLetterIndex("a")); // Question 3, answer a
-        correctAnswers.put(4, getLetterIndex("e")); // Question 4, answer e
-        correctAnswers.put(5, getLetterIndex("c")); // Question 5, answer c
-        correctAnswers.put(6, getLetterIndex("d")); // Question 6, answer d
-        correctAnswers.put(7, getLetterIndex("b")); // Question 7, answer b
-        correctAnswers.put(8, getLetterIndex("b")); // Question 8, answer b
-        correctAnswers.put(9, getLetterIndex("a")); // Question 9, answer a
-        correctAnswers.put(10, getLetterIndex("b")); // Question 10, answer b
-
-        // Add more correct answers as needed
-        // For questions not in our hard-coded list, we'll default to option 0 being
-        // correct
-        for (Question question : questions) {
-            if (!correctAnswers.containsKey(question.getId())) {
-                correctAnswers.put(question.getId(), 0);
-            }
-        }
+        AnswerRepository answerRepository = new AnswerRepository();
+        correctAnswers = answerRepository.getCorrectAnswersMap();
     }
 
     private int getLetterIndex(String letter) {
-        // Convert letter (a, b, c, d, e) to index (0, 1, 2, 3, 4)
         return letter.charAt(0) - 'a';
     }
 
@@ -158,160 +197,14 @@ public class TestResultViewController {
             Question question = questions.get(i);
             int userAnswer = userAnswers[i];
 
-            // If user selected the correct answer
             if (userAnswer == correctAnswers.get(question.getId())) {
                 score++;
             }
         }
     }
 
-    private void displayResults() {
-        // Set test name
-        testNameLabel.setText("Resultate " + test.getName());
-
-        // Clear containers
-        scoreContainer.getChildren().clear();
-
-        // Create content for results display
-        VBox resultsBox = new VBox(15);
-        resultsBox.setAlignment(Pos.CENTER);
-
-        // Format time
-        int minutes = timeSeconds / 60;
-        int seconds = timeSeconds % 60;
-        String formattedTime = String.format("%02d:%02d", minutes, seconds);
-
-        // Calculate percentage
-        int percentage = (score * 100) / totalQuestions;
-        boolean isPassed = percentage >= 50; // Pass threshold is 50%
-
-        // Create score display
-        Label scoreLabel = new Label(score + "/" + totalQuestions + " Punkten");
-        scoreLabel.setFont(Font.font("System", FontWeight.BOLD, 36));
-
-        Label percentageLabel = new Label(percentage + "% - " + (isPassed ? "bestanden" : "nicht bestanden"));
-        percentageLabel.setFont(Font.font("System", FontWeight.BOLD, 24));
-
-        Label timeLabel = new Label("Dauer: " + formattedTime);
-
-        // Set color based on pass/fail
-        Color resultColor = isPassed ? Color.web("#00af50") : Color.web("#d07474");
-        scoreLabel.setTextFill(resultColor);
-        percentageLabel.setTextFill(resultColor);
-
-        resultsBox.getChildren().addAll(scoreLabel, percentageLabel, timeLabel);
-
-        // Set content to score container
-        scoreContainer.setCenter(resultsBox);
-
-        // Show/hide appropriate buttons
-        reviewQuestionsButton.setVisible(true);
-        backToResultsButton.setVisible(false);
-        questionReviewContainer.setVisible(false);
-        scoreContainer.setVisible(true);
-    }
-
-    public void displayQuestionReview() {
-        // Clear the container
-        questionReviewContainer.getChildren().clear();
-
-        // Make the search field and filter checkbox visible
-        searchField.setVisible(true);
-        showWrongOnlyCheckBox.setVisible(true);
-
-        // Also make the parent HBox visible
-        for (Node node : contentContainer.getChildren()) {
-            if (node instanceof HBox && ((HBox) node).getChildren().contains(searchField)) {
-                node.setVisible(true);
-                break;
-            }
-        }
-
-        // For each question, show the question image and mark correct/incorrect
-        for (int i = 0; i < questions.size(); i++) {
-            Question question = questions.get(i);// Create a card-like container for each question review
-            VBox questionCard = new VBox(10);
-            questionCard.getStyleClass().add("question-card");
-            questionCard.setMaxWidth(700);
-
-            // Question header
-            HBox header = new HBox(10);
-            header.setAlignment(Pos.CENTER_LEFT);
-
-            Label questionNumber = new Label("Frage " + (i + 1) + ":");
-            questionNumber.setFont(Font.font("System", FontWeight.BOLD, 16));
-
-            // Show if answer was correct or incorrect
-            boolean isCorrect = userAnswers[i] == correctAnswers.get(question.getId());
-            Label resultLabel = new Label(isCorrect ? "Richtig" : "Falsch");
-            resultLabel.setStyle(
-                    "-fx-padding: 5px 10px; -fx-background-radius: 5px; -fx-text-fill: white; -fx-background-color: "
-                            + (isCorrect ? "#00af50" : "#d07474"));
-
-            header.getChildren().addAll(questionNumber, resultLabel);
-
-            // Question image
-            String imagePath = getClass().getResource(question.getImagePath()).toExternalForm();
-            Image image = new Image(imagePath);
-            ImageView imageView = new ImageView(image);
-            imageView.setFitWidth(650);
-            imageView.setPreserveRatio(true);
-
-            // Answer comparison
-            HBox answerBox = new HBox(20);
-            answerBox.setAlignment(Pos.CENTER_LEFT);
-
-            String userAnswerText = userAnswers[i] == -1 ? "Keine Antwort"
-                    : String.valueOf((char) ('a' + userAnswers[i]));
-            String correctAnswerText = String.valueOf((char) ('a' + correctAnswers.get(question.getId())));
-
-            Label userAnswerLabel = new Label("Deine Antwort: " + userAnswerText);
-            Label correctAnswerLabel = new Label("Richtige Antwort: " + correctAnswerText);
-
-            answerBox.getChildren().addAll(userAnswerLabel, correctAnswerLabel);
-
-            // Add all components to the question card
-            questionCard.getChildren().addAll(header, imageView, answerBox);
-
-            // Add the question card to the main container
-            questionReviewContainer.getChildren().add(questionCard);
-        } // Show/hide appropriate containers and buttons
-        questionReviewContainer.setVisible(true);
-        questionScrollPane.setVisible(true);
-        scoreContainer.setVisible(false);
-        reviewQuestionsButton.setVisible(false);
-        backToResultsButton.setVisible(true);
-    }
-
     public void onBackToMainButtonClicked() {
         MainViewController.show(primaryStage);
-    }
-
-    public void onReviewQuestionsButtonClicked() {
-        displayQuestionReview();
-    }
-
-    public void onBackToResultsButtonClicked() {
-        // Hide the question review related elements
-        questionReviewContainer.setVisible(false);
-        questionScrollPane.setVisible(false);
-
-        // Hide the search and filter elements
-        searchField.setVisible(false);
-        showWrongOnlyCheckBox.setVisible(false);
-
-        // Hide the containing HBox
-        for (Node node : contentContainer.getChildren()) {
-            if (node instanceof HBox && ((HBox) node).getChildren().contains(searchField)) {
-                node.setVisible(false);
-                break;
-            }
-        }
-
-        // Show the results elements
-        scoreContainer.setVisible(true);
-        reviewQuestionsButton.setVisible(true);
-        backToResultsButton.setVisible(false);
     }
 
     public static void show(Stage stage, Test test, List<Question> questions, int[] userAnswers, int timeSeconds) {

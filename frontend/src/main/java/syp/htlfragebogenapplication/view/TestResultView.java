@@ -114,14 +114,21 @@ public class TestResultView extends BorderPane {
         this.setPrefHeight(600.0);
         this.setPrefWidth(800.0);
 
+        // Always show both results and questions, remove toggle buttons
+        reviewQuestionsButton.setVisible(false);
+        backToResultsButton.setVisible(false);
+        questionReviewContainer.setVisible(true);
+        questionScrollPane.setVisible(true);
+        scoreContainer.setVisible(true);
+
         connectController();
     }
 
     private void connectController() {
         backToMainButton.setOnAction(e -> controller.onBackToMainButtonClicked());
-        reviewQuestionsButton.setOnAction(e -> controller.onReviewQuestionsButtonClicked());
-        backToResultsButton.setOnAction(e -> controller.onBackToResultsButtonClicked());
-
+        // Remove reviewQuestionsButton and backToResultsButton actions since they are
+        // not needed anymore
+        // Remove their visibility toggling as well
         // Connect search field and filter checkbox
         searchField.textProperty().addListener(new javafx.beans.value.ChangeListener<String>() {
             @SuppressWarnings("unused")
@@ -139,7 +146,6 @@ public class TestResultView extends BorderPane {
                 controller.onShowWrongOnlyChanged(newValue);
             }
         });
-
         controller.setTestNameLabel(testNameLabel);
         controller.setContentContainer(contentContainer);
         controller.setScoreContainer(scoreContainer);
