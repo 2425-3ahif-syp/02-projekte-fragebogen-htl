@@ -2,6 +2,8 @@ package syp.htlfragebogenapplication.controllers;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.geometry.Pos;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -87,41 +89,72 @@ public class TestViewController {
         questionsContainer.getChildren().clear();
         if (questions != null && !questions.isEmpty()) {
             Question currentQuestion = questions.get(currentQuestionIndex);
+
+            // Update button text
             if (currentQuestionIndex == questions.size() - 1) {
                 nextButton.setText("Beenden");
             } else {
                 nextButton.setText("Weiter");
             }
+
+            // Show image
             String imagePath = getClass().getResource(currentQuestion.getImagePath()).toExternalForm();
-            Image image = new Image(imagePath);
-            ImageView imageView = new ImageView(image);
+            ImageView imageView = new ImageView(new Image(imagePath));
             imageView.setFitWidth(800);
             imageView.setPreserveRatio(true);
             questionsContainer.getChildren().add(imageView);
 
+            // Show progress
             questionCount.setText("Frage: " + (currentQuestionIndex + 1) + "/" + questions.size());
 
+            // Prepare Horizontal Box for answer Buttons
+            HBox answersBox = new HBox(15);
+            answersBox.setAlignment(Pos.CENTER_LEFT);
+            answersBox.setPadding(new Insets(10, 0, 0, 0));
+
+            // Prepare answer options
             int possibleAnswerCount = currentQuestion.getPossibleAnswerCount();
-            String answerTypeName = currentQuestion.getAnswerType().getName();
+            String answerTypeName       = currentQuestion.getAnswerType().getName();
+            ToggleGroup toggleGroup     = new ToggleGroup();
 
-            ToggleGroup toggleGroup = new ToggleGroup();
-            for (int i = 0; i < possibleAnswerCount; i++) {
-                String optionText = "Option " + (i + 1);
-                if ("Letter".equals(answerTypeName)) {
-                    optionText = String.valueOf((char) ('a' + i));
-                }
-                RadioButton radioButton = new RadioButton(optionText);
-                radioButton.setToggleGroup(toggleGroup);
-                final int selectedIndex = i;
-                radioButton.setOnAction(e -> answerSelections[currentQuestionIndex] = selectedIndex);
-                questionsContainer.getChildren().add(radioButton);
+            // LETTER‐type: a, b, c, …
+            if ("Letter".equals(answerTypeName)) {
+                for (int i = 0; i < possibleAnswerCount; i++) {
+                    String optionText = String.valueOf((char) ('a' + i));
+                    RadioButton rb = new RadioButton(optionText);
+                    rb.setToggleGroup(toggleGroup);
+                    rb.setUserData(i + 1);
+                    rb.setOnAction(e -> answerSelections[currentQuestionIndex] = (int) rb.getUserData());
+                    questionsContainer.getChildren().add(rb);
 
-                if (answerSelections[currentQuestionIndex] != -1 && answerSelections[currentQuestionIndex] == i) {
-                    radioButton.setSelected(true);
+                    if (answerSelections[currentQuestionIndex] == (i + 1)) {
+                        rb.setSelected(true);
+                    }
+                    answersBox.getChildren().add(rb);
                 }
+              // NUMBER‐type: 0, 1, 2, …
+            } else if ("Number".equals(answerTypeName)) {
+                for (int i = 0; i < possibleAnswerCount; i++) {
+                    String optionText = String.valueOf(i);
+                    RadioButton rb = new RadioButton(optionText);
+                    rb.setToggleGroup(toggleGroup);
+                    rb.setUserData(i + 1);
+                    rb.setOnAction(e -> answerSelections[currentQuestionIndex] = (int) rb.getUserData());
+                    questionsContainer.getChildren().add(rb);
+
+                    if (answerSelections[currentQuestionIndex] == (i + 1)) {
+                        rb.setSelected(true);
+                    }
+                    answersBox.getChildren().add(rb);
+                }
+
+            } else {
+                // TODO: handle Text, Fraction, Number Field, Set Comma, etc.
             }
+            questionsContainer.getChildren().add(answersBox);
         }
     }
+
 
     private void startTimer() {
         timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
