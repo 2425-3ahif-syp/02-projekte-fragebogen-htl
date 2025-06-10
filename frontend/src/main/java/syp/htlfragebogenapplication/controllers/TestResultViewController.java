@@ -174,13 +174,16 @@ public class TestResultViewController {
 
             HBox answerBox = new HBox(20);
             answerBox.setAlignment(Pos.CENTER_LEFT);
+            answerBox.getStyleClass().add("answer-box");
             String userAnswerText = userAnswers[i] == -1 ? "Keine Antwort"
                     : String.valueOf((char) ('a' + userAnswers[i]));
             String correctAnswerText = String.valueOf((char) ('a' + correctAnswers.get(question.getId())));
 
             Label userAnswerLabel = new Label("Deine Antwort: " + userAnswerText);
+            userAnswerLabel.getStyleClass().add("user-answer-label");
             Label correctAnswerLabel = new Label("Richtige Antwort: " + correctAnswerText);
-            
+            correctAnswerLabel.getStyleClass().add("correct-answer-label");
+
             answerBox.getChildren().addAll(userAnswerLabel, correctAnswerLabel);
             questionCard.getChildren().addAll(header, imageView, answerBox);
             questionReviewContainer.getChildren().add(questionCard);

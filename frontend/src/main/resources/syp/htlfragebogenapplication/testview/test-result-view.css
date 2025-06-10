@@ -123,3 +123,9 @@ test-start-btn {
     -fx-padding: 10px 15px;
     -fx-cursor: hand;
 }
+
+/* Answer labels - ensure text is black and visible */
+.user-answer-label, .correct-answer-label {
+    -fx-text-fill: #000000;
+    -fx-font-weight: bold;
+}
