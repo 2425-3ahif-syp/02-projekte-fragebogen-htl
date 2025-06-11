@@ -45,10 +45,10 @@ public class TestResultView extends BorderPane {
         contentContainer.setPadding(new Insets(20));
         contentContainer.setAlignment(Pos.CENTER); // Score container for displaying results
         scoreContainer = new BorderPane();
-        scoreContainer.setPadding(new Insets(20));
+        scoreContainer.setPadding(new Insets(10));
         scoreContainer.getStyleClass().add("score-container");
         scoreContainer.setVisible(true);
-        scoreContainer.setMaxWidth(700);
+        scoreContainer.setMaxWidth(600);
 
         // Search and filter controls
         HBox searchFilterBox = new HBox(15);
@@ -69,9 +69,9 @@ public class TestResultView extends BorderPane {
         searchFilterBox.getChildren().addAll(searchField, showWrongOnlyCheckBox);
         searchFilterBox.setVisible(true);
 
-        // Question review container (in a ScrollPane for scrollability)
+        // Question review container (in a ScrollPane for scrollability) with more indentation
         questionReviewContainer = new VBox(20);
-        questionReviewContainer.setPadding(new Insets(20));
+        questionReviewContainer.setPadding(new Insets(20, 40, 20, 40));
         questionReviewContainer.setVisible(true);
 
         // Wrap the question container in a scroll pane
