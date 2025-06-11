@@ -2,22 +2,31 @@ package syp.htlfragebogenapplication.controllers;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.geometry.Pos;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.*;
+import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import syp.htlfragebogenapplication.view.TestView;
 import syp.htlfragebogenapplication.database.QuestionRepository;
 import syp.htlfragebogenapplication.model.Question;
 import syp.htlfragebogenapplication.model.Test;
+import syp.htlfragebogenapplication.view.TestView;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class TestViewController {
 
@@ -28,6 +37,7 @@ public class TestViewController {
     private Button cancelButton;
     private Label questionCount;
     private Label timeCount;
+
 
     private static Stage primaryStage;
 
@@ -97,64 +107,114 @@ public class TestViewController {
                 nextButton.setText("Weiter");
             }
 
-            // Show image
-            String imagePath = getClass().getResource(currentQuestion.getImagePath()).toExternalForm();
-            ImageView imageView = new ImageView(new Image(imagePath));
-            imageView.setFitWidth(800);
-            imageView.setPreserveRatio(true);
-            questionsContainer.getChildren().add(imageView);
-
             // Show progress
             questionCount.setText("Frage: " + (currentQuestionIndex + 1) + "/" + questions.size());
 
-            // Prepare Horizontal Box for answer Buttons
-            HBox answersBox = new HBox(15);
-            answersBox.setAlignment(Pos.CENTER_LEFT);
-            answersBox.setPadding(new Insets(10, 0, 0, 0));
+            String answerTypeName = currentQuestion.getAnswerType().getName();
+            Pane answersPane;
 
-            // Prepare answer options
-            int possibleAnswerCount = currentQuestion.getPossibleAnswerCount();
-            String answerTypeName       = currentQuestion.getAnswerType().getName();
-            ToggleGroup toggleGroup     = new ToggleGroup();
+            if ("Text".equals(answerTypeName)) {
+                String text = loadTextResource(currentQuestion.getImagePath());
+                String[] tokens = text.split(" ");
 
-            // LETTER‐type: a, b, c, …
-            if ("Letter".equals(answerTypeName)) {
-                for (int i = 0; i < possibleAnswerCount; i++) {
-                    String optionText = String.valueOf((char) ('a' + i));
-                    RadioButton rb = new RadioButton(optionText);
-                    rb.setToggleGroup(toggleGroup);
-                    rb.setUserData(optionText);
-                    rb.setOnAction(e -> answerSelections[currentQuestionIndex] = rb.getUserData().toString());
-                    questionsContainer.getChildren().add(rb);
+                FlowPane flow = new FlowPane();
+                flow.setHgap(5);
+                flow.setVgap(5);
+                flow.setPadding(new Insets(10, 0, 0, 0));
+                flow.prefWrapLengthProperty().bind(questionsContainer.widthProperty().subtract(40));
 
-                    if (optionText.equals(answerSelections[currentQuestionIndex])) {
-                        rb.setSelected(true);
+                for (String token : tokens) {
+                    String word = token;
+                    String punct = "";
+
+                    if (word.endsWith(",") || word.endsWith(".")) {
+                        punct = word.substring(word.length() - 1);
+                        word = word.substring(0, word.length() - 1);
                     }
-                    answersBox.getChildren().add(rb);
-                }
-              // NUMBER‐type: 0, 1, 2, …
-            } else if ("Number".equals(answerTypeName)) {
-                for (int i = 0; i < possibleAnswerCount; i++) {
-                    String optionText = String.valueOf(i);
-                    RadioButton rb = new RadioButton(optionText);
-                    rb.setToggleGroup(toggleGroup);
-                    rb.setUserData(optionText);
-                    rb.setOnAction(e -> answerSelections[currentQuestionIndex] =  rb.getUserData().toString());
-                    questionsContainer.getChildren().add(rb);
 
-                    if (optionText.equals(answerSelections[currentQuestionIndex])) {
-                        rb.setSelected(true);
+                    TextField tf = new TextField(word);
+                    tf.setPrefColumnCount(Math.max(word.length(), 1));
+                    HBox cell = new HBox(2, tf);
+
+                    if (!punct.isEmpty()) {
+                        Label lbl = new Label(punct);
+                        cell.getChildren().add(lbl);
                     }
-                    answersBox.getChildren().add(rb);
-                }
+                    flow.getChildren().add(cell);
 
+                }
+                answersPane = flow;
             } else {
-                // TODO: handle Text, Fraction, Number Field, Set Comma, etc.
+                String imagePath = getClass().getResource(currentQuestion.getImagePath()).toExternalForm();
+                ImageView imageView = new ImageView(new Image(imagePath));
+                imageView.setFitWidth(800);
+                imageView.setPreserveRatio(true);
+                questionsContainer.getChildren().add(imageView);
+                if ("Letter".equals(answerTypeName) || "Number".equals(answerTypeName)) {
+
+                    HBox answersBox = new HBox(15);
+                    answersBox.setAlignment(Pos.CENTER_LEFT);
+                    answersBox.setPadding(new Insets(10, 0, 0, 0));
+
+                    int possibleAnswerCount = currentQuestion.getPossibleAnswerCount();
+                    ToggleGroup toggleGroup = new ToggleGroup();
+
+                    for (int i = 0; i < possibleAnswerCount; i++) {
+                        String optionText = "Letter".equals(answerTypeName)
+                                ? String.valueOf((char) ('a' + i))
+                                : String.valueOf(i);
+
+                        RadioButton rb = new RadioButton(optionText);
+                        rb.setToggleGroup(toggleGroup);
+                        rb.setUserData(optionText);
+                        rb.setOnAction(e -> answerSelections[currentQuestionIndex] = rb.getUserData().toString());
+
+                        if (optionText.equals(answerSelections[currentQuestionIndex])) {
+                            rb.setSelected(true);
+                        }
+                        answersBox.getChildren().add(rb);
+                    }
+
+                    answersPane = answersBox;
+                } else {
+                    Label lbl = new Label("Antworttyp „" + answerTypeName + "“ noch nicht implementiert.");
+                    answersPane = new VBox(lbl);
+                }
             }
-            questionsContainer.getChildren().add(answersBox);
+            questionsContainer.getChildren().add(answersPane);
         }
     }
 
+    private String loadTextResource(String resourcePath) {
+        try (InputStream in = getClass().getResourceAsStream(resourcePath);
+             BufferedReader reader = new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8))) {
+            return reader.lines().collect(Collectors.joining(" "));
+        } catch (IOException | NullPointerException e) {
+            e.printStackTrace();
+            return "";
+        }
+    }
+
+    private String collectTextAnswer() {
+        System.out.println(questionsContainer.getChildren().size());
+        System.out.println(questionsContainer.getChildren());
+        FlowPane flow = (FlowPane) questionsContainer.getChildren().getFirst();
+
+        return flow.getChildren().stream()
+                .filter(node -> node instanceof HBox)
+                .map(node -> {
+                    HBox cell = (HBox) node;
+                    // the first Child is always a TextField
+                    String word = ((TextField) cell.getChildren().get(0)).getText();
+                    // if a Label is present, it contains punctuation
+                    if (cell.getChildren().size() > 1
+                            && cell.getChildren().get(1) instanceof Label) {
+                        word += ((Label) cell.getChildren().get(1)).getText();
+                    }
+                    return word;
+                })
+                .collect(Collectors.joining(" "));
+    }
 
     private void startTimer() {
         timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
@@ -168,14 +228,22 @@ public class TestViewController {
     }
 
     public void onNextButtonClicked() {
+        Question currentQuestion = questions.get(currentQuestionIndex);
+        String answerTypeName = currentQuestion.getAnswerType().getName();
+
+        if ("Text".equals(answerTypeName)) {
+            answerSelections[currentQuestionIndex] = collectTextAnswer();
+            System.out.println("Text answer collected: " + answerSelections[currentQuestionIndex]);
+        }
+
         if (currentQuestionIndex < questions.size() - 1) {
             currentQuestionIndex++;
             displayCurrentQuestion();
         } else {
-            // We are on the last question, show the results
             finishTest();
         }
     }
+
 
     public void onBackButtonClicked() {
         if (currentQuestionIndex > 0) {
