@@ -67,19 +67,19 @@ public class TestResultView extends BorderPane {
         showWrongOnlyCheckBox = new CheckBox("Nur falsche Antworten zeigen");
 
         searchFilterBox.getChildren().addAll(searchField, showWrongOnlyCheckBox);
-        searchFilterBox.setVisible(false);
+        searchFilterBox.setVisible(true);
 
         // Question review container (in a ScrollPane for scrollability)
         questionReviewContainer = new VBox(20);
         questionReviewContainer.setPadding(new Insets(20));
-        questionReviewContainer.setVisible(false);
+        questionReviewContainer.setVisible(true);
 
         // Wrap the question container in a scroll pane
         questionScrollPane = new ScrollPane(questionReviewContainer);
         questionScrollPane.setFitToWidth(true);
         questionScrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
         questionScrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-        questionScrollPane.setVisible(false);
+        questionScrollPane.setVisible(true);
         questionScrollPane.getStyleClass().add("question-scroll-pane");
 
         contentContainer.getChildren().addAll(scoreContainer, searchFilterBox, questionScrollPane); // Bottom Section -
@@ -114,12 +114,9 @@ public class TestResultView extends BorderPane {
         this.setPrefHeight(600.0);
         this.setPrefWidth(800.0);
 
-        // Always show both results and questions, remove toggle buttons
+        // Hide toggle buttons as they're not needed
         reviewQuestionsButton.setVisible(false);
         backToResultsButton.setVisible(false);
-        questionReviewContainer.setVisible(true);
-        questionScrollPane.setVisible(true);
-        scoreContainer.setVisible(true);
 
         connectController();
     }

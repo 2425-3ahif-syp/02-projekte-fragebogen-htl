@@ -115,11 +115,11 @@ public class TestResultViewController {
 
     private void displayResultsAndQuestions() {
         // Set test name
-        testNameLabel.setText("Resultate " + test.getName());
+        testNameLabel.setText("📊 Testergebnisse: " + test.getName());
 
-        // Build the score box
+        // Build the enhanced score box
         scoreContainer.getChildren().clear();
-        VBox resultsBox = new VBox(15);
+        VBox resultsBox = new VBox(20);
         resultsBox.setAlignment(Pos.CENTER);
 
         int minutes = timeSeconds / 60;
@@ -129,35 +129,103 @@ public class TestResultViewController {
         int percentage = (score * 100) / totalQuestions;
         boolean isPassed = percentage >= 50;
 
-        Label scoreLabel = new Label(score + "/" + totalQuestions + " Punkten");
-        scoreLabel.setFont(Font.font("System", FontWeight.BOLD, 36));
-        scoreLabel.getStyleClass().add(isPassed ? "passed-label" : "failed-label");
+        // Status icon and label
+        Label statusIcon = new Label(isPassed ? "✅" : "❌");
+        statusIcon.setFont(Font.font("System", FontWeight.NORMAL, 48));
+        
+        Label statusLabel = new Label(isPassed ? "BESTANDEN" : "NICHT BESTANDEN");
+        statusLabel.setFont(Font.font("System", FontWeight.BOLD, 20));
+        statusLabel.getStyleClass().add("status-label");
+        statusLabel.getStyleClass().add(isPassed ? "status-passed" : "status-failed");
+
+        // Score display with better formatting
+        HBox scoreRow = new HBox(10);
+        scoreRow.setAlignment(Pos.CENTER);
+        
+        Label scoreLabel = new Label(String.valueOf(score));
+        scoreLabel.setFont(Font.font("System", FontWeight.BOLD, 48));
+        scoreLabel.getStyleClass().add("score-number");
         scoreLabel.setTextFill(isPassed ? Color.web("#00af50") : Color.web("#d07474"));
+        
+        Label separatorLabel = new Label("/");
+        separatorLabel.setFont(Font.font("System", FontWeight.NORMAL, 36));
+        separatorLabel.getStyleClass().add("score-separator");
+        
+        Label totalLabel = new Label(String.valueOf(totalQuestions));
+        totalLabel.setFont(Font.font("System", FontWeight.NORMAL, 36));
+        totalLabel.getStyleClass().add("score-total");
+        
+        Label pointsLabel = new Label("Punkte");
+        pointsLabel.setFont(Font.font("System", FontWeight.NORMAL, 18));
+        pointsLabel.getStyleClass().add("score-unit");
+        
+        scoreRow.getChildren().addAll(scoreLabel, separatorLabel, totalLabel);
 
-        Label percentageLabel = new Label(
-                percentage + "% - " + (isPassed ? "bestanden" : "nicht bestanden")
-        );
-        percentageLabel.setFont(Font.font("System", FontWeight.BOLD, 24));
-        percentageLabel.getStyleClass().add(isPassed ? "passed-label" : "failed-label");
+        // Percentage with progress bar style
+        VBox percentageBox = new VBox(8);
+        percentageBox.setAlignment(Pos.CENTER);
+        
+        Label percentageLabel = new Label(percentage + "%");
+        percentageLabel.setFont(Font.font("System", FontWeight.BOLD, 32));
+        percentageLabel.getStyleClass().add("percentage-label");
         percentageLabel.setTextFill(isPassed ? Color.web("#00af50") : Color.web("#d07474"));
+        
+        // Create a progress bar visual
+        HBox progressBar = new HBox();
+        progressBar.getStyleClass().add("progress-bar-container");
+        progressBar.setPrefWidth(300);
+        progressBar.setPrefHeight(12);
+        
+        Region progressFill = new Region();
+        progressFill.getStyleClass().add("progress-bar-fill");
+        progressFill.getStyleClass().add(isPassed ? "progress-passed" : "progress-failed");
+        progressFill.setPrefWidth(300 * percentage / 100);
+        progressFill.setPrefHeight(12);
+        
+        progressBar.getChildren().add(progressFill);
+        percentageBox.getChildren().addAll(percentageLabel, progressBar);
 
+        // Time display with icon
+        HBox timeBox = new HBox(8);
+        timeBox.setAlignment(Pos.CENTER);
+        
+        Label timeIcon = new Label("⏱️");
+        timeIcon.setFont(Font.font("System", FontWeight.NORMAL, 16));
+        
         Label timeLabel = new Label("Dauer: " + formattedTime);
+        timeLabel.setFont(Font.font("System", FontWeight.NORMAL, 16));
+        timeLabel.getStyleClass().add("time-label");
+        
+        timeBox.getChildren().addAll(timeIcon, timeLabel);
 
-        resultsBox.getChildren().addAll(scoreLabel, percentageLabel, timeLabel);
+        // Add spacing elements
+        Region spacer1 = new Region();
+        spacer1.setPrefHeight(10);
+        
+        Region spacer2 = new Region();
+        spacer2.setPrefHeight(15);
+        
+        Region spacer3 = new Region();
+        spacer3.setPrefHeight(10);
+
+        resultsBox.getChildren().addAll(
+            statusIcon,
+            statusLabel,
+            spacer1,
+            scoreRow,
+            pointsLabel,
+            spacer2,
+            percentageBox,
+            spacer3,
+            timeBox
+        );
+        
         scoreContainer.setCenter(resultsBox);
 
         // Prepare to show question reviews
         questionReviewContainer.getChildren().clear();
         searchField.setVisible(true);
         showWrongOnlyCheckBox.setVisible(true);
-
-        for (Node node : contentContainer.getChildren()) {
-            if (node instanceof HBox && ((HBox) node).getChildren().contains(searchField)) {
-                node.setVisible(true);
-                node.setManaged(true);
-                break;
-            }
-        }
 
         questionScrollPane.setVisible(true);
         scoreContainer.setVisible(true);
