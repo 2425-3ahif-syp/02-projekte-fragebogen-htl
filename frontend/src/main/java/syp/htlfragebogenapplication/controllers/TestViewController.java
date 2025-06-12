@@ -176,7 +176,33 @@ public class TestViewController {
                     }
 
                     answersPane = answersBox;
-                } else {
+                }  else if ("Number Field".equals(answerTypeName)) {
+                TextField numberField = new TextField();
+                numberField.setPromptText("Enter a number");
+
+
+                numberField.textProperty().addListener((obs, oldVal, newVal) -> {
+                    if (!newVal.matches("\\d*")) {
+                        numberField.setText(newVal.replaceAll("[^\\d]", ""));
+                    }
+                    answerSelections[currentQuestionIndex] = numberField.getText(); // update answer
+                });
+
+
+                if (answerSelections[currentQuestionIndex] != null) {
+                    numberField.setText(answerSelections[currentQuestionIndex]);
+                }
+
+                HBox numberBox = new HBox(15);
+                numberBox.setAlignment(Pos.CENTER_LEFT);
+                numberBox.setPadding(new Insets(10, 0, 0, 0));
+                numberBox.getChildren().add(numberField);
+
+                answersPane = numberBox;
+            }
+
+
+            else {
                     Label lbl = new Label("Antworttyp „" + answerTypeName + "“ noch nicht implementiert.");
                     answersPane = new VBox(lbl);
                 }
