@@ -196,8 +196,6 @@ public class TestViewController {
     }
 
     private String collectTextAnswer() {
-        System.out.println(questionsContainer.getChildren().size());
-        System.out.println(questionsContainer.getChildren());
         FlowPane flow = (FlowPane) questionsContainer.getChildren().getFirst();
 
         return flow.getChildren().stream()
@@ -233,7 +231,6 @@ public class TestViewController {
 
         if ("Text".equals(answerTypeName)) {
             answerSelections[currentQuestionIndex] = collectTextAnswer();
-            System.out.println("Text answer collected: " + answerSelections[currentQuestionIndex]);
         }
 
         if (currentQuestionIndex < questions.size() - 1) {

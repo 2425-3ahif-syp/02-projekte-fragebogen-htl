@@ -1,5 +1,6 @@
 package syp.htlfragebogenapplication.controllers;
 
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -16,9 +17,16 @@ import syp.htlfragebogenapplication.model.Question;
 import syp.htlfragebogenapplication.model.Test;
 import syp.htlfragebogenapplication.database.AnswerRepository;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class TestResultViewController {
     private Label testNameLabel;
@@ -38,7 +46,9 @@ public class TestResultViewController {
     private List<Question> questions;
     private String[] userAnswers;
     private Map<Integer, String> correctAnswers;
+    private Map<Integer, int[]> wordScores = new HashMap<>(); // [correctWords, wrongWords, totalWords]
     private int score;
+    private int percentageSum;
     private int totalQuestions;
     private int timeSeconds;
 
@@ -126,13 +136,15 @@ public class TestResultViewController {
         int seconds = timeSeconds % 60;
         String formattedTime = String.format("%02d:%02d", minutes, seconds);
 
-        int percentage = (score * 100) / totalQuestions;
-        boolean isPassed = percentage >= 50;
+        String answerTypeName = questions.getFirst().getAnswerType().getName();
+
+        int percentage = percentageSum / totalQuestions;
+        boolean isPassed = "Text".equals(answerTypeName) ? percentage >= 95 : percentage >= 70;
 
         // Status icon and label (smaller)
         Label statusIcon = new Label(isPassed ? "✅" : "❌");
         statusIcon.setFont(Font.font("System", FontWeight.NORMAL, 32));
-        
+
         Label statusLabel = new Label(isPassed ? "BESTANDEN" : "NICHT BESTANDEN");
         statusLabel.setFont(Font.font("System", FontWeight.BOLD, 16));
         statusLabel.getStyleClass().add("status-label");
@@ -141,85 +153,94 @@ public class TestResultViewController {
         // Score display with better formatting (more compact)
         HBox scoreRow = new HBox(8);
         scoreRow.setAlignment(Pos.CENTER);
-        
+
         Label scoreLabel = new Label(String.valueOf(score));
         scoreLabel.setFont(Font.font("System", FontWeight.BOLD, 36));
         scoreLabel.getStyleClass().add("score-number");
         scoreLabel.setTextFill(isPassed ? Color.web("#00af50") : Color.web("#d07474"));
-        
-        Label separatorLabel = new Label("/");
-        separatorLabel.setFont(Font.font("System", FontWeight.NORMAL, 28));
-        separatorLabel.getStyleClass().add("score-separator");
-        
+
         Label totalLabel = new Label(String.valueOf(totalQuestions));
+
         totalLabel.setFont(Font.font("System", FontWeight.NORMAL, 28));
         totalLabel.getStyleClass().add("score-total");
-        
+
         Label pointsLabel = new Label("Punkte");
         pointsLabel.setFont(Font.font("System", FontWeight.NORMAL, 14));
         pointsLabel.getStyleClass().add("score-unit");
-        
+
+        Label separatorLabel = new Label("/");
+        separatorLabel.setFont(Font.font("System", FontWeight.NORMAL, 28));
+        separatorLabel.getStyleClass().add("score-separator");
+
+        if ("Text".equals(answerTypeName)) {
+            int totalCorrectWords = wordScores.values().stream().mapToInt(arr -> arr[0]).sum();
+            scoreLabel = new Label(String.valueOf(totalCorrectWords));
+            int totalWords = wordScores.values().stream().mapToInt(arr -> arr[2]).sum();
+            totalLabel = new Label(String.valueOf(totalWords));
+            pointsLabel = new Label("Wörter");
+        }
+
         scoreRow.getChildren().addAll(scoreLabel, separatorLabel, totalLabel);
 
         // Percentage with progress bar style (more compact)
         VBox percentageBox = new VBox(6);
         percentageBox.setAlignment(Pos.CENTER);
-        
+
         Label percentageLabel = new Label(percentage + "%");
         percentageLabel.setFont(Font.font("System", FontWeight.BOLD, 24));
         percentageLabel.getStyleClass().add("percentage-label");
         percentageLabel.setTextFill(isPassed ? Color.web("#00af50") : Color.web("#d07474"));
-        
+
         // Create a progress bar visual (smaller)
         HBox progressBar = new HBox();
         progressBar.getStyleClass().add("progress-bar-container");
         progressBar.setPrefWidth(250);
         progressBar.setPrefHeight(10);
-        
+
         Region progressFill = new Region();
         progressFill.getStyleClass().add("progress-bar-fill");
         progressFill.getStyleClass().add(isPassed ? "progress-passed" : "progress-failed");
         progressFill.setPrefWidth(250 * percentage / 100);
         progressFill.setPrefHeight(10);
-        
+
         progressBar.getChildren().add(progressFill);
         percentageBox.getChildren().addAll(percentageLabel, progressBar);
 
         // Time display with icon (smaller)
         HBox timeBox = new HBox(6);
         timeBox.setAlignment(Pos.CENTER);
-        
+
         Label timeIcon = new Label("⏱️");
         timeIcon.setFont(Font.font("System", FontWeight.NORMAL, 14));
-        
+
         Label timeLabel = new Label("Dauer: " + formattedTime);
         timeLabel.setFont(Font.font("System", FontWeight.NORMAL, 14));
         timeLabel.getStyleClass().add("time-label");
-        
+
         timeBox.getChildren().addAll(timeIcon, timeLabel);
 
         // Add spacing elements (smaller)
         Region spacer1 = new Region();
         spacer1.setPrefHeight(5);
-        
+
         Region spacer2 = new Region();
         spacer2.setPrefHeight(8);
-        
+
         Region spacer3 = new Region();
         spacer3.setPrefHeight(5);
 
         resultsBox.getChildren().addAll(
-            statusIcon,
-            statusLabel,
-            spacer1,
-            scoreRow,
-            pointsLabel,
-            spacer2,
-            percentageBox,
-            spacer3,
-            timeBox
+                statusIcon,
+                statusLabel,
+                spacer1,
+                scoreRow,
+                pointsLabel,
+                spacer2,
+                percentageBox,
+                spacer3,
+                timeBox
         );
-        
+
         scoreContainer.setCenter(resultsBox);
 
         // Prepare to show question reviews
@@ -232,65 +253,110 @@ public class TestResultViewController {
         reviewQuestionsButton.setVisible(false);
         backToResultsButton.setVisible(false);
 
-        // For each question, show a card
+
         for (int i = 0; i < questions.size(); i++) {
-            Question question = questions.get(i);
-            String answerTypeName = question.getAnswerType().getName();
+            Question q = questions.get(i);
+            String type = q.getAnswerType().getName();
+            String correctValue = correctAnswers.get(q.getId());
+            String givenValue = userAnswers[i];
 
-            // Load the two strings
-            String correctValue = correctAnswers.get(question.getId());
-            String givenValue   = userAnswers[i];
-
-            // Compare safely
-            boolean isCorrect = givenValue != null
-                    && correctValue != null
-                    && givenValue.equals(correctValue);
-
-            // Card container
             VBox questionCard = new VBox(10);
             questionCard.getStyleClass().add("question-card");
             questionCard.setMaxWidth(700);
+            questionCard.setMinWidth(700);
 
-            // Header: Frage X + Richtig/Falsch
             HBox header = new HBox(10);
             header.setAlignment(Pos.CENTER_LEFT);
-            Label questionNumber = new Label("Frage " + (i + 1) + ":");
-            questionNumber.setFont(Font.font("System", FontWeight.BOLD, 16));
-            Label resultLabel = new Label(isCorrect ? "Richtig" : "Falsch");
-            resultLabel.getStyleClass().add(isCorrect ? "passed-label" : "failed-label");
-            header.getChildren().addAll(questionNumber, resultLabel);
+            Label num = new Label("Frage " + (i + 1) + ":");
+            num.setFont(Font.font("System", FontWeight.BOLD, 16));
+            header.getChildren().add(num);
 
-            // Image
-            String imagePath = getClass()
-                    .getResource(question.getImagePath())
-                    .toExternalForm();
-            ImageView imageView = new ImageView(new Image(imagePath));
-            imageView.setFitWidth(650);
-            imageView.setPreserveRatio(true);
 
-            // Answers display
             HBox answerBox = new HBox(20);
             answerBox.setAlignment(Pos.CENTER_LEFT);
             answerBox.getStyleClass().add("answer-box");
 
-            String userAnswerText = (givenValue == null || givenValue.isEmpty())
-                    ? "Keine Antwort"
-                    : givenValue;
+            if ("Text".equals(type)) {
+                String[] originalTokens = loadTextResource(q.getImagePath()).split(" ");
+                String[] correctTokens = correctValue.split(" ");
+                String[] givenTokens = givenValue.split(" ");
+                FlowPane textFlow = new FlowPane();
+                textFlow.getStyleClass().add("text-flow");
+                textFlow.setMinWidth(650);
+                textFlow.setMaxWidth(650);
+                textFlow.setHgap(5);
+                textFlow.setVgap(5);
+                textFlow.setPadding(new Insets(10, 0, 0, 0));
+                for (int j = 0; j < originalTokens.length; j++) {
+                    String orig = originalTokens[j];
+                    String corr = j < correctTokens.length ? correctTokens[j] : "";
+                    String given = j < givenTokens.length ? givenTokens[j] : "";
+                    Label wordLabel = new Label(given);
+                    if (given.equals(orig) && given.equals(corr)) {
+                        wordLabel.getStyleClass().add("text-black");
+                    } else if (given.equals(corr)) {
+                        wordLabel.getStyleClass().add("text-green");
+                    } else {
+                        wordLabel.getStyleClass().add("text-red");
+                    }
+                    textFlow.getChildren().add(wordLabel);
+                }
+                int[] scores = wordScores.get(q.getNumInTest());
 
-            String correctAnswerText = (correctValue == null || correctValue.isEmpty())
-                    ? "–"
-                    : correctValue;
+                boolean isCorrect = givenValue != null
+                        && correctValue != null
+                        && givenValue.equals(correctValue);
 
-            Label userAnswerLabel    = new Label("Deine Antwort: " + userAnswerText);
-            Label correctAnswerLabel = new Label("Richtige Antwort: " + correctAnswerText);
-            userAnswerLabel.getStyleClass().add("user-answer-label");
-            correctAnswerLabel.getStyleClass().add("correct-answer-label");
+                Label resultLabel = new Label(isCorrect ? "Richtig" : "Falsch");
+                resultLabel.getStyleClass().add(isCorrect ? "passed-label" : "failed-label");
+                header.getChildren().add(resultLabel);
 
-            answerBox.getChildren().addAll(userAnswerLabel, correctAnswerLabel);
+                Label resultText = new Label(
+                        String.format("Wörter: %d/%d korrekt, %d/%d falsch (%.1f%%)",
+                                scores[0], scores[2], scores[1], scores[2], scores[0] * 100.0 / scores[2]
+                        ));
 
-            questionCard.getChildren().addAll(header, imageView, answerBox);
+                resultText.getStyleClass().add("user-answer-label");
+                answerBox.getChildren().add(resultText);
+
+                questionCard.getChildren().addAll(header,textFlow, answerBox);
+            } else {
+                boolean isCorrect = givenValue != null
+                        && correctValue != null
+                        && givenValue.equals(correctValue);
+
+                Label resultLabel = new Label(isCorrect ? "Richtig" : "Falsch");
+                resultLabel.getStyleClass().add(isCorrect ? "passed-label" : "failed-label");
+                header.getChildren().add(resultLabel);
+
+                // Image
+                String imagePath = getClass()
+                        .getResource(q.getImagePath())
+                        .toExternalForm();
+                ImageView imageView = new ImageView(new Image(imagePath));
+                imageView.setFitWidth(650);
+                imageView.setPreserveRatio(true);
+
+                String userAnswerText = (givenValue == null || givenValue.isEmpty())
+                        ? "Keine Antwort"
+                        : givenValue;
+
+                String correctAnswerText = (correctValue == null || correctValue.isEmpty())
+                        ? "–"
+                        : correctValue;
+
+                Label userAnswerLabel = new Label("Deine Antwort: " + userAnswerText);
+                Label correctAnswerLabel = new Label("Richtige Antwort: " + correctAnswerText);
+                userAnswerLabel.getStyleClass().add("user-answer-label");
+                correctAnswerLabel.getStyleClass().add("correct-answer-label");
+
+                answerBox.getChildren().addAll(userAnswerLabel, correctAnswerLabel);
+
+                questionCard.getChildren().addAll(header, imageView, answerBox);
+            }
             questionReviewContainer.getChildren().add(questionCard);
         }
+        questionScrollPane.setFitToWidth(true);
         // Set the visibility
         questionReviewContainer.setVisible(true);
         questionScrollPane.setVisible(true);
@@ -299,10 +365,17 @@ public class TestResultViewController {
         backToResultsButton.setVisible(false);
     }
 
-
     private void loadCorrectAnswers() {
         AnswerRepository answerRepository = new AnswerRepository();
         correctAnswers = answerRepository.getCorrectAnswersMap();
+        // For text questions, load file content as the correct answer string
+        for (Question q : questions) {
+            if ("Text".equals(q.getAnswerType().getName())) {
+                String path = correctAnswers.get(q.getId());
+                String text = loadTextResource(path);
+                correctAnswers.put(q.getId(), text);
+            }
+        }
     }
 
     private int getLetterIndex(String letter) {
@@ -311,12 +384,44 @@ public class TestResultViewController {
 
     private void calculateScore() {
         score = 0;
-        for (int i = 0; i < questions.size(); i++) {
-            String correctValue = correctAnswers.get(questions.get(i).getId());
-            String givenValue   = userAnswers[i];
-            if (givenValue != null && givenValue.equals(correctValue)) {
-                score++;
-            }
+        percentageSum = 0;
+        Arrays.stream(questions.toArray(new Question[0]))
+                .forEach(q -> {
+                    String correctValue = correctAnswers.get(q.getId());
+                    String givenValue = userAnswers[q.getNumInTest()-1];
+                    if ("Text".equals(q.getAnswerType().getName())) {
+                        String[] correctTokens = correctValue.split(" ");
+                        String[] givenTokens = (givenValue != null ? givenValue : "").split(" ");
+                        int total = correctTokens.length;
+                        int correctCount = 0;
+                        for (int i = 0; i < total; i++) {
+                            if (i < givenTokens.length && givenTokens[i].equals(correctTokens[i])) {
+                                correctCount++;
+                            }
+                        }
+                        int wrongCount = total - correctCount;
+                        wordScores.put(q.getNumInTest(), new int[] {correctCount, wrongCount, total});
+                        double pct = (correctCount * 100.0) / total;
+                        if (pct >= 95.0) {
+                            score++;
+                        }
+                        percentageSum += pct;
+                    } else {
+                        if (givenValue != null && givenValue.equals(correctValue)) {
+                            score++;
+                            percentageSum += 100.0;
+                        }
+                    }
+                });
+    }
+
+    private String loadTextResource(String resourcePath) {
+        try (InputStream in = getClass().getResourceAsStream(resourcePath);
+             BufferedReader reader = new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8))) {
+            return reader.lines().collect(Collectors.joining(" "));
+        } catch (IOException | NullPointerException e) {
+            e.printStackTrace();
+            return "";
         }
     }
 
