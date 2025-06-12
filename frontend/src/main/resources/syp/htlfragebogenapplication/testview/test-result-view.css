@@ -133,6 +133,24 @@ test-start-btn {
     -fx-font-weight: bold;
 }
 
+.text-flow {
+    -fx-font-size: 14px;
+    -fx-padding: 10px;
+    -fx-text-fill: #000000;
+}
+
+.text-red {
+    -fx-text-fill: #d07474;
+}
+
+.text-green {
+    -fx-text-fill: #00af50;
+}
+
+.text-black {
+    -fx-text-fill: #000000
+}
+
 /* Enhanced styles for improved end screen design */
 
 /* Enhanced title styling */
