@@ -160,9 +160,7 @@ public class TestViewController {
                     ToggleGroup toggleGroup = new ToggleGroup();
 
                     for (int i = 0; i < possibleAnswerCount; i++) {
-                        String optionText = "Letter".equals(answerTypeName)
-                                ? String.valueOf((char) ('a' + i))
-                                : String.valueOf(i);
+                        String optionText = "Letter".equals(answerTypeName) ? String.valueOf((char) ('a' + i)) : String.valueOf(i);
 
                         RadioButton rb = new RadioButton(optionText);
                         rb.setToggleGroup(toggleGroup);
@@ -176,33 +174,70 @@ public class TestViewController {
                     }
 
                     answersPane = answersBox;
-                }  else if ("Number Field".equals(answerTypeName)) {
-                TextField numberField = new TextField();
-                numberField.setPromptText("Enter a number");
+                } else if ("Number Field".equals(answerTypeName)) {
+                    TextField numberField = new TextField();
+                    numberField.setPromptText("Enter a number");
 
 
-                numberField.textProperty().addListener((obs, oldVal, newVal) -> {
-                    if (!newVal.matches("\\d*")) {
-                        numberField.setText(newVal.replaceAll("[^\\d]", ""));
+                    numberField.textProperty().addListener((obs, oldVal, newVal) -> {
+                        if (!newVal.matches("\\d*")) {
+                            numberField.setText(newVal.replaceAll("[^\\d]", ""));
+                        }
+                        answerSelections[currentQuestionIndex] = numberField.getText(); // update answer
+                    });
+
+
+                    if (answerSelections[currentQuestionIndex] != null) {
+                        numberField.setText(answerSelections[currentQuestionIndex]);
                     }
-                    answerSelections[currentQuestionIndex] = numberField.getText(); // update answer
-                });
+
+                    HBox numberBox = new HBox(15);
+                    numberBox.setAlignment(Pos.CENTER_LEFT);
+                    numberBox.setPadding(new Insets(10, 0, 0, 0));
+                    numberBox.getChildren().add(numberField);
+
+                    answersPane = numberBox;
+                } else if ("Set Comma".equals(answerTypeName)) {
+                    TextField preDecimalField = new TextField();
+                    TextField decimalField = new TextField();
+                    Label commaLabel = new Label(",");
+                    preDecimalField.setPromptText("Enter pre-decimal place");
+                    decimalField.setPromptText("Enter decimal place");
+
+                    preDecimalField.textProperty().addListener((obs, oldVal, newVal) -> {
+                        if (!newVal.matches("\\d*")) {
+                            preDecimalField.setText(newVal.replaceAll("[^\\d]", ""));
+                        }
+                        answerSelections[currentQuestionIndex] = "%s,%s".formatted(preDecimalField.getText(), decimalField.getText());
+                    });
+
+                    decimalField.textProperty().addListener((obs, oldVal, newVal) -> {
+                        if (!newVal.matches("\\d*")) {
+                            decimalField.setText(newVal.replaceAll("[^\\d]", ""));
+                        }
+                        answerSelections[currentQuestionIndex] = "%s,%s".formatted(preDecimalField.getText(), decimalField.getText());
+                    });
 
 
-                if (answerSelections[currentQuestionIndex] != null) {
-                    numberField.setText(answerSelections[currentQuestionIndex]);
-                }
+                    if (answerSelections[currentQuestionIndex] != "") {
+                        // if user only enters 1 number, we still have to present it
+                        String modifiedString = " " + answerSelections[currentQuestionIndex] + " ";
+                        String[] setAnswer =modifiedString.split(",");
+                        if (setAnswer[0] != null) {
+                            preDecimalField.setText(setAnswer[0]);
+                        }
+                        if (setAnswer[1] != null) {
+                            decimalField.setText(setAnswer[1]);
+                        }
+                    }
 
-                HBox numberBox = new HBox(15);
-                numberBox.setAlignment(Pos.CENTER_LEFT);
-                numberBox.setPadding(new Insets(10, 0, 0, 0));
-                numberBox.getChildren().add(numberField);
+                    HBox commaBox = new HBox(15);
+                    commaBox.setAlignment(Pos.CENTER_LEFT);
+                    commaBox.setPadding(new Insets(10, 0, 0, 0));
+                    commaBox.getChildren().addAll(preDecimalField, commaLabel, decimalField);
 
-                answersPane = numberBox;
-            }
-
-
-            else {
+                    answersPane = commaBox;
+                } else {
                     Label lbl = new Label("Antworttyp „" + answerTypeName + "“ noch nicht implementiert.");
                     answersPane = new VBox(lbl);
                 }
@@ -212,8 +247,7 @@ public class TestViewController {
     }
 
     private String loadTextResource(String resourcePath) {
-        try (InputStream in = getClass().getResourceAsStream(resourcePath);
-             BufferedReader reader = new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8))) {
+        try (InputStream in = getClass().getResourceAsStream(resourcePath); BufferedReader reader = new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8))) {
             return reader.lines().collect(Collectors.joining(" "));
         } catch (IOException | NullPointerException e) {
             e.printStackTrace();
@@ -224,20 +258,16 @@ public class TestViewController {
     private String collectTextAnswer() {
         FlowPane flow = (FlowPane) questionsContainer.getChildren().getFirst();
 
-        return flow.getChildren().stream()
-                .filter(node -> node instanceof HBox)
-                .map(node -> {
-                    HBox cell = (HBox) node;
-                    // the first Child is always a TextField
-                    String word = ((TextField) cell.getChildren().get(0)).getText();
-                    // if a Label is present, it contains punctuation
-                    if (cell.getChildren().size() > 1
-                            && cell.getChildren().get(1) instanceof Label) {
-                        word += ((Label) cell.getChildren().get(1)).getText();
-                    }
-                    return word;
-                })
-                .collect(Collectors.joining(" "));
+        return flow.getChildren().stream().filter(node -> node instanceof HBox).map(node -> {
+            HBox cell = (HBox) node;
+            // the first Child is always a TextField
+            String word = ((TextField) cell.getChildren().get(0)).getText();
+            // if a Label is present, it contains punctuation
+            if (cell.getChildren().size() > 1 && cell.getChildren().get(1) instanceof Label) {
+                word += ((Label) cell.getChildren().get(1)).getText();
+            }
+            return word;
+        }).collect(Collectors.joining(" "));
     }
 
     private void startTimer() {
@@ -298,10 +328,8 @@ public class TestViewController {
 
             Scene scene = new Scene(testView, stage.getScene().getWidth(), stage.getScene().getHeight());
             try {
-                scene.getStylesheets().add(MainViewController.class
-                        .getResource("/syp/htlfragebogenapplication/Base.css").toExternalForm());
-                scene.getStylesheets().add(TestViewController.class
-                        .getResource("/syp/htlfragebogenapplication/testview/test-view.css").toExternalForm());
+                scene.getStylesheets().add(MainViewController.class.getResource("/syp/htlfragebogenapplication/Base.css").toExternalForm());
+                scene.getStylesheets().add(TestViewController.class.getResource("/syp/htlfragebogenapplication/testview/test-view.css").toExternalForm());
             } catch (Exception e) {
                 System.out.println("CSS file not found, continuing without styling");
             }
