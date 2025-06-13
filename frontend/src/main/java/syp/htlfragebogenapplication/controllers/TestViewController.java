@@ -211,14 +211,14 @@ public class TestViewController {
                         if (!newVal.matches("\\d*")) {
                             preDecimalField.setText(newVal.replaceAll("[^\\d]", ""));
                         }
-                        answerSelections[currentQuestionIndex] = "%s,%s".formatted(preDecimalField.getText(), decimalField.getText());
+                        updateAnswerForSetComma(preDecimalField, decimalField);
                     });
 
                     decimalField.textProperty().addListener((obs, oldVal, newVal) -> {
                         if (!newVal.matches("\\d*")) {
                             decimalField.setText(newVal.replaceAll("[^\\d]", ""));
                         }
-                        answerSelections[currentQuestionIndex] = "%s,%s".formatted(preDecimalField.getText(), decimalField.getText());
+                        updateAnswerForSetComma(preDecimalField, decimalField);
                     });
 
 
@@ -248,6 +248,20 @@ public class TestViewController {
             }
             questionsContainer.getChildren().add(answersPane);
         }
+    }
+
+    private void updateAnswerForSetComma(TextField preDecimalField, TextField decimalField) {
+        String pre = preDecimalField.getText().replaceFirst("^0+(?!$)", "");  // Remove leading zeros
+        String post = decimalField.getText().replaceFirst("0+$", "");         // Remove trailing zeros
+
+        String answer;
+        if (post.isEmpty()) {
+            answer = pre; // No decimal part, don't include comma
+        } else {
+            answer = pre + "," + post;
+        }
+
+        answerSelections[currentQuestionIndex] = answer;
     }
 
     private String loadTextResource(String resourcePath) {
