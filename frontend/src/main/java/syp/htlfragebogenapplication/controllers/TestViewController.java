@@ -176,7 +176,7 @@ public class TestViewController {
                     answersPane = answersBox;
                 } else if ("Number Field".equals(answerTypeName)) {
                     TextField numberField = new TextField();
-                    numberField.setPromptText("Enter a number");
+                    numberField.setPromptText("Geben Sie eine Zahl ein");
 
 
                     numberField.textProperty().addListener((obs, oldVal, newVal) -> {
@@ -201,8 +201,11 @@ public class TestViewController {
                     TextField preDecimalField = new TextField();
                     TextField decimalField = new TextField();
                     Label commaLabel = new Label(",");
-                    preDecimalField.setPromptText("Enter pre-decimal place");
-                    decimalField.setPromptText("Enter decimal place");
+                    preDecimalField.setPromptText("Vorkommastelle");
+                    decimalField.setPromptText("Nachkommastelle");
+
+                    Label tipsLabel = new Label("Tipps für Antworteingabe dieses Tests: \n\n Angabe: \n 0035006300 \n\n kann werden zu: \n 35 , 0063 \n 0 , 350063 \n 350063 , ");
+                    tipsLabel.setPadding(new Insets(20, 0, 0, 0));
 
                     preDecimalField.textProperty().addListener((obs, oldVal, newVal) -> {
                         if (!newVal.matches("\\d*")) {
@@ -222,13 +225,9 @@ public class TestViewController {
                     if (answerSelections[currentQuestionIndex] != "") {
                         // if user only enters 1 number, we still have to present it
                         String modifiedString = " " + answerSelections[currentQuestionIndex] + " ";
-                        String[] setAnswer =modifiedString.split(",");
-                        if (setAnswer[0] != null) {
-                            preDecimalField.setText(setAnswer[0]);
-                        }
-                        if (setAnswer[1] != null) {
-                            decimalField.setText(setAnswer[1]);
-                        }
+                        String[] setAnswer = modifiedString.split(",");
+                        preDecimalField.setText(setAnswer[0]);
+                        decimalField.setText(setAnswer[1]);
                     }
 
                     HBox commaBox = new HBox(15);
@@ -236,7 +235,12 @@ public class TestViewController {
                     commaBox.setPadding(new Insets(10, 0, 0, 0));
                     commaBox.getChildren().addAll(preDecimalField, commaLabel, decimalField);
 
-                    answersPane = commaBox;
+                    VBox answersBox = new VBox(15);
+                    answersBox.setAlignment(Pos.CENTER_LEFT);
+                    answersBox.setPadding(new Insets(10, 0, 0, 0));
+                    answersBox.getChildren().addAll(commaBox, tipsLabel);
+
+                    answersPane = answersBox;
                 } else {
                     Label lbl = new Label("Antworttyp „" + answerTypeName + "“ noch nicht implementiert.");
                     answersPane = new VBox(lbl);
