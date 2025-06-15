@@ -38,7 +38,6 @@ public class TestViewController {
     private Label questionCount;
     private Label timeCount;
 
-
     private static Stage primaryStage;
 
     private Test test;
@@ -160,12 +159,13 @@ public class TestViewController {
                     ToggleGroup toggleGroup = new ToggleGroup();
 
                     for (int i = 0; i < possibleAnswerCount; i++) {
-                        String optionText = "Letter".equals(answerTypeName) ? String.valueOf((char) ('a' + i)) : String.valueOf(i);
+                        String optionText = "Letter".equals(answerTypeName) ? String.valueOf((char) ('a' + i))
+                                : String.valueOf(i);
 
                         RadioButton rb = new RadioButton(optionText);
                         rb.setToggleGroup(toggleGroup);
                         rb.setUserData(optionText);
-                        rb.setOnAction(e -> answerSelections[currentQuestionIndex] = rb.getUserData().toString());
+                        rb.setOnAction(_ -> answerSelections[currentQuestionIndex] = rb.getUserData().toString());
 
                         if (optionText.equals(answerSelections[currentQuestionIndex])) {
                             rb.setSelected(true);
@@ -178,14 +178,12 @@ public class TestViewController {
                     TextField numberField = new TextField();
                     numberField.setPromptText("Geben Sie eine Zahl ein");
 
-
-                    numberField.textProperty().addListener((obs, oldVal, newVal) -> {
+                    numberField.textProperty().addListener((_, __, newVal) -> {
                         if (!newVal.matches("\\d*")) {
                             numberField.setText(newVal.replaceAll("[^\\d]", ""));
                         }
                         answerSelections[currentQuestionIndex] = numberField.getText(); // update answer
                     });
-
 
                     if (answerSelections[currentQuestionIndex] != null) {
                         numberField.setText(answerSelections[currentQuestionIndex]);
@@ -197,6 +195,59 @@ public class TestViewController {
                     numberBox.getChildren().add(numberField);
 
                     answersPane = numberBox;
+                } else if ("Fraction".equals(answerTypeName)) {
+                    TextField numeratorField = new TextField();
+                    TextField denominatorField = new TextField();
+
+                    numeratorField.setPromptText("Zähler");
+                    denominatorField.setPromptText("Nenner");
+
+                    Separator fractionLine = new Separator();
+                    fractionLine.setPrefWidth(100);
+
+                    numeratorField.textProperty().addListener((_, __, newVal) -> {
+                        if (!newVal.matches("-?\\d*")) {
+                            String corrected = newVal;
+                            if (newVal.startsWith("-")) {
+                                corrected = "-" + newVal.substring(1).replaceAll("[^\\d]", "");
+                            } else {
+                                corrected = newVal.replaceAll("[^\\d]", "");
+                            }
+                            numeratorField.setText(corrected);
+                        }
+                        updateAnswerForFraction(numeratorField, denominatorField);
+                    });
+
+                    denominatorField.textProperty().addListener((_, __, newVal) -> {
+                        if (!newVal.matches("\\d*")) {
+                            denominatorField.setText(newVal.replaceAll("[^\\d]", ""));
+                        }
+                        updateAnswerForFraction(numeratorField, denominatorField);
+                    });
+
+                    if (answerSelections[currentQuestionIndex] != null
+                            && !answerSelections[currentQuestionIndex].isEmpty()) {
+                        String[] fractionParts = answerSelections[currentQuestionIndex].split("/");
+                        if (fractionParts.length == 2) {
+                            numeratorField.setText(fractionParts[0]);
+                            denominatorField.setText(fractionParts[1]);
+                        }
+                    }
+
+                    VBox fractionBox = new VBox(5);
+                    fractionBox.setAlignment(Pos.CENTER);
+                    fractionBox.setMaxWidth(100);
+                    fractionBox.getChildren().addAll(numeratorField, fractionLine, denominatorField);
+
+                    Label tipsLabel = new Label("Hinweis: Geben Sie den Zähler und Nenner des Bruchs ein.");
+                    tipsLabel.setPadding(new Insets(20, 0, 0, 0));
+
+                    VBox answersBox = new VBox(15);
+                    answersBox.setAlignment(Pos.CENTER_LEFT);
+                    answersBox.setPadding(new Insets(10, 0, 0, 0));
+                    answersBox.getChildren().addAll(fractionBox, tipsLabel);
+
+                    answersPane = answersBox;
                 } else if ("Set Comma".equals(answerTypeName)) {
                     TextField preDecimalField = new TextField();
                     TextField decimalField = new TextField();
@@ -204,23 +255,23 @@ public class TestViewController {
                     preDecimalField.setPromptText("Vorkommastelle");
                     decimalField.setPromptText("Nachkommastelle");
 
-                    Label tipsLabel = new Label("Tipps für Antworteingabe dieses Tests: \n\n Angabe: \n 0035006300 \n\n kann werden zu: \n 35 , 0063 \n 0 , 350063 \n 350063 , ");
+                    Label tipsLabel = new Label(
+                            "Tipps für Antworteingabe dieses Tests: \n\n Angabe: \n 0035006300 \n\n kann werden zu: \n 35 , 0063 \n 0 , 350063 \n 350063 , ");
                     tipsLabel.setPadding(new Insets(20, 0, 0, 0));
 
-                    preDecimalField.textProperty().addListener((obs, oldVal, newVal) -> {
+                    preDecimalField.textProperty().addListener((_, __, newVal) -> {
                         if (!newVal.matches("\\d*")) {
                             preDecimalField.setText(newVal.replaceAll("[^\\d]", ""));
                         }
                         updateAnswerForSetComma(preDecimalField, decimalField);
                     });
 
-                    decimalField.textProperty().addListener((obs, oldVal, newVal) -> {
+                    decimalField.textProperty().addListener((_, __, newVal) -> {
                         if (!newVal.matches("\\d*")) {
                             decimalField.setText(newVal.replaceAll("[^\\d]", ""));
                         }
                         updateAnswerForSetComma(preDecimalField, decimalField);
                     });
-
 
                     if (answerSelections[currentQuestionIndex] != "") {
                         // if user only enters 1 number, we still have to present it
@@ -251,8 +302,8 @@ public class TestViewController {
     }
 
     private void updateAnswerForSetComma(TextField preDecimalField, TextField decimalField) {
-        String pre = preDecimalField.getText().replaceFirst("^0+(?!$)", "");  // Remove leading zeros
-        String post = decimalField.getText().replaceFirst("0+$", "");         // Remove trailing zeros
+        String pre = preDecimalField.getText().replaceFirst("^0+(?!$)", ""); // Remove leading zeros
+        String post = decimalField.getText().replaceFirst("0+$", ""); // Remove trailing zeros
 
         String answer;
         if (post.isEmpty()) {
@@ -264,8 +315,23 @@ public class TestViewController {
         answerSelections[currentQuestionIndex] = answer;
     }
 
+    private void updateAnswerForFraction(TextField numeratorField, TextField denominatorField) {
+        String numerator = numeratorField.getText().trim();
+        String denominator = denominatorField.getText().trim();
+
+        if (!numerator.isEmpty() && !denominator.isEmpty()) {
+            if (denominator.equals("0")) {
+                return;
+            }
+            answerSelections[currentQuestionIndex] = numerator + "/" + denominator;
+        } else {
+            answerSelections[currentQuestionIndex] = "";
+        }
+    }
+
     private String loadTextResource(String resourcePath) {
-        try (InputStream in = getClass().getResourceAsStream(resourcePath); BufferedReader reader = new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8))) {
+        try (InputStream in = getClass().getResourceAsStream(resourcePath);
+                BufferedReader reader = new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8))) {
             return reader.lines().collect(Collectors.joining(" "));
         } catch (IOException | NullPointerException e) {
             e.printStackTrace();
@@ -289,7 +355,7 @@ public class TestViewController {
     }
 
     private void startTimer() {
-        timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
+        timeline = new Timeline(new KeyFrame(Duration.seconds(1), _ -> {
             timeSeconds++;
             int minutes = timeSeconds / 60;
             int seconds = timeSeconds % 60;
@@ -314,7 +380,6 @@ public class TestViewController {
             finishTest();
         }
     }
-
 
     public void onBackButtonClicked() {
         if (currentQuestionIndex > 0) {
@@ -346,8 +411,10 @@ public class TestViewController {
 
             Scene scene = new Scene(testView, stage.getScene().getWidth(), stage.getScene().getHeight());
             try {
-                scene.getStylesheets().add(MainViewController.class.getResource("/syp/htlfragebogenapplication/Base.css").toExternalForm());
-                scene.getStylesheets().add(TestViewController.class.getResource("/syp/htlfragebogenapplication/testview/test-view.css").toExternalForm());
+                scene.getStylesheets().add(MainViewController.class
+                        .getResource("/syp/htlfragebogenapplication/Base.css").toExternalForm());
+                scene.getStylesheets().add(TestViewController.class
+                        .getResource("/syp/htlfragebogenapplication/testview/test-view.css").toExternalForm());
             } catch (Exception e) {
                 System.out.println("CSS file not found, continuing without styling");
             }
