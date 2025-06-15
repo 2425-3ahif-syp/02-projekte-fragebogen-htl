@@ -2,7 +2,6 @@ package syp.htlfragebogenapplication.controllers;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -12,6 +11,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
+import syp.htlfragebogenapplication.utils.FractionUtils;
 import syp.htlfragebogenapplication.view.TestResultView;
 import syp.htlfragebogenapplication.model.Question;
 import syp.htlfragebogenapplication.model.Test;
@@ -238,8 +238,7 @@ public class TestResultViewController {
                 spacer2,
                 percentageBox,
                 spacer3,
-                timeBox
-        );
+                timeBox);
 
         scoreContainer.setCenter(resultsBox);
 
@@ -252,7 +251,6 @@ public class TestResultViewController {
         scoreContainer.setVisible(true);
         reviewQuestionsButton.setVisible(false);
         backToResultsButton.setVisible(false);
-
 
         for (int i = 0; i < questions.size(); i++) {
             Question q = questions.get(i);
@@ -270,7 +268,6 @@ public class TestResultViewController {
             Label num = new Label("Frage " + (i + 1) + ":");
             num.setFont(Font.font("System", FontWeight.BOLD, 16));
             header.getChildren().add(num);
-
 
             HBox answerBox = new HBox(20);
             answerBox.setAlignment(Pos.CENTER_LEFT);
@@ -313,13 +310,75 @@ public class TestResultViewController {
 
                 Label resultText = new Label(
                         String.format("Wörter: %d/%d korrekt, %d/%d falsch (%.1f%%)",
-                                scores[0], scores[2], scores[1], scores[2], scores[0] * 100.0 / scores[2]
-                        ));
+                                scores[0], scores[2], scores[1], scores[2], scores[0] * 100.0 / scores[2]));
 
                 resultText.getStyleClass().add("user-answer-label");
                 answerBox.getChildren().add(resultText);
 
-                questionCard.getChildren().addAll(header,textFlow, answerBox);
+                questionCard.getChildren().addAll(header, textFlow, answerBox);
+            } else if ("Fraction".equals(type)) {
+                boolean isExactlyEqual = givenValue != null
+                        && correctValue != null
+                        && givenValue.equals(correctValue);
+
+                boolean isMathEqual = false;
+                if (!isExactlyEqual && givenValue != null && correctValue != null) {
+                    try {
+                        isMathEqual = FractionUtils.areEquivalent(givenValue, correctValue);
+                    } catch (Exception e) {
+                        isMathEqual = false;
+                    }
+                }
+
+                boolean isCorrect = isExactlyEqual || isMathEqual;
+
+                Label resultLabel = new Label(isCorrect ? "Richtig" : "Falsch");
+                resultLabel.getStyleClass().add(isCorrect ? "passed-label" : "failed-label");
+                header.getChildren().add(resultLabel);
+
+                if (isMathEqual && !isExactlyEqual) {
+                    Label noteLabel = new Label("(Mathematisch äquivalent)");
+                    noteLabel.setFont(Font.font("System", FontWeight.NORMAL, 12));
+                    noteLabel.getStyleClass().add("note-label");
+                    header.getChildren().add(noteLabel);
+                }
+
+                String imagePath = getClass()
+                        .getResource(q.getImagePath())
+                        .toExternalForm();
+                ImageView imageView = new ImageView(new Image(imagePath));
+                imageView.setFitWidth(650);
+                imageView.setPreserveRatio(true);
+
+                String userAnswerText = (givenValue == null || givenValue.isEmpty())
+                        ? "Keine Antwort"
+                        : givenValue;
+
+                String correctAnswerText = (correctValue == null || correctValue.isEmpty())
+                        ? "–"
+                        : correctValue;
+
+                if (isMathEqual && !isExactlyEqual) {
+                    try {
+                        int[] userFraction = FractionUtils.parseFraction(givenValue);
+                        String simplifiedUserFraction = FractionUtils.formatSimplified(
+                                userFraction[0], userFraction[1]);
+
+                        if (!simplifiedUserFraction.equals(givenValue)) {
+                            userAnswerText += " (vereinfacht: " + simplifiedUserFraction + ")";
+                        }
+                    } catch (Exception e) {
+                    }
+                }
+
+                Label userAnswerLabel = new Label("Deine Antwort: " + userAnswerText);
+                Label correctAnswerLabel = new Label("Richtige Antwort: " + correctAnswerText);
+                userAnswerLabel.getStyleClass().add("user-answer-label");
+                correctAnswerLabel.getStyleClass().add("correct-answer-label");
+
+                answerBox.getChildren().addAll(userAnswerLabel, correctAnswerLabel);
+
+                questionCard.getChildren().addAll(header, imageView, answerBox);
             } else {
                 boolean isCorrect = givenValue != null
                         && correctValue != null
@@ -378,17 +437,13 @@ public class TestResultViewController {
         }
     }
 
-    private int getLetterIndex(String letter) {
-        return letter.charAt(0) - 'a';
-    }
-
     private void calculateScore() {
         score = 0;
         percentageSum = 0;
         Arrays.stream(questions.toArray(new Question[0]))
                 .forEach(q -> {
                     String correctValue = correctAnswers.get(q.getId());
-                    String givenValue = userAnswers[q.getNumInTest()-1];
+                    String givenValue = userAnswers[q.getNumInTest() - 1];
                     if ("Text".equals(q.getAnswerType().getName())) {
                         String[] correctTokens = correctValue.split(" ");
                         String[] givenTokens = (givenValue != null ? givenValue : "").split(" ");
@@ -400,12 +455,31 @@ public class TestResultViewController {
                             }
                         }
                         int wrongCount = total - correctCount;
-                        wordScores.put(q.getNumInTest(), new int[] {correctCount, wrongCount, total});
+                        wordScores.put(q.getNumInTest(), new int[] { correctCount, wrongCount, total });
                         double pct = (correctCount * 100.0) / total;
                         if (pct >= 95.0) {
                             score++;
                         }
                         percentageSum += pct;
+                    } else if ("Fraction".equals(q.getAnswerType().getName())) {
+                        boolean isCorrect = false;
+
+                        if (givenValue != null && correctValue != null) {
+                            if (givenValue.equals(correctValue)) {
+                                isCorrect = true;
+                            } else {
+                                try {
+                                    isCorrect = FractionUtils.areEquivalent(givenValue, correctValue);
+                                } catch (Exception e) {
+                                    isCorrect = false;
+                                }
+                            }
+                        }
+
+                        if (isCorrect) {
+                            score++;
+                            percentageSum += 100.0;
+                        }
                     } else {
                         if (givenValue != null && givenValue.equals(correctValue)) {
                             score++;
@@ -417,7 +491,7 @@ public class TestResultViewController {
 
     private String loadTextResource(String resourcePath) {
         try (InputStream in = getClass().getResourceAsStream(resourcePath);
-             BufferedReader reader = new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8))) {
+                BufferedReader reader = new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8))) {
             return reader.lines().collect(Collectors.joining(" "));
         } catch (IOException | NullPointerException e) {
             e.printStackTrace();
