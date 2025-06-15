@@ -13,7 +13,6 @@ import syp.htlfragebogenapplication.database.Database;
 import syp.htlfragebogenapplication.database.H2Server;
 import syp.htlfragebogenapplication.database.TestRepository;
 
-
 import java.io.IOException;
 
 public class MainApp extends Application {
@@ -23,10 +22,6 @@ public class MainApp extends Application {
         System.out.println("🚀 Starting JavaFX Application...");
         H2Server.start();
         Database.getInstance();
-
-        TestRepository testRepository = new TestRepository();
-        System.out.println(testRepository.getAllTests());
-        System.out.println(testRepository.getTestById(6));
 
         MainViewController.show(stage);
     }
