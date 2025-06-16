@@ -193,7 +193,7 @@ public class TestViewController {
                     TextField numberField = new TextField();
                     numberField.setPromptText("Geben Sie eine Zahl ein");
 
-                    numberField.textProperty().addListener((_, __, newVal) -> {
+                    numberField.textProperty().addListener((_, _, newVal) -> {
                         if (!newVal.matches("\\d*")) {
                             numberField.setText(newVal.replaceAll("[^\\d]", ""));
                         }
@@ -221,7 +221,7 @@ public class TestViewController {
                     Separator fractionLine = new Separator();
                     fractionLine.setPrefWidth(100);
 
-                    numeratorField.textProperty().addListener((_, __, newVal) -> {
+                    numeratorField.textProperty().addListener((_, _, newVal) -> {
                         if (!newVal.matches("-?\\d*")) {
                             String corrected = newVal;
                             if (newVal.startsWith("-")) {
@@ -234,7 +234,7 @@ public class TestViewController {
                         updateAnswerForFraction(numeratorField, denominatorField);
                     });
 
-                    denominatorField.textProperty().addListener((_, __, newVal) -> {
+                    denominatorField.textProperty().addListener((_, _, newVal) -> {
                         if (!newVal.matches("\\d*")) {
                             denominatorField.setText(newVal.replaceAll("[^\\d]", ""));
                         }
@@ -301,14 +301,14 @@ public class TestViewController {
 
                     Tooltip.install(iconLabel, tooltip);
 
-                    preDecimalField.textProperty().addListener((_, __, newVal) -> {
+                    preDecimalField.textProperty().addListener((_, _, newVal) -> {
                         if (!newVal.matches("\\d*")) {
                             preDecimalField.setText(newVal.replaceAll("[^\\d]", ""));
                         }
                         updateAnswerForSetComma(preDecimalField, decimalField);
                     });
 
-                    decimalField.textProperty().addListener((_, __, newVal) -> {
+                    decimalField.textProperty().addListener((_, _, newVal) -> {
                         if (!newVal.matches("\\d*")) {
                             decimalField.setText(newVal.replaceAll("[^\\d]", ""));
                         }
