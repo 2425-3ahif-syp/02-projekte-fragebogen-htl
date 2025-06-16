@@ -150,7 +150,6 @@ public class TestResultViewController {
         statusIcon.setFont(Font.font("System", FontWeight.NORMAL, 32));
 
         Label statusLabel = new Label(isPassed ? "BESTANDEN" : "NICHT BESTANDEN");
-        statusLabel.setFont(Font.font("System", FontWeight.BOLD, 16));
         statusLabel.getStyleClass().add("status-label");
         statusLabel.getStyleClass().add(isPassed ? "status-passed" : "status-failed");
 
@@ -159,21 +158,18 @@ public class TestResultViewController {
         scoreRow.setAlignment(Pos.CENTER);
 
         Label scoreLabel = new Label(String.valueOf(score));
-        scoreLabel.setFont(Font.font("System", FontWeight.BOLD, 36));
-        scoreLabel.getStyleClass().add("score-number");
         scoreLabel.setTextFill(isPassed ? Color.web("#00af50") : Color.web("#d07474"));
+        scoreLabel.getStyleClass().add("score-number");
+
 
         Label totalLabel = new Label(String.valueOf(totalQuestions));
 
-        totalLabel.setFont(Font.font("System", FontWeight.NORMAL, 28));
         totalLabel.getStyleClass().add("score-total");
 
         Label pointsLabel = new Label("Punkte");
-        pointsLabel.setFont(Font.font("System", FontWeight.NORMAL, 14));
         pointsLabel.getStyleClass().add("score-unit");
 
         Label separatorLabel = new Label("/");
-        separatorLabel.setFont(Font.font("System", FontWeight.NORMAL, 28));
         separatorLabel.getStyleClass().add("score-separator");
 
         if ("Text".equals(answerTypeName)) {
@@ -191,9 +187,9 @@ public class TestResultViewController {
         percentageBox.setAlignment(Pos.CENTER);
 
         Label percentageLabel = new Label(percentage + "%");
-        percentageLabel.setFont(Font.font("System", FontWeight.BOLD, 24));
-        percentageLabel.getStyleClass().add("percentage-label");
         percentageLabel.setTextFill(isPassed ? Color.web("#00af50") : Color.web("#d07474"));
+        percentageLabel.getStyleClass().add("percentage-label");
+
 
         // Create a progress bar visual (smaller)
         HBox progressBar = new HBox();
@@ -215,11 +211,9 @@ public class TestResultViewController {
         timeBox.setAlignment(Pos.CENTER);
 
         Label timeIcon = new Label("⏱️");
-        timeIcon.setFont(Font.font("System", FontWeight.NORMAL, 14));
 
         Label timeLabel = new Label("Dauer: " + formattedTime);
-        timeLabel.setFont(Font.font("System", FontWeight.NORMAL, 14));
-        timeLabel.getStyleClass().add("time-label");
+        timeBox.getStyleClass().add("time-box");
 
         timeBox.getChildren().addAll(timeIcon, timeLabel);
 

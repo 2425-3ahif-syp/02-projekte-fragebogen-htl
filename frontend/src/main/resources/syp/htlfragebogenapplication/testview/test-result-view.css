@@ -183,6 +183,7 @@ test-start-btn {
     -fx-padding: 8px 16px;
     -fx-background-radius: 20px;
     -fx-font-weight: bold;
+    -fx-font-size: 16px;
 }
 
 .status-passed {
@@ -205,21 +206,25 @@ test-start-btn {
 .score-number {
     -fx-font-family: "System";
     -fx-font-weight: bold;
+    -fx-font-size: 36px;
 }
 
 .score-separator, .score-total {
     -fx-text-fill: #6c757d;
+    -fx-font-size: 28px;
 }
 
 .score-unit {
     -fx-text-fill: #6c757d;
     -fx-font-style: italic;
+    -fx-font-size: 14px;
 }
 
 /* Percentage label */
 .percentage-label {
     -fx-font-family: "System";
     -fx-font-weight: bold;
+    -fx-font-size: 24px;
 }
 
 /* Progress bar styling */
@@ -246,4 +251,5 @@ test-start-btn {
 /* Time label */
 .time-label {
     -fx-text-fill: #6c757d;
+    -fx-font-size: 14px;
 }
