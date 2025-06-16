@@ -9,6 +9,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import syp.htlfragebogenapplication.database.QuestionRepository;
@@ -23,6 +24,7 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class TestViewController {
@@ -253,15 +255,26 @@ public class TestViewController {
                     fractionBox.setMaxWidth(100);
                     fractionBox.getChildren().addAll(numeratorField, fractionLine, denominatorField);
 
-                    Label tipsLabel = new Label("Hinweis: Geben Sie den Zähler und Nenner des Bruchs ein.");
-                    tipsLabel.setPadding(new Insets(20, 0, 0, 0));
-                    tipsLabel.getStyleClass().add("tip-box");
-                    tipsLabel.setWrapText(true);
+                    Image infoImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/img/general/interrogation.png")));
+                    ImageView infoIcon = new ImageView(infoImage);
+                    infoIcon.setFitWidth(20);
+                    infoIcon.setFitHeight(20);
 
-                    VBox answersBox = new VBox(15);
+                    Label iconLabel = new Label("", infoIcon);
+                    iconLabel.setContentDisplay(ContentDisplay.CENTER);
+
+                    Tooltip tooltip = new Tooltip("Hinweis: Geben Sie den Zähler und Nenner des Bruchs ein.");
+                    tooltip.getStyleClass().add("tip-box");
+                    tooltip.setShowDelay(Duration.ZERO);
+                    tooltip.setHideDelay(Duration.millis(200));
+                    tooltip.setShowDuration(Duration.INDEFINITE);
+
+                    Tooltip.install(iconLabel, tooltip);
+
+                    HBox answersBox = new HBox(15);
                     answersBox.setAlignment(Pos.CENTER_LEFT);
                     answersBox.setPadding(new Insets(10, 0, 0, 0));
-                    answersBox.getChildren().addAll(fractionBox, tipsLabel);
+                    answersBox.getChildren().addAll(fractionBox, iconLabel);
 
                     answersBox.setAlignment(Pos.CENTER);
                     answersPane = answersBox;
@@ -272,11 +285,21 @@ public class TestViewController {
                     preDecimalField.setPromptText("Vorkommastelle");
                     decimalField.setPromptText("Nachkommastelle");
 
-                    Label tipsLabel = new Label(
-                            "Hinweis: \n\n Angabe: \n 0035006300 \n\n Beispiele für Kommasetzung: \n 35 , 0063 \n 0 , 350063 \n 350063 , \n ...");
-                    tipsLabel.setPadding(new Insets(20, 0, 0, 0));
-                    tipsLabel.getStyleClass().add("tip-box");
-                    tipsLabel.setWrapText(true);
+                    Image infoImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/img/general/interrogation.png")));
+                    ImageView infoIcon = new ImageView(infoImage);
+                    infoIcon.setFitWidth(20);
+                    infoIcon.setFitHeight(20);
+
+                    Label iconLabel = new Label("", infoIcon);
+                    iconLabel.setContentDisplay(ContentDisplay.CENTER);
+
+                    Tooltip tooltip = new Tooltip("Hinweis: \n\n Angabe: \n 0035006300 \n\n Beispiele für Kommasetzung: \n 35 , 0063 \n 0 , 350063 \n 350063 , \n ...");
+                    tooltip.getStyleClass().add("tip-box");
+                    tooltip.setShowDelay(Duration.ZERO);
+                    tooltip.setHideDelay(Duration.millis(200));
+                    tooltip.setShowDuration(Duration.INDEFINITE);
+
+                    Tooltip.install(iconLabel, tooltip);
 
                     preDecimalField.textProperty().addListener((_, __, newVal) -> {
                         if (!newVal.matches("\\d*")) {
@@ -302,13 +325,12 @@ public class TestViewController {
 
                     HBox commaBox = new HBox(15);
                     commaBox.setAlignment(Pos.CENTER);
-                    commaBox.setPadding(new Insets(10, 0, 0, 0));
                     commaBox.getChildren().addAll(preDecimalField, commaLabel, decimalField);
 
-                    VBox answersBox = new VBox(15);
+                    HBox answersBox = new HBox(15);
                     answersBox.setAlignment(Pos.CENTER);
                     answersBox.setPadding(new Insets(10, 0, 0, 0));
-                    answersBox.getChildren().addAll(commaBox, tipsLabel);
+                    answersBox.getChildren().addAll(commaBox, iconLabel);
 
                     answersPane = answersBox;
                 } else {
