@@ -1,0 +1,42 @@
+.upload-container {
+    -fx-background-color: #f0f4f8;
+}
+
+.upload-title-label {
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333;
+}
+
+.upload-status-label {
+    -fx-text-fill: #666;
+    -fx-font-size: 14px;
+}
+
+.uploaded-files-list {
+    -fx-background-color: #ffffff;
+    -fx-padding: 10;
+    -fx-border-color: #ccc;
+    -fx-border-width: 1;
+    -fx-border-radius: 5;
+}
+
+.uploaded-files-scroll {
+    -fx-pref-height: 300;
+}
+
+.main-btn {
+    -fx-background-color: #2a9df4;
+    -fx-text-fill: white;
+    -fx-padding: 8 16 8 16;
+    -fx-font-size: 14px;
+    -fx-background-radius: 5;
+}
+
+.remove-button {
+    -fx-background-color: #ff6b6b;
+    -fx-text-fill: white;
+    -fx-padding: 5 10 5 10;
+    -fx-font-size: 16px;
+    -fx-background-radius: 3;
+}
