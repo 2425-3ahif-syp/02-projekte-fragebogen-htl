@@ -145,10 +145,6 @@ public class TestResultViewController {
         int percentage = Math.round((float) percentageSum / totalQuestions);
         boolean isPassed = "Text".equals(answerTypeName) ? percentage >= 95 : percentage >= 70;
 
-        // Status icon and label (smaller)
-        Label statusIcon = new Label(isPassed ? "✅" : "❌");
-        statusIcon.setFont(Font.font("System", FontWeight.NORMAL, 32));
-
         Label statusLabel = new Label(isPassed ? "BESTANDEN" : "NICHT BESTANDEN");
         statusLabel.getStyleClass().add("status-label");
         statusLabel.getStyleClass().add(isPassed ? "status-passed" : "status-failed");
@@ -160,7 +156,6 @@ public class TestResultViewController {
         Label scoreLabel = new Label(String.valueOf(score));
         scoreLabel.setTextFill(isPassed ? Color.web("#00af50") : Color.web("#d07474"));
         scoreLabel.getStyleClass().add("score-number");
-
 
         Label totalLabel = new Label(String.valueOf(totalQuestions));
 
@@ -228,7 +223,6 @@ public class TestResultViewController {
         spacer3.setPrefHeight(5);
 
         resultsBox.getChildren().addAll(
-                statusIcon,
                 statusLabel,
                 spacer1,
                 scoreRow,
