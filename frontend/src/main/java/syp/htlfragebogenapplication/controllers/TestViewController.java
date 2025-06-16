@@ -102,8 +102,10 @@ public class TestViewController {
             // Update button text
             if (currentQuestionIndex == questions.size() - 1) {
                 nextButton.setText("Beenden");
+                nextButton.setId("submit-btn");
             } else {
                 nextButton.setText("Weiter");
+                nextButton.getStyleClass().add("nav-btn");
             }
 
             // Show progress

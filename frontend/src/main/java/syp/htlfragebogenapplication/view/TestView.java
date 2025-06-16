@@ -9,6 +9,7 @@ public class TestView extends BorderPane {
 
     private final Label testNameLabel;
     private final VBox questionsContainer;
+    private final ScrollPane questionsScrollPane;
     private final Button nextButton;
     private final Button backButton;
     private final Button cancelButton;
@@ -39,6 +40,12 @@ public class TestView extends BorderPane {
         questionsContainer = new VBox(20);
         questionsContainer.setPadding(new Insets(20));
 
+        // Center Section Scroll Pane
+        questionsScrollPane = new ScrollPane(questionsContainer);
+        questionsScrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+        questionsScrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        questionsScrollPane.setId("question-scroll-pane");
+
         // Bottom Section
         HBox bottomBox = new HBox(10);
         bottomBox.setPadding(new Insets(20));
@@ -54,12 +61,12 @@ public class TestView extends BorderPane {
         backButton.getStyleClass().add("nav-btn");
 
         nextButton = new Button("Weiter");
-        nextButton.setId("submit-btn");
+        nextButton.getStyleClass().add("nav-btn");
 
         bottomBox.getChildren().addAll(cancelButton, spacer, backButton, nextButton);
 
         this.setTop(topBox);
-        this.setCenter(questionsContainer);
+        this.setCenter(questionsScrollPane);
         this.setBottom(bottomBox);
 
         this.setPrefHeight(600.0);

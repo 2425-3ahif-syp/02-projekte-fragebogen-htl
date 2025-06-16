@@ -2,7 +2,6 @@
     -fx-border-color: #d5d5d5;
     -fx-border-width: 2px;
     -fx-background-color: #f4f4f4;
-
 }
 
 #submit-btn {
@@ -11,16 +10,24 @@
     -fx-background-color: #00af50;
 }
 
+#question-scroll-pane {
+    -fx-background-color: #f8f9fa;
+    -fx-border-color: none;
+}
+
+#question-scroll-pane .viewport {
+    -fx-background-color: #f8f9fa;
+}
+
 Button {
     -fx-pref-width: 100px;
 }
 
 .stop-btn {
     -fx-min-width: 200px;
-    -fx-background-color: #d07474;
-    -fx-border-color: #8d1818;
+    -fx-background-color: #ff7474;
     -fx-border-width: 2px;
-
+    -fx-text-fill: white;
 }
 
 .test-name-label {
