@@ -246,6 +246,8 @@ public class TestViewController {
 
                     Label tipsLabel = new Label("Hinweis: Geben Sie den Zähler und Nenner des Bruchs ein.");
                     tipsLabel.setPadding(new Insets(20, 0, 0, 0));
+                    tipsLabel.getStyleClass().add("tip-box");
+                    tipsLabel.setWrapText(true);
 
                     VBox answersBox = new VBox(15);
                     answersBox.setAlignment(Pos.CENTER_LEFT);
@@ -262,8 +264,10 @@ public class TestViewController {
                     decimalField.setPromptText("Nachkommastelle");
 
                     Label tipsLabel = new Label(
-                            "Hinweis: \n\n Angabe: \n 0035006300 \n\n kann werden zu: \n 35 , 0063 \n 0 , 350063 \n 350063 , ");
+                            "Hinweis: \n\n Angabe: \n 0035006300 \n\n Beispiele für Kommasetzung: \n 35 , 0063 \n 0 , 350063 \n 350063 , \n ...");
                     tipsLabel.setPadding(new Insets(20, 0, 0, 0));
+                    tipsLabel.getStyleClass().add("tip-box");
+                    tipsLabel.setWrapText(true);
 
                     preDecimalField.textProperty().addListener((_, __, newVal) -> {
                         if (!newVal.matches("\\d*")) {
