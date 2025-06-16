@@ -1,6 +1,7 @@
 package at.java.frontendevluationapp.controller;
 
 
+import at.java.frontendevluationapp.model.Score;
 import at.java.frontendevluationapp.model.TestResult;
 import at.java.frontendevluationapp.view.ClassOverviewView;
 import at.java.frontendevluationapp.view.NavbarView;
@@ -14,18 +15,16 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
-import java.util.TreeSet;
 
 public class ClassOverviewController {
 
     private ComboBox<Integer> testIdComboBox;
     private Label averagePointsLabel;
     private Label averagePercentageLabel;
+    private Label highestScoreLabel;
+    private Label lowestScoreLabel;
     private TableView<StudentEntry> studentTable;
 
     private static Stage primaryStage;
@@ -66,16 +65,36 @@ public class ClassOverviewController {
 
         if (resultsForTest.isEmpty()) {
             studentTable.setItems(FXCollections.observableArrayList());
-            averagePointsLabel.setText("Durchschnittliche Punkte: -");
+            averagePointsLabel.setText(ClassOverviewView.padTo60("Durchschnittliche Punkte: -"));
             averagePercentageLabel.setText("Durchschnittliche Prozentzahl: -");
+            highestScoreLabel.setText(ClassOverviewView.padTo60("Höchster Wert: -"));
+            lowestScoreLabel.setText("Niedrigster Wert: -");
             return;
+        }
+
+        Optional<TestResult> best = resultsForTest.stream()
+                .max(Comparator.comparingDouble(r -> r.getScore().getPercentage()));
+
+        Optional<TestResult> worst = resultsForTest.stream()
+                .min(Comparator.comparingDouble(r -> r.getScore().getPercentage()));
+
+        if (best.isPresent()) {
+            Score s = best.get().getScore();
+            highestScoreLabel.setText(ClassOverviewView.padTo60(String.format("Höchster Wert: %d / %d (%.1f%%)",
+                    s.getObtained(), s.getMax(), s.getPercentage())));
+        }
+
+        if (worst.isPresent()) {
+            Score s = worst.get().getScore();
+            lowestScoreLabel.setText(String.format("Niedrigster Wert: %d / %d (%.1f%%)",
+                    s.getObtained(), s.getMax(), s.getPercentage()));
         }
 
         int totalMax = resultsForTest.getFirst().getScore().getMax();
         double avgPoints = resultsForTest.stream().mapToInt(r -> r.getScore().getObtained()).average().orElse(0);
         double avgPercent = resultsForTest.stream().mapToDouble(r -> r.getScore().getPercentage()).average().orElse(0);
 
-        averagePointsLabel.setText(String.format("Durchschnittliche Punkte: %.2f / %d", avgPoints, totalMax));
+        averagePointsLabel.setText(ClassOverviewView.padTo60(String.format("Durchschnittliche Punkte: %.2f / %d", avgPoints, totalMax)));
         averagePercentageLabel.setText(String.format("Durchschnittliche Prozentzahl: %.2f%%", avgPercent));
 
         List<StudentEntry> entries = resultsForTest.stream()
@@ -146,4 +165,13 @@ public class ClassOverviewController {
     public void setStudentTable(TableView<StudentEntry> table) {
         this.studentTable = table;
     }
+
+    public void setHighestScoreLabel(Label label) {
+        this.highestScoreLabel = label;
+    }
+
+    public void setLowestScoreLabel(Label label) {
+        this.lowestScoreLabel = label;
+    }
+
 }

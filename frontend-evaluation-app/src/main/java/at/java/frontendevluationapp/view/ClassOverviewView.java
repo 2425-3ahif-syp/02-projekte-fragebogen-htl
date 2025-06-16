@@ -7,6 +7,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.control.Label;
@@ -18,6 +19,9 @@ public class ClassOverviewView extends BorderPane {
     private final Label averagePercentageLabel;
     private final TableView<ClassOverviewController.StudentEntry> studentTable;
     private final VBox contentBox;
+    private final Label highestScoreLabel;
+    private final Label lowestScoreLabel;
+
 
     private final ClassOverviewController controller;
 
@@ -28,10 +32,27 @@ public class ClassOverviewView extends BorderPane {
         testIdComboBox.setPromptText("Test auswählen...");
         testIdComboBox.setPrefWidth(250);
 
-        averagePointsLabel = new Label("Durchschnittliche Punkte: -");
-        averagePercentageLabel = new Label("Durchschnittliche Prozentzahl: -");
+        GridPane statGrid = new GridPane();
+        statGrid.setHgap(40);
+        statGrid.setVgap(5);
+        statGrid.setAlignment(Pos.CENTER_LEFT);
+        statGrid.setPadding(new Insets(10));
 
-        HBox topControls = new HBox(20, testIdComboBox, averagePointsLabel, averagePercentageLabel);
+        averagePointsLabel = new Label(padTo60("Durchschnittliche Punkte: -"));
+        averagePercentageLabel = new Label("Durchschnittliche Prozentzahl: -");
+        highestScoreLabel = new Label(padTo60("Höchster Wert: -"));
+        lowestScoreLabel = new Label("Niedrigster Wert: -");
+
+        statGrid.add(averagePointsLabel, 0, 0);
+        statGrid.add(averagePercentageLabel, 1, 0);
+        statGrid.add(highestScoreLabel, 0, 1);
+        statGrid.add(lowestScoreLabel, 1, 1);
+        VBox statBox = new VBox(5,
+                statGrid
+        );
+        statBox.setAlignment(Pos.CENTER_LEFT);
+
+        HBox topControls = new HBox(30, testIdComboBox, statBox);
         topControls.setPadding(new Insets(20));
         topControls.setAlignment(Pos.CENTER_LEFT);
 
@@ -63,5 +84,13 @@ public class ClassOverviewView extends BorderPane {
         controller.setAveragePointsLabel(averagePointsLabel);
         controller.setAveragePercentageLabel(averagePercentageLabel);
         controller.setStudentTable(studentTable);
+        controller.setHighestScoreLabel(highestScoreLabel);
+        controller.setLowestScoreLabel(lowestScoreLabel);
+
     }
+
+    public static String padTo60(String text) {
+        return String.format("%-60s", text);
+    }
+
 }
