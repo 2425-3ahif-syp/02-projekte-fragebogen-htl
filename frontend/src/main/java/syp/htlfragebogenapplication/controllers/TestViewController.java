@@ -9,22 +9,21 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import syp.htlfragebogenapplication.database.QuestionRepository;
+import syp.htlfragebogenapplication.database.AnswerRepository;
 import syp.htlfragebogenapplication.model.Question;
 import syp.htlfragebogenapplication.model.Test;
 import syp.htlfragebogenapplication.view.TestView;
+import syp.htlfragebogenapplication.view.TransitionAnimationView;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class TestViewController {
@@ -97,6 +96,18 @@ public class TestViewController {
     private void loadQuestions() {
         QuestionRepository questionRepository = new QuestionRepository();
         questions = questionRepository.getAllQuestionsFromTest(test.getId());
+
+        if (questions.size() != answerSelections.length) {
+            String[] newAnswerSelections = new String[questions.size()];
+            for (int i = 0; i < Math.min(answerSelections.length, questions.size()); i++) {
+                newAnswerSelections[i] = answerSelections[i];
+            }
+            for (int i = answerSelections.length; i < questions.size(); i++) {
+                newAnswerSelections[i] = "";
+            }
+            answerSelections = newAnswerSelections;
+            questionCount.setText("Frage: " + (currentQuestionIndex + 1) + "/" + questions.size());
+        }
     }
 
     private void displayCurrentQuestion() {
@@ -255,7 +266,8 @@ public class TestViewController {
                     fractionBox.setMaxWidth(100);
                     fractionBox.getChildren().addAll(numeratorField, fractionLine, denominatorField);
 
-                    Image infoImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/img/general/interrogation.png")));
+                    Image infoImage = new Image(
+                            Objects.requireNonNull(getClass().getResourceAsStream("/img/general/interrogation.png")));
                     ImageView infoIcon = new ImageView(infoImage);
                     infoIcon.setFitWidth(20);
                     infoIcon.setFitHeight(20);
@@ -285,7 +297,8 @@ public class TestViewController {
                     preDecimalField.setPromptText("Vorkommastelle");
                     decimalField.setPromptText("Nachkommastelle");
 
-                    Image infoImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/img/general/interrogation.png")));
+                    Image infoImage = new Image(
+                            Objects.requireNonNull(getClass().getResourceAsStream("/img/general/interrogation.png")));
                     ImageView infoIcon = new ImageView(infoImage);
                     infoIcon.setFitWidth(20);
                     infoIcon.setFitHeight(20);
@@ -293,7 +306,8 @@ public class TestViewController {
                     Label iconLabel = new Label("", infoIcon);
                     iconLabel.setContentDisplay(ContentDisplay.CENTER);
 
-                    Tooltip tooltip = new Tooltip("Hinweis: \n\n Angabe: \n 0035006300 \n\n Beispiele für Kommasetzung: \n 35 , 0063 \n 0 , 350063 \n 350063 , \n ...");
+                    Tooltip tooltip = new Tooltip(
+                            "Hinweis: \n\n Angabe: \n 0035006300 \n\n Beispiele für Kommasetzung: \n 35 , 0063 \n 0 , 350063 \n 350063 , \n ...");
                     tooltip.getStyleClass().add("tip-box");
                     tooltip.setShowDelay(Duration.ZERO);
                     tooltip.setHideDelay(Duration.millis(200));
@@ -373,7 +387,7 @@ public class TestViewController {
 
     private String loadTextResource(String resourcePath) {
         try (InputStream in = getClass().getResourceAsStream(resourcePath);
-             BufferedReader reader = new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8))) {
+                BufferedReader reader = new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8))) {
             return reader.lines().collect(Collectors.joining(" "));
         } catch (IOException | NullPointerException e) {
             e.printStackTrace();
@@ -436,8 +450,44 @@ public class TestViewController {
             timeline.stop();
         }
 
-        // Show test results view
-        TestResultViewController.show(primaryStage, test, questions, answerSelections, timeSeconds);
+        Map<Integer, String> correctAnswers = new HashMap<>();
+        try {
+            AnswerRepository answerRepository = new AnswerRepository();
+            correctAnswers = answerRepository.getCorrectAnswersMap();
+        } catch (Exception e) {
+            e.printStackTrace();
+            showErrorAlert("Error loading correct answers: " + e.getMessage());
+            return;
+        }
+
+        showAnimationTransition(correctAnswers);
+    }
+
+    private void showAnimationTransition(Map<Integer, String> correctAnswers) {
+        TransitionAnimationView transitionView = new TransitionAnimationView(
+                primaryStage, test, questions, answerSelections, correctAnswers, timeSeconds);
+
+        Scene transitionScene = new Scene(
+                transitionView, primaryStage.getScene().getWidth(), primaryStage.getScene().getHeight());
+
+        try {
+            transitionScene.getStylesheets().add(getClass()
+                    .getResource("/syp/htlfragebogenapplication/Base.css").toExternalForm());
+            transitionScene.getStylesheets().add(getClass()
+                    .getResource("/syp/htlfragebogenapplication/testview/test-result-view.css").toExternalForm());
+        } catch (Exception e) {
+            System.out.println("CSS file not found, continuing without styling");
+        }
+
+        primaryStage.setScene(transitionScene);
+    }
+
+    private void showErrorAlert(String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 
     public void onCancelButtonClicked() {
@@ -466,11 +516,11 @@ public class TestViewController {
             stage.setScene(scene);
         } catch (Exception e) {
             e.printStackTrace();
-            showErrorAlert("Could not load test view: " + e.getMessage());
+            showStaticErrorAlert("Could not load test view: " + e.getMessage());
         }
     }
 
-    private static void showErrorAlert(String message) {
+    private static void showStaticErrorAlert(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error");
         alert.setHeaderText(null);

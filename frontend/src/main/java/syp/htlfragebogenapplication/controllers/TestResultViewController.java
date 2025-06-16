@@ -1,6 +1,10 @@
 package syp.htlfragebogenapplication.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.util.Duration;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -22,6 +26,7 @@ import syp.htlfragebogenapplication.database.AnswerRepository;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 public class TestResultViewController {
@@ -643,74 +648,131 @@ public class TestResultViewController {
     }
 
     private void populateAndAnimateBars(HBox correctBar, HBox userBar) {
+        Timeline timeline = createAndAnimateProgressBars(
+                correctBar,
+                userBar,
+                questions,
+                userAnswers,
+                correctAnswers,
+                null,
+                5.0);
+
+        timeline.play();
+    }
+
+    /**
+     * Static method that can be reused by TransitionAnimationView to create and
+     * animate progress bars
+     * 
+     * @param correctBar        The HBox for correct answers bar
+     * @param userBar           The HBox for user answers bar
+     * @param questions         List of questions
+     * @param userAnswers       Array of user answers
+     * @param correctAnswers    Map of correct answers by question ID
+     * @param scoreLabel        Optional label to update with score count (can be
+     *                          null)
+     * @param animationDuration Duration of the animation in seconds
+     * @return Timeline to control the animation
+     */
+    public static javafx.animation.Timeline createAndAnimateProgressBars(
+            HBox correctBar,
+            HBox userBar,
+            List<Question> questions,
+            String[] userAnswers,
+            Map<Integer, String> correctAnswers,
+            Label scoreLabel,
+            double animationDuration) {
+
         correctBar.getChildren().clear();
-        userBar.getChildren().clear();
+        userBar.getChildren().clear(); 
+        int totalQuestions = Math.min(questions.size(), userAnswers.length);
 
-        int totalQuestions = questions.size();
-        double sectionWidth = 500.0 / totalQuestions;
+        double barWidth = correctBar.getPrefWidth();
+        double sectionWidth = barWidth / totalQuestions;
+        double lastSectionWidth = barWidth - (sectionWidth * (totalQuestions - 1));
 
+        AtomicInteger correctAnswerCount = new AtomicInteger(0);
         for (int i = 0; i < totalQuestions; i++) {
             Region correctSection = new Region();
-            correctSection.setMinWidth(sectionWidth);
-            correctSection.setPrefWidth(sectionWidth);
-            correctSection.setMaxWidth(sectionWidth);
-            correctSection.setMinHeight(20);
-            correctSection.setMaxHeight(20);
-            correctSection.setStyle("-fx-background-color: #3498db; -fx-opacity: 0;");
+            double currentSectionWidth = (i == totalQuestions - 1) ? lastSectionWidth : sectionWidth;
+
+            correctSection.setMinWidth(currentSectionWidth);
+            correctSection.setPrefWidth(currentSectionWidth);
+            correctSection.setMaxWidth(currentSectionWidth);
+            correctSection.setMinHeight(correctBar.getMinHeight());
+            correctSection.setMaxHeight(correctBar.getMaxHeight());
+            correctSection.getStyleClass().add("progress-section-correct");
+            correctSection.setOpacity(0);
             correctBar.getChildren().add(correctSection);
 
             Question q = questions.get(i);
             String correctValue = correctAnswers.get(q.getId());
             String givenValue = userAnswers[i];
-
-            boolean isCorrect = givenValue != null &&
-                    correctValue != null &&
-                    givenValue.equals(correctValue);
-
+            boolean isCorrect = givenValue != null && correctValue != null && givenValue.equals(correctValue);
             Region userSection = new Region();
-            userSection.setMinWidth(sectionWidth);
-            userSection.setPrefWidth(sectionWidth);
-            userSection.setMaxWidth(sectionWidth);
-            userSection.setMinHeight(20);
-            userSection.setMaxHeight(20);
+            userSection.setMinWidth(currentSectionWidth);
+            userSection.setPrefWidth(currentSectionWidth);
+            userSection.setMaxWidth(currentSectionWidth);
+            userSection.setMinHeight(userBar.getMinHeight());
+            userSection.setMaxHeight(userBar.getMaxHeight());
 
-            String color;
             if (givenValue == null || givenValue.trim().isEmpty()) {
-                color = "#a0a0a0"; // Grey for unanswered
+                userSection.getStyleClass().add("progress-section-user-unanswered");
             } else if (isCorrect) {
-                color = "#2ecc71"; // Green for correct
+                userSection.getStyleClass().add("progress-section-user-correct");
+                if (scoreLabel != null) {
+                    correctAnswerCount.incrementAndGet();
+                }
             } else {
-                color = "#e74c3c"; // Red for wrong
+                userSection.getStyleClass().add("progress-section-user-wrong");
             }
 
-            userSection.setStyle("-fx-background-color: " + color + "; -fx-opacity: 0;");
+            userSection.setOpacity(0);
             userBar.getChildren().add(userSection);
         }
 
-        javafx.animation.Timeline timeline = new javafx.animation.Timeline();
+        Timeline timeline = new Timeline();
 
-        // Total animation time: 5 seconds
-        double animationTimePerQuestion = 5.0 / totalQuestions;
+        double animationTimePerQuestion = animationDuration / totalQuestions;
 
         for (int i = 0; i < totalQuestions; i++) {
-            final int index = i; 
-            javafx.animation.KeyFrame correctKeyFrame = new javafx.animation.KeyFrame(
-                    javafx.util.Duration.seconds((i + 1) * animationTimePerQuestion),
+            final int index = i;
+
+            KeyFrame frame = new KeyFrame(
+                    Duration.seconds((i + 1) * animationTimePerQuestion),
                     _ -> {
-                        Region section = (Region) correctBar.getChildren().get(index);
-                        section.setStyle(section.getStyle().replace("opacity: 0", "opacity: 1"));
+                        Region correctSection = (Region) correctBar.getChildren().get(index);
+                        Region userSection = (Region) userBar.getChildren().get(index);
+
+                        correctSection.setOpacity(1);
+                        userSection.setOpacity(1);
+
+                        if (scoreLabel != null) {
+                            int updatedCount = calculateCorrectCountUpTo(index + 1, questions, userAnswers,
+                                    correctAnswers);
+                            scoreLabel.setText(String.valueOf(updatedCount));
+                        }
                     });
 
-            javafx.animation.KeyFrame userKeyFrame = new javafx.animation.KeyFrame(
-                    javafx.util.Duration.seconds((i + 1) * animationTimePerQuestion),
-                    _ -> {
-                        Region section = (Region) userBar.getChildren().get(index);
-                        section.setStyle(section.getStyle().replace("opacity: 0", "opacity: 1"));
-                    });
-
-            timeline.getKeyFrames().addAll(correctKeyFrame, userKeyFrame);
+            timeline.getKeyFrames().add(frame);
         }
 
-        timeline.play();
+        return timeline;
+    }
+
+    private static int calculateCorrectCountUpTo(int endIndex, List<Question> questions,
+            String[] userAnswers, Map<Integer, String> correctAnswers) {
+        int count = 0;
+        int limit = Math.min(endIndex, Math.min(questions.size(), userAnswers.length));
+        for (int i = 0; i < limit; i++) {
+            Question q = questions.get(i);
+            String correctValue = correctAnswers.get(q.getId());
+            String givenValue = userAnswers[i];
+            boolean isCorrect = givenValue != null && correctValue != null && givenValue.equals(correctValue);
+            if (isCorrect) {
+                count++;
+            }
+        }
+        return count;
     }
 }

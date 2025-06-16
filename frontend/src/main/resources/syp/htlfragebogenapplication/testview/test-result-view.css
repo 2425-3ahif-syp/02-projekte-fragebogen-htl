@@ -138,6 +138,8 @@ test-start-btn {
 .user-answer-label, .correct-answer-label {
     -fx-text-fill: #000000;
     -fx-font-weight: bold;
+    -fx-wrap-text: true;  /* Enable text wrapping for long answers */
+    -fx-min-width: 150px; /* Ensure enough space for label text */
 }
 
 .text-flow {
@@ -269,14 +271,14 @@ test-start-btn {
 }
 
 .bar-label {
-    -fx-font-size: 14px;
+    -fx-font-size: 16px;
     -fx-font-weight: bold;
-    -fx-min-width: 150px;
+    -fx-min-width: 180px;  /* Increased width to prevent text from being cut off */
     -fx-text-fill: #2c3e50;
 }
 
 .correct-bar, .user-bar {
-    -fx-background-color: #f0f0f0;
+    -fx-background-color: #f5f5f5;
     -fx-border-color: #e0e0e0;
     -fx-border-width: 1px;
     -fx-border-radius: 3px;
@@ -284,34 +286,72 @@ test-start-btn {
     -fx-padding: 0;
 }
 
-.correct-bar > Region {
+/* Transition Animation View Styles */
+/* Added from transition-animation.css */
+.progress-section-correct {
     -fx-background-color: #3498db;
     -fx-background-radius: 0;
     -fx-border-width: 0 1px 0 0;
-    -fx-border-color: #f0f0f0;
-    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 2, 0, 0, 1);
+    -fx-border-color: rgba(255, 255, 255, 0.3);
+    -fx-padding: 0;
 }
 
-.user-bar > Region {
-    -fx-background-radius: 0;
-    -fx-border-width: 0 1px 0 0;
-    -fx-border-color: #f0f0f0;
-    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 2, 0, 0, 1);
-}
-
-/* These will be set dynamically in code */
-.correct {
-    -fx-background-color: #3498db;
-}
-
-.correct-answer {
+.progress-section-user-correct {
     -fx-background-color: #2ecc71;
+    -fx-background-radius: 0;
+    -fx-border-width: 0 1px 0 0;
+    -fx-border-color: rgba(255, 255, 255, 0.5);
 }
 
-.wrong-answer {
+.progress-section-user-wrong {
     -fx-background-color: #e74c3c;
+    -fx-background-radius: 0;
+    -fx-border-width: 0 1px 0 0;
+    -fx-border-color: rgba(255, 255, 255, 0.5);
 }
 
-.no-answer {
+.progress-section-user-unanswered {
     -fx-background-color: #a0a0a0;
+    -fx-background-radius: 0;
+    -fx-border-width: 0 1px 0 0;
+    -fx-border-color: rgba(255, 255, 255, 0.5);
+}
+
+.animated-bar {
+    -fx-background-color: #f5f5f5;
+    -fx-border-color: #e0e0e0;
+    -fx-border-width: 1px;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-padding: 0;
+    -fx-spacing: 0;
+    -fx-alignment: center-left;
+    -fx-fill-width: true;
+}
+
+/* Specific styles for transition animation view */
+.transition-animation-view {
+    -fx-background-color: white;
+}
+
+.title-label {
+    -fx-font-size: 36px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2c3e50;
+}
+
+.subtitle-label {
+    -fx-font-size: 24px;
+    -fx-text-fill: #34495e;
+}
+
+.score-label {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #3498db;
+}
+
+.score-box {
+    -fx-padding: 20px;
+    -fx-alignment: center;
 }
