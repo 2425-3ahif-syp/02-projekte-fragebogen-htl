@@ -19,6 +19,11 @@
     -fx-background-color: #f8f9fa;
 }
 
+#questions-container {
+    -fx-border-color: black;
+    -fx-alignment: center;
+}
+
 Button {
     -fx-pref-width: 100px;
 }
@@ -33,4 +38,8 @@ Button {
 .test-name-label {
     -fx-font-size: 24;
     -fx-font-weight: bold;
+}
+
+.tip-box {
+
 }

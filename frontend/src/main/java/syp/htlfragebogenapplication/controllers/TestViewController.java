@@ -144,6 +144,7 @@ public class TestViewController {
                     flow.getChildren().add(cell);
 
                 }
+                flow.setAlignment(Pos.CENTER);
                 answersPane = flow;
             } else {
                 String imagePath = getClass().getResource(currentQuestion.getImagePath()).toExternalForm();
@@ -175,6 +176,7 @@ public class TestViewController {
                         answersBox.getChildren().add(rb);
                     }
 
+                    answersBox.setAlignment(Pos.CENTER);
                     answersPane = answersBox;
                 } else if ("Number Field".equals(answerTypeName)) {
                     TextField numberField = new TextField();
@@ -196,6 +198,7 @@ public class TestViewController {
                     numberBox.setPadding(new Insets(10, 0, 0, 0));
                     numberBox.getChildren().add(numberField);
 
+                    numberBox.setAlignment(Pos.CENTER);
                     answersPane = numberBox;
                 } else if ("Fraction".equals(answerTypeName)) {
                     TextField numeratorField = new TextField();
@@ -249,6 +252,7 @@ public class TestViewController {
                     answersBox.setPadding(new Insets(10, 0, 0, 0));
                     answersBox.getChildren().addAll(fractionBox, tipsLabel);
 
+                    answersBox.setAlignment(Pos.CENTER);
                     answersPane = answersBox;
                 } else if ("Set Comma".equals(answerTypeName)) {
                     TextField preDecimalField = new TextField();
@@ -258,7 +262,7 @@ public class TestViewController {
                     decimalField.setPromptText("Nachkommastelle");
 
                     Label tipsLabel = new Label(
-                            "Tipps für Antworteingabe dieses Tests: \n\n Angabe: \n 0035006300 \n\n kann werden zu: \n 35 , 0063 \n 0 , 350063 \n 350063 , ");
+                            "Hinweis: \n\n Angabe: \n 0035006300 \n\n kann werden zu: \n 35 , 0063 \n 0 , 350063 \n 350063 , ");
                     tipsLabel.setPadding(new Insets(20, 0, 0, 0));
 
                     preDecimalField.textProperty().addListener((_, __, newVal) -> {
@@ -284,12 +288,12 @@ public class TestViewController {
                     }
 
                     HBox commaBox = new HBox(15);
-                    commaBox.setAlignment(Pos.CENTER_LEFT);
+                    commaBox.setAlignment(Pos.CENTER);
                     commaBox.setPadding(new Insets(10, 0, 0, 0));
                     commaBox.getChildren().addAll(preDecimalField, commaLabel, decimalField);
 
                     VBox answersBox = new VBox(15);
-                    answersBox.setAlignment(Pos.CENTER_LEFT);
+                    answersBox.setAlignment(Pos.CENTER);
                     answersBox.setPadding(new Insets(10, 0, 0, 0));
                     answersBox.getChildren().addAll(commaBox, tipsLabel);
 

@@ -1,6 +1,7 @@
 package syp.htlfragebogenapplication.view;
 
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import syp.htlfragebogenapplication.controllers.TestViewController;
@@ -39,6 +40,8 @@ public class TestView extends BorderPane {
         // Center Section - Questions Container
         questionsContainer = new VBox(20);
         questionsContainer.setPadding(new Insets(20));
+        questionsContainer.setPrefWidth(1400);
+        questionsContainer.setId("questions-container");
 
         // Center Section Scroll Pane
         questionsScrollPane = new ScrollPane(questionsContainer);
@@ -70,7 +73,7 @@ public class TestView extends BorderPane {
         this.setBottom(bottomBox);
 
         this.setPrefHeight(600.0);
-        this.setPrefWidth(800.0);
+        this.setPrefWidth(questionsContainer.getPrefWidth());
 
         connectController();
     }
