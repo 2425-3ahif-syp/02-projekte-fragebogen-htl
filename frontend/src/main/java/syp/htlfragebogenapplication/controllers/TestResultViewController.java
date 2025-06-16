@@ -21,10 +21,7 @@ import syp.htlfragebogenapplication.database.AnswerRepository;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class TestResultViewController {
@@ -496,7 +493,23 @@ public class TestResultViewController {
     }
 
     public void onDownloadButtonClicked() throws JsonProcessingException {
+        // Prompt for student name
+        TextInputDialog nameDialog = new TextInputDialog();
+        nameDialog.setTitle("Name eingeben");
+        nameDialog.setHeaderText("Bitte geben Sie Ihren Namen ein");
+        nameDialog.setContentText("Name:");
+
+        Optional<String> nameResult = nameDialog.showAndWait();
+        if (nameResult.isEmpty() || nameResult.get().trim().isEmpty()) {
+            showErrorAlert("Sie müssen einen Namen eingeben, um den Download zu starten.");
+            return;
+        }
+
+        String studentName = nameResult.get().trim();
+
+        // Create result structure
         Map<String, Object> result = new HashMap<>();
+        result.put("studentName", studentName); // Add student name here
         result.put("testId", test.getId());
         result.put("testName", test.getName());
 
@@ -516,9 +529,12 @@ public class TestResultViewController {
 
         result.put("questions", questionList);
 
-        String json = new com.fasterxml.jackson.databind.ObjectMapper().writerWithDefaultPrettyPrinter()
+        // Serialize to JSON
+        String json = new com.fasterxml.jackson.databind.ObjectMapper()
+                .writerWithDefaultPrettyPrinter()
                 .writeValueAsString(result);
 
+        // Save file dialog
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Testergebnisse speichern");
         fileChooser.setInitialFileName("test_results.json");
