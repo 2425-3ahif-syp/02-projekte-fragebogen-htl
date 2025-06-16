@@ -34,6 +34,7 @@ public class TestViewController {
     private Button cancelButton;
     private Label questionCount;
     private Label timeCount;
+    private Label descriptionLabel;
 
     private static Stage primaryStage;
 
@@ -74,11 +75,16 @@ public class TestViewController {
         this.timeCount = timeCount;
     }
 
+    public void setDescriptionLabel(Label descriptionLabel) {
+        this.descriptionLabel = descriptionLabel;
+    }
+
     public void initData(Test test) {
         this.test = test;
         testNameLabel.setText(test.getName());
         questionCount.setText("Frage: " + (currentQuestionIndex + 1) + "/" + test.getQuestionCount());
         answerSelections = new String[test.getQuestionCount()];
+        descriptionLabel.setText(test.getDescription());
         Arrays.fill(answerSelections, "");
 
         loadQuestions();

@@ -39,6 +39,11 @@ Button {
     -fx-font-weight: bold;
 }
 
+.test-description-label {
+    -fx-font-size: 16;
+    -fx-text-fill: #666666;
+}
+
 .tip-box {
     -fx-font-size: 14px;
     -fx-text-fill: #333333;

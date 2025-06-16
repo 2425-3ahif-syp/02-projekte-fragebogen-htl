@@ -17,6 +17,7 @@ public class TestView extends BorderPane {
     private final Label questionCount;
     private final Label timeCount;
     private final TestViewController controller;
+    private final Label descriptionLabel;
 
     public TestView(TestViewController controller) {
         this.controller = controller;
@@ -28,6 +29,9 @@ public class TestView extends BorderPane {
         testNameLabel = new Label();
         testNameLabel.getStyleClass().add("test-name-label");
 
+        descriptionLabel = new Label();
+        descriptionLabel.getStyleClass().add("test-description-label");
+
         HBox timeBox = new HBox(20);
         timeCount = new Label("Zeit: 00:00");
         questionCount = new Label();
@@ -35,7 +39,7 @@ public class TestView extends BorderPane {
 
         Separator separator = new Separator();
 
-        topBox.getChildren().addAll(testNameLabel, timeBox, separator);
+        topBox.getChildren().addAll(testNameLabel, descriptionLabel, timeBox, separator);
 
         // Center Section - Questions Container
         questionsContainer = new VBox(20);
@@ -92,6 +96,7 @@ public class TestView extends BorderPane {
         controller.setBackButton(backButton);
         controller.setCancelButton(cancelButton);
         controller.setQuestionCount(questionCount);
+        controller.setDescriptionLabel(descriptionLabel);
         controller.setTimeCount(timeCount);
     }
 
@@ -122,5 +127,9 @@ public class TestView extends BorderPane {
 
     public Label getTimeCount() {
         return timeCount;
+    }
+
+    public Label getDescriptionLabel() {
+        return descriptionLabel;
     }
 }
