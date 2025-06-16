@@ -8,10 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import syp.htlfragebogenapplication.database.QuestionRepository;
@@ -144,8 +141,14 @@ public class TestViewController {
                     flow.getChildren().add(cell);
 
                 }
-                flow.setAlignment(Pos.CENTER);
-                answersPane = flow;
+
+                VBox wrapper = new VBox(flow);
+                wrapper.setAlignment(Pos.CENTER);
+                wrapper.setPrefWidth(Region.USE_COMPUTED_SIZE);
+                wrapper.setPrefHeight(Region.USE_COMPUTED_SIZE);
+                VBox.setVgrow(wrapper, Priority.ALWAYS);
+
+                answersPane = wrapper;
             } else {
                 String imagePath = getClass().getResource(currentQuestion.getImagePath()).toExternalForm();
                 ImageView imageView = new ImageView(new Image(imagePath));
@@ -308,6 +311,7 @@ public class TestViewController {
                 }
             }
             questionsContainer.getChildren().add(answersPane);
+            questionsContainer.setAlignment(Pos.CENTER);
         }
     }
 
@@ -341,7 +345,7 @@ public class TestViewController {
 
     private String loadTextResource(String resourcePath) {
         try (InputStream in = getClass().getResourceAsStream(resourcePath);
-                BufferedReader reader = new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8))) {
+             BufferedReader reader = new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8))) {
             return reader.lines().collect(Collectors.joining(" "));
         } catch (IOException | NullPointerException e) {
             e.printStackTrace();

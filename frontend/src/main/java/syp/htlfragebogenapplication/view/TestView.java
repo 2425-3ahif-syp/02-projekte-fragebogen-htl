@@ -39,15 +39,18 @@ public class TestView extends BorderPane {
 
         // Center Section - Questions Container
         questionsContainer = new VBox(20);
-        questionsContainer.setPadding(new Insets(20));
-        questionsContainer.setPrefWidth(1400);
+        questionsContainer.setPadding(new Insets(50));
+        questionsContainer.setMinWidth(Region.USE_COMPUTED_SIZE);
         questionsContainer.setId("questions-container");
+        questionsContainer.setAlignment(Pos.CENTER);
 
         // Center Section Scroll Pane
         questionsScrollPane = new ScrollPane(questionsContainer);
         questionsScrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
         questionsScrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         questionsScrollPane.setId("question-scroll-pane");
+        questionsScrollPane.setFitToWidth(true);
+
 
         // Bottom Section
         HBox bottomBox = new HBox(10);
