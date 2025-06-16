@@ -360,7 +360,8 @@ public class TestViewController {
     }
 
     private String collectTextAnswer() {
-        FlowPane flow = (FlowPane) questionsContainer.getChildren().getFirst();
+        VBox wrapper = (VBox) questionsContainer.getChildren().getFirst();
+        FlowPane flow = (FlowPane) wrapper.getChildren().getFirst();
 
         return flow.getChildren().stream().filter(node -> node instanceof HBox).map(node -> {
             HBox cell = (HBox) node;
