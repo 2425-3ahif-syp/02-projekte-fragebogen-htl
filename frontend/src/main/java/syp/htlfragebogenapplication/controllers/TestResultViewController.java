@@ -1,5 +1,6 @@
 package syp.htlfragebogenapplication.controllers;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -10,6 +11,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import syp.htlfragebogenapplication.utils.FractionUtils;
 import syp.htlfragebogenapplication.view.TestResultView;
@@ -17,10 +19,7 @@ import syp.htlfragebogenapplication.model.Question;
 import syp.htlfragebogenapplication.model.Test;
 import syp.htlfragebogenapplication.database.AnswerRepository;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -39,6 +38,7 @@ public class TestResultViewController {
     private Button backToMainButton;
     private Button reviewQuestionsButton;
     private Button backToResultsButton;
+    private Button downloadButton;
 
     private static Stage primaryStage;
 
@@ -101,6 +101,10 @@ public class TestResultViewController {
         filterQuestions(searchField.getText(), showWrongOnly);
     }
 
+    public void setDownloadButton(Button downloadButton) {
+        this.downloadButton = downloadButton;
+    }
+
     private void filterQuestions(String searchText, boolean showWrongOnly) {
         // Use the helper class to filter questions
         FilterQuestions.filter(
@@ -138,7 +142,7 @@ public class TestResultViewController {
 
         String answerTypeName = questions.getFirst().getAnswerType().getName();
 
-        int percentage = percentageSum / totalQuestions;
+        int percentage = Math.round((float) percentageSum / totalQuestions);
         boolean isPassed = "Text".equals(answerTypeName) ? percentage >= 95 : percentage >= 70;
 
         // Status icon and label (smaller)
@@ -502,6 +506,46 @@ public class TestResultViewController {
     public void onBackToMainButtonClicked() {
         MainViewController.show(primaryStage);
     }
+
+    public void onDownloadButtonClicked() throws JsonProcessingException {
+        Map<String, Object> result = new HashMap<>();
+        result.put("testId", test.getId());
+        result.put("testName", test.getName());
+
+        Map<String, Object> scoreMap = new HashMap<>();
+        scoreMap.put("obtained", score);
+        scoreMap.put("max", totalQuestions);
+        scoreMap.put("percentage", percentageSum / (double) totalQuestions);
+        result.put("score", scoreMap);
+
+        List<Map<String, String>> questionList = questions.stream().map(q -> {
+            Map<String, String> qMap = new HashMap<>();
+            qMap.put("questionId", String.valueOf(q.getNumInTest()));
+            qMap.put("givenAnswer", userAnswers[q.getNumInTest() - 1]);
+            qMap.put("correctAnswer", correctAnswers.get(q.getId()));
+            return qMap;
+        }).collect(Collectors.toList());
+
+        result.put("questions", questionList);
+
+        String json = new com.fasterxml.jackson.databind.ObjectMapper().writerWithDefaultPrettyPrinter()
+                .writeValueAsString(result);
+
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Testergebnisse speichern");
+        fileChooser.setInitialFileName("test_results.json");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("JSON", "*.json"));
+        File file = fileChooser.showSaveDialog(primaryStage);
+
+        if (file != null) {
+            try (FileWriter writer = new FileWriter(file)) {
+                writer.write(json);
+            } catch (IOException e) {
+                showErrorAlert("Fehler beim Speichern: " + e.getMessage());
+            }
+        }
+    }
+
 
     public static void show(Stage stage, Test test, List<Question> questions, String[] userAnswers, int timeSeconds) {
         try {

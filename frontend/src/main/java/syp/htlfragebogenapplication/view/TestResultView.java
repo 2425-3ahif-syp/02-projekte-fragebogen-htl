@@ -1,5 +1,6 @@
 package syp.htlfragebogenapplication.view;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -25,6 +26,7 @@ public class TestResultView extends BorderPane {
     private final VBox questionReviewContainer;
     private final TextField searchField;
     private final CheckBox showWrongOnlyCheckBox;
+    private final Button downloadButton;
 
     public TestResultView(TestResultViewController controller) {
         this.controller = controller;
@@ -92,8 +94,14 @@ public class TestResultView extends BorderPane {
         StackPane bottomPane = new StackPane();
         bottomPane.getStyleClass().add("fixed-bottom-pane");
 
+        HBox buttonRow = new HBox(10);
+        buttonRow.setAlignment(Pos.CENTER);
         backToMainButton = new Button("Zurück zur Startseite");
         backToMainButton.getStyleClass().add("main-btn");
+        downloadButton = new Button("Download Ergebnis");
+        downloadButton.getStyleClass().add("main-btn");
+        buttonRow.getChildren().addAll(downloadButton, backToMainButton);
+
 
         reviewQuestionsButton = new Button("Antworten anschauen");
         reviewQuestionsButton.getStyleClass().add("review-btn");
@@ -105,7 +113,7 @@ public class TestResultView extends BorderPane {
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);
 
-        bottomBox.getChildren().addAll(spacer, backToResultsButton, reviewQuestionsButton, backToMainButton);
+        bottomBox.getChildren().addAll(spacer, backToResultsButton, reviewQuestionsButton, buttonRow);
         bottomPane.getChildren().add(bottomBox);
         this.setTop(topBox);
         this.setCenter(contentContainer);
@@ -123,6 +131,13 @@ public class TestResultView extends BorderPane {
 
     private void connectController() {
         backToMainButton.setOnAction(e -> controller.onBackToMainButtonClicked());
+        downloadButton.setOnAction(e -> {
+            try {
+                controller.onDownloadButtonClicked();
+            } catch (JsonProcessingException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
         // Remove reviewQuestionsButton and backToResultsButton actions since they are
         // not needed anymore
         // Remove their visibility toggling as well
@@ -151,6 +166,7 @@ public class TestResultView extends BorderPane {
         controller.setSearchField(searchField);
         controller.setShowWrongOnlyCheckBox(showWrongOnlyCheckBox);
         controller.setBackToMainButton(backToMainButton);
+        controller.setDownloadButton(downloadButton);
         controller.setReviewQuestionsButton(reviewQuestionsButton);
         controller.setBackToResultsButton(backToResultsButton);
     } // Getters

@@ -5,6 +5,9 @@ module syp.htlfragebogenapplication {
     requires com.h2database;
     requires transitive javafx.graphics;
 
+    requires com.fasterxml.jackson.core;
+    requires com.fasterxml.jackson.databind;
+
     exports syp.htlfragebogenapplication.controllers;
     exports syp.htlfragebogenapplication.view;
     exports syp.htlfragebogenapplication.model;
