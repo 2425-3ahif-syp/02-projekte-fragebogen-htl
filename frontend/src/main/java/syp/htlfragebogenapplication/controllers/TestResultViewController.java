@@ -182,7 +182,6 @@ public class TestResultViewController {
         percentageLabel.setTextFill(isPassed ? Color.web("#00af50") : Color.web("#d07474"));
         percentageLabel.getStyleClass().add("percentage-label");
 
-
         // Create a progress bar visual (smaller)
         HBox progressBar = new HBox();
         progressBar.getStyleClass().add("progress-bar-container");
@@ -217,7 +216,12 @@ public class TestResultViewController {
         spacer2.setPrefHeight(8);
 
         Region spacer3 = new Region();
-        spacer3.setPrefHeight(5);
+        spacer3.setPrefHeight(5); // Create the animated progress bars
+        VBox animatedBars = createAnimatedResultBars();
+
+        // Add a spacer before the animated bars
+        Region spacer4 = new Region();
+        spacer4.setPrefHeight(15);
 
         resultsBox.getChildren().addAll(
                 statusLabel,
@@ -227,7 +231,9 @@ public class TestResultViewController {
                 spacer2,
                 percentageBox,
                 spacer3,
-                timeBox);
+                timeBox,
+                spacer4,
+                animatedBars);
 
         scoreContainer.setCenter(resultsBox);
 
@@ -550,7 +556,6 @@ public class TestResultViewController {
         }
     }
 
-
     public static void show(Stage stage, Test test, List<Question> questions, String[] userAnswers, int timeSeconds) {
         try {
             primaryStage = stage;
@@ -583,5 +588,129 @@ public class TestResultViewController {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+
+    private VBox createAnimatedResultBars() {
+        VBox progressBarsContainer = new VBox(10);
+        progressBarsContainer.setAlignment(Pos.CENTER);
+        progressBarsContainer.setPadding(new Insets(10, 0, 10, 0));
+        progressBarsContainer.setMaxWidth(600);
+        progressBarsContainer.getStyleClass().add("progress-bars-container");
+
+        // Create the top bar (correct answers)
+        HBox correctBarContainer = new HBox();
+        correctBarContainer.setAlignment(Pos.CENTER_LEFT);
+        correctBarContainer.setMinHeight(20);
+        correctBarContainer.setMaxHeight(20);
+        correctBarContainer.getStyleClass().add("correct-bar-container");
+
+        Label correctLabel = new Label("Richtige Antworten: ");
+        correctLabel.getStyleClass().add("bar-label");
+
+        HBox correctBar = new HBox();
+        correctBar.setMinHeight(20);
+        correctBar.setMaxHeight(20);
+        correctBar.setPrefWidth(500);
+        correctBar.getStyleClass().add("correct-bar");
+        HBox.setHgrow(correctBar, Priority.ALWAYS);
+
+        correctBarContainer.getChildren().addAll(correctLabel, correctBar);
+
+        // Create the bottom bar (user answers)
+        HBox userBarContainer = new HBox();
+        userBarContainer.setAlignment(Pos.CENTER_LEFT);
+        userBarContainer.setMinHeight(20);
+        userBarContainer.setMaxHeight(20);
+        userBarContainer.getStyleClass().add("user-bar-container");
+
+        Label userLabel = new Label("Deine Antworten: ");
+        userLabel.getStyleClass().add("bar-label");
+
+        HBox userBar = new HBox();
+        userBar.setMinHeight(20);
+        userBar.setMaxHeight(20);
+        userBar.setPrefWidth(500);
+        userBar.getStyleClass().add("user-bar");
+        HBox.setHgrow(userBar, Priority.ALWAYS);
+
+        userBarContainer.getChildren().addAll(userLabel, userBar);
+
+        progressBarsContainer.getChildren().addAll(correctBarContainer, userBarContainer);
+
+        populateAndAnimateBars(correctBar, userBar);
+
+        return progressBarsContainer;
+    }
+
+    private void populateAndAnimateBars(HBox correctBar, HBox userBar) {
+        correctBar.getChildren().clear();
+        userBar.getChildren().clear();
+
+        int totalQuestions = questions.size();
+        double sectionWidth = 500.0 / totalQuestions;
+
+        for (int i = 0; i < totalQuestions; i++) {
+            Region correctSection = new Region();
+            correctSection.setMinWidth(sectionWidth);
+            correctSection.setPrefWidth(sectionWidth);
+            correctSection.setMaxWidth(sectionWidth);
+            correctSection.setMinHeight(20);
+            correctSection.setMaxHeight(20);
+            correctSection.setStyle("-fx-background-color: #3498db; -fx-opacity: 0;");
+            correctBar.getChildren().add(correctSection);
+
+            Question q = questions.get(i);
+            String correctValue = correctAnswers.get(q.getId());
+            String givenValue = userAnswers[i];
+
+            boolean isCorrect = givenValue != null &&
+                    correctValue != null &&
+                    givenValue.equals(correctValue);
+
+            Region userSection = new Region();
+            userSection.setMinWidth(sectionWidth);
+            userSection.setPrefWidth(sectionWidth);
+            userSection.setMaxWidth(sectionWidth);
+            userSection.setMinHeight(20);
+            userSection.setMaxHeight(20);
+
+            String color;
+            if (givenValue == null || givenValue.trim().isEmpty()) {
+                color = "#a0a0a0"; // Grey for unanswered
+            } else if (isCorrect) {
+                color = "#2ecc71"; // Green for correct
+            } else {
+                color = "#e74c3c"; // Red for wrong
+            }
+
+            userSection.setStyle("-fx-background-color: " + color + "; -fx-opacity: 0;");
+            userBar.getChildren().add(userSection);
+        }
+
+        javafx.animation.Timeline timeline = new javafx.animation.Timeline();
+
+        // Total animation time: 5 seconds
+        double animationTimePerQuestion = 5.0 / totalQuestions;
+
+        for (int i = 0; i < totalQuestions; i++) {
+            final int index = i; 
+            javafx.animation.KeyFrame correctKeyFrame = new javafx.animation.KeyFrame(
+                    javafx.util.Duration.seconds((i + 1) * animationTimePerQuestion),
+                    _ -> {
+                        Region section = (Region) correctBar.getChildren().get(index);
+                        section.setStyle(section.getStyle().replace("opacity: 0", "opacity: 1"));
+                    });
+
+            javafx.animation.KeyFrame userKeyFrame = new javafx.animation.KeyFrame(
+                    javafx.util.Duration.seconds((i + 1) * animationTimePerQuestion),
+                    _ -> {
+                        Region section = (Region) userBar.getChildren().get(index);
+                        section.setStyle(section.getStyle().replace("opacity: 0", "opacity: 1"));
+                    });
+
+            timeline.getKeyFrames().addAll(correctKeyFrame, userKeyFrame);
+        }
+
+        timeline.play();
     }
 }
