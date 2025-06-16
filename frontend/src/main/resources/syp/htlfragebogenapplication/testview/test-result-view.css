@@ -78,6 +78,7 @@ Button {
     -fx-padding: 15px;
     -fx-alignment: center;
     -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.15), 15, 0, 0, 8);
+    -fx-text-fill: black;
 }
 
 /* Search and filter controls */
@@ -103,14 +104,20 @@ Button {
 }
 
 .question-scroll-pane {
-    -fx-background: transparent;
-    -fx-background-color: transparent;
+    -fx-background-color: #ffffff;
     -fx-padding: 10px 0;
+    -fx-text-fill: black;
 }
 
 .question-scroll-pane > .viewport {
-    -fx-background-color: transparent;
+    -fx-background-color: #ffffff;
 }
+
+.scroll-pane .viewport .content {
+    -fx-background-color: #ffffff;
+    -fx-text-fill: #444;
+}
+
 
 .question-count-label {
     -fx-font-size: 14px;

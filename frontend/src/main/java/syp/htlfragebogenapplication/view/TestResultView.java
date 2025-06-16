@@ -4,13 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
-import javafx.scene.text.TextAlignment;
 import syp.htlfragebogenapplication.controllers.TestResultViewController;
 
 public class TestResultView extends BorderPane {
@@ -22,35 +16,40 @@ public class TestResultView extends BorderPane {
     private final Button backToResultsButton;
     private final TestResultViewController controller;
     private final BorderPane scoreContainer;
-    private final ScrollPane questionScrollPane;
     private final VBox questionReviewContainer;
     private final TextField searchField;
     private final CheckBox showWrongOnlyCheckBox;
     private final Button downloadButton;
+    private final ScrollPane scrollPane;
 
     public TestResultView(TestResultViewController controller) {
         this.controller = controller;
 
-        // Top Section
-        VBox topBox = new VBox(10);
-        topBox.setPadding(new Insets(20));
+        // Scrollable content container
+        contentContainer = new VBox(20);
+        contentContainer.setPadding(new Insets(20));
+        contentContainer.setAlignment(Pos.TOP_CENTER);
+        contentContainer.setFillWidth(true);
+        contentContainer.setMinSize(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE);
+        contentContainer.setPrefSize(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE);
+        contentContainer.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+        contentContainer.getStyleClass().add("content");
 
+        // Top Section
         testNameLabel = new Label();
         testNameLabel.getStyleClass().add("result-title-label");
 
         Separator separator = new Separator();
+        VBox topBox = new VBox(10, testNameLabel, separator);
+        topBox.setPadding(new Insets(20));
+        contentContainer.getChildren().add(topBox);
 
-        topBox.getChildren().addAll(testNameLabel, separator);
-
-        // Center Section - Content Container
-        contentContainer = new VBox(20);
-        contentContainer.setPadding(new Insets(20));
-        contentContainer.setAlignment(Pos.CENTER); // Score container for displaying results
+        // Score Container
         scoreContainer = new BorderPane();
         scoreContainer.setPadding(new Insets(10));
         scoreContainer.getStyleClass().add("score-container");
-        scoreContainer.setVisible(true);
         scoreContainer.setMaxWidth(600);
+        contentContainer.getChildren().add(scoreContainer);
 
         // Search and filter controls
         HBox searchFilterBox = new HBox(15);
@@ -58,50 +57,43 @@ public class TestResultView extends BorderPane {
         searchFilterBox.setAlignment(Pos.CENTER_LEFT);
         searchFilterBox.getStyleClass().add("search-filter-box");
 
-        // Search field
         searchField = new TextField();
         searchField.setPromptText("Frage suchen");
         searchField.setPrefWidth(300);
         searchField.getStyleClass().add("search-field");
         HBox.setHgrow(searchField, Priority.ALWAYS);
 
-        // Toggle for wrong answers only
         showWrongOnlyCheckBox = new CheckBox("Nur falsche Antworten zeigen");
-
         searchFilterBox.getChildren().addAll(searchField, showWrongOnlyCheckBox);
-        searchFilterBox.setVisible(true);
+        contentContainer.getChildren().add(searchFilterBox);
 
-        // Question review container (in a ScrollPane for scrollability) with more indentation
+        // Questions Section
         questionReviewContainer = new VBox(20);
         questionReviewContainer.setPadding(new Insets(20, 40, 20, 40));
-        questionReviewContainer.setVisible(true);
+        questionReviewContainer.setMinWidth(Region.USE_COMPUTED_SIZE);
+        questionReviewContainer.setMaxWidth(Double.MAX_VALUE);
+        VBox.setVgrow(questionReviewContainer, Priority.ALWAYS);
+        questionReviewContainer.setAlignment(Pos.CENTER);
+        contentContainer.getChildren().add(questionReviewContainer);
 
-        // Wrap the question container in a scroll pane
-        questionScrollPane = new ScrollPane(questionReviewContainer);
-        questionScrollPane.setFitToWidth(true);
-        questionScrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
-        questionScrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-        questionScrollPane.setVisible(true);
-        questionScrollPane.getStyleClass().add("question-scroll-pane");
+        // Make the entire content scrollable
+        scrollPane = new ScrollPane(contentContainer);
+        scrollPane.setFitToWidth(true);
+        scrollPane.setFitToHeight(true);
+        scrollPane.setPannable(true);
+        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        scrollPane.setVisible(true);
+        scrollPane.getStyleClass().add("question-scroll-pane");
+        VBox.setVgrow(scrollPane, Priority.ALWAYS);
+        this.setCenter(scrollPane);
 
-        contentContainer.getChildren().addAll(scoreContainer, searchFilterBox, questionScrollPane); // Bottom Section -
-                                                                                                    // fixed position
-        HBox bottomBox = new HBox(10);
-        bottomBox.setPadding(new Insets(20));
-        bottomBox.setAlignment(Pos.CENTER_RIGHT);
-        bottomBox.getStyleClass().add("fixed-bottom-bar");
-        // Create a white background effect and drop shadow for the bottom bar
-        StackPane bottomPane = new StackPane();
-        bottomPane.getStyleClass().add("fixed-bottom-pane");
-
-        HBox buttonRow = new HBox(10);
-        buttonRow.setAlignment(Pos.CENTER);
+        // Bottom Section
         backToMainButton = new Button("Zurück zur Startseite");
         backToMainButton.getStyleClass().add("main-btn");
+
         downloadButton = new Button("Download Ergebnis");
         downloadButton.getStyleClass().add("main-btn");
-        buttonRow.getChildren().addAll(downloadButton, backToMainButton);
-
 
         reviewQuestionsButton = new Button("Antworten anschauen");
         reviewQuestionsButton.getStyleClass().add("review-btn");
@@ -110,17 +102,20 @@ public class TestResultView extends BorderPane {
         backToResultsButton.getStyleClass().add("nav-btn");
         backToResultsButton.setVisible(false);
 
+        HBox buttonRow = new HBox(10, downloadButton, backToMainButton);
+        buttonRow.setAlignment(Pos.CENTER);
+
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);
 
-        bottomBox.getChildren().addAll(spacer, backToResultsButton, reviewQuestionsButton, buttonRow);
-        bottomPane.getChildren().add(bottomBox);
-        this.setTop(topBox);
-        this.setCenter(contentContainer);
-        this.setBottom(bottomPane);
+        HBox bottomBox = new HBox(10, spacer, backToResultsButton, reviewQuestionsButton, buttonRow);
+        bottomBox.setPadding(new Insets(20));
+        bottomBox.setAlignment(Pos.CENTER_RIGHT);
+        bottomBox.getStyleClass().add("fixed-bottom-bar");
 
-        this.setPrefHeight(600.0);
-        this.setPrefWidth(800.0);
+        StackPane bottomPane = new StackPane(bottomBox);
+        bottomPane.getStyleClass().add("fixed-bottom-pane");
+        this.setBottom(bottomPane);
 
         // Hide toggle buttons as they're not needed
         reviewQuestionsButton.setVisible(false);
@@ -138,76 +133,19 @@ public class TestResultView extends BorderPane {
                 throw new RuntimeException(ex);
             }
         });
-        // Remove reviewQuestionsButton and backToResultsButton actions since they are
-        // not needed anymore
-        // Remove their visibility toggling as well
-        // Connect search field and filter checkbox
-        searchField.textProperty().addListener(new javafx.beans.value.ChangeListener<String>() {
-            @SuppressWarnings("unused")
-            @Override
-            public void changed(javafx.beans.value.ObservableValue<? extends String> observable,
-                    String oldValue, String newValue) {
-                controller.onSearchTextChanged(newValue);
-            }
-        });
-        showWrongOnlyCheckBox.selectedProperty().addListener(new javafx.beans.value.ChangeListener<Boolean>() {
-            @SuppressWarnings("unused")
-            @Override
-            public void changed(javafx.beans.value.ObservableValue<? extends Boolean> observable,
-                    Boolean oldValue, Boolean newValue) {
-                controller.onShowWrongOnlyChanged(newValue);
-            }
-        });
+        searchField.textProperty().addListener((observable, oldValue, newValue) -> controller.onSearchTextChanged(newValue));
+        showWrongOnlyCheckBox.selectedProperty().addListener((observable, oldValue, newValue) -> controller.onShowWrongOnlyChanged(newValue));
+
         controller.setTestNameLabel(testNameLabel);
         controller.setContentContainer(contentContainer);
         controller.setScoreContainer(scoreContainer);
         controller.setQuestionReviewContainer(questionReviewContainer);
-        controller.setQuestionScrollPane(questionScrollPane);
+        controller.setQuestionScrollPane(scrollPane);
         controller.setSearchField(searchField);
         controller.setShowWrongOnlyCheckBox(showWrongOnlyCheckBox);
         controller.setBackToMainButton(backToMainButton);
         controller.setDownloadButton(downloadButton);
         controller.setReviewQuestionsButton(reviewQuestionsButton);
         controller.setBackToResultsButton(backToResultsButton);
-    } // Getters
-
-    public Label getTestNameLabel() {
-        return testNameLabel;
-    }
-
-    public VBox getContentContainer() {
-        return contentContainer;
-    }
-
-    public BorderPane getScoreContainer() {
-        return scoreContainer;
-    }
-
-    public VBox getQuestionReviewContainer() {
-        return questionReviewContainer;
-    }
-
-    public ScrollPane getQuestionScrollPane() {
-        return questionScrollPane;
-    }
-
-    public TextField getSearchField() {
-        return searchField;
-    }
-
-    public CheckBox getShowWrongOnlyCheckBox() {
-        return showWrongOnlyCheckBox;
-    }
-
-    public Button getBackToMainButton() {
-        return backToMainButton;
-    }
-
-    public Button getReviewQuestionsButton() {
-        return reviewQuestionsButton;
-    }
-
-    public Button getBackToResultsButton() {
-        return backToResultsButton;
     }
 }
