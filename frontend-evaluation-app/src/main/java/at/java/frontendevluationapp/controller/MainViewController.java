@@ -27,6 +27,9 @@ public class MainViewController {
 
     private final ObjectMapper mapper;
 
+    private static int uploadedFilesCount = 0;
+    private static int uploadedFailedFilesCount = 0;
+
     private void setUploadedResults(List<TestResult> results) {
         this.uploadedResults.clear();
         this.uploadedResults.addAll(results);
@@ -42,6 +45,11 @@ public class MainViewController {
         for( TestResult result : uploadedResults) {
             addFileEntry(result.getStudentName(), result.getTestName(), result.getFileName(), result);
         }
+        if( uploadedResults.isEmpty()) {
+            uploadStatusLabel.setText("Noch keine Dateien hochgeladen.");
+        } else {
+            uploadStatusLabel.setText("Hochgeladen: " + uploadedFilesCount + " | Abgelehnt: " + uploadedFailedFilesCount);
+        }
 
         // Link button to action
         view.getUploadFilesButton().setOnAction(e -> handleUpload());
@@ -54,12 +62,14 @@ public class MainViewController {
         List<File> selectedFiles = fileChooser.showOpenMultipleDialog(primaryStage);
 
         if (selectedFiles == null || selectedFiles.isEmpty()) {
-            uploadStatusLabel.setText("Keine Dateien ausgewählt.");
+            if( uploadedResults.isEmpty()) {
+                uploadStatusLabel.setText("Keine Dateien hochgeladen.");
+            } else {
+                uploadStatusLabel.setText("Hochgeladen: " + MainViewController.uploadedFilesCount + " | Abgelehnt: " + MainViewController.uploadedFailedFilesCount);
+            }
             return;
         }
 
-        int accepted = 0;
-        int rejected = 0;
 
         for (File file : selectedFiles) {
             try {
@@ -67,15 +77,15 @@ public class MainViewController {
                 result.setFileName(file.getName());
                 uploadedResults.add(result);
                 addFileEntry(result.getStudentName(), result.getTestName(), result.getFileName(), result);
-                accepted++;
+                MainViewController.uploadedFilesCount++;
                 ClassOverviewController.setTestResults(uploadedResults);
             } catch (Exception ex) {
                 ex.printStackTrace(); // or log to UI
-                rejected++;
+                MainViewController.uploadedFailedFilesCount++;
             }
         }
 
-        uploadStatusLabel.setText("Hochgeladen: " + accepted + " | Abgelehnt: " + rejected);
+        uploadStatusLabel.setText("Hochgeladen: " + MainViewController.uploadedFilesCount + " | Abgelehnt: " + MainViewController.uploadedFailedFilesCount);
     }
 
     private void addFileEntry(String studentName, String testName, String fileName, TestResult result) {
@@ -107,8 +117,6 @@ public class MainViewController {
 
         uploadedFilesList.getChildren().add(entry);
     }
-
-
 
     public List<TestResult> getUploadedResults() {
         return uploadedResults;
