@@ -1,4 +1,4 @@
-name: Build and release
+name: Build and release Fragenbogen Application
 run-name: ${{ github.actor }} is releasing the newest version.
 on:
   workflow_dispatch:

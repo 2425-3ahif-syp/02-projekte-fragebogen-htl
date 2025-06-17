@@ -1,0 +1,45 @@
+name: Build and release Evaluation Application
+run-name: ${{ github.actor }} is releasing the newest version.
+on:
+  workflow_dispatch:
+jobs:
+  build-and-release-fragebogen-application:
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '23'
+          cache: 'maven'
+
+      - run: java --version
+
+      - name: Build with Maven
+        run: |
+          cd frontend
+          mvn clean package
+          rm -rf ./target/original-htl-fragebogen-application-1.0-SNAPSHOT.jar
+          mv ./target/htl-fragebogen-application-1.0-SNAPSHOT.jar ./target/htl-fragebogen.jar
+
+
+      - name: Get the git commits since the last tag
+        run: |
+          git fetch --unshallow --tags
+          # Check if any tags exist, if not create initial release notes
+          if git describe --tags --abbrev=0 >/dev/null 2>&1; then
+            echo "$(git log $(git describe --tags --abbrev=0)..HEAD --oneline | sed 's/^/- /')" > release-notes.txt
+          else
+            echo "- Initial release" > release-notes.txt
+          fi
+          echo "Release notes:"
+          cat release-notes.txt
+
+      - name: Release the build
+        run: |
+          tag="$(date +"%Y.%m.%d")-$(git rev-parse --short HEAD)"
+          gh release create $tag frontend/target/*.jar --title "Fragebogen Evaluation $tag" --notes-file release-notes.txt --prerelease
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
