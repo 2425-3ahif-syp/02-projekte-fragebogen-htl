@@ -1,12 +1,15 @@
 package syp.htlfragebogenapplication.database;
 
 import syp.htlfragebogenapplication.model.Answer;
+import syp.htlfragebogenapplication.model.Question;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class AnswerRepository {
     private final Connection connection;
@@ -16,40 +19,38 @@ public class AnswerRepository {
     }
 
     public List<Answer> getAllAnswers() {
+        List<Question> questions = new QuestionRepository().getAllQuestions();
+        Map<Integer, Question> questionMap = questions.stream()
+                .collect(Collectors.toMap(Question::getId, Function.identity()));
+
         List<Answer> answerList = new ArrayList<>();
         String sql = "SELECT id, question_id, answer_text FROM Answer";
+
         try (Statement stmt = connection.createStatement();
-                ResultSet rs = stmt.executeQuery(sql)) {
+             ResultSet rs = stmt.executeQuery(sql)) {
 
             while (rs.next()) {
+                int questionId = rs.getInt("question_id");
+                Question question = questionMap.get(questionId);
+
+                if (question == null) {
+                    System.err.println("Warning: No question found for question_id: " + questionId);
+                    continue;
+                }
+
                 answerList.add(new Answer(
                         rs.getInt("id"),
-                        rs.getInt("question_id"),
-                        rs.getString("answer_text")));
+                        question,
+                        rs.getString("answer_text")
+                ));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
         return answerList;
     }
 
-    public Answer getAnswerForQuestion(int questionId) {
-        String sql = "SELECT id, question_id, answer_text FROM Answer WHERE question_id = ?";
-        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
-            pstmt.setInt(1, questionId);
-            ResultSet rs = pstmt.executeQuery();
-
-            if (rs.next()) {
-                return new Answer(
-                        rs.getInt("id"),
-                        rs.getInt("question_id"),
-                        rs.getString("answer_text"));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
 
     public Map<Integer, String> getCorrectAnswersMap() {
         Map<Integer, String> correctAnswersMap = new HashMap<>();

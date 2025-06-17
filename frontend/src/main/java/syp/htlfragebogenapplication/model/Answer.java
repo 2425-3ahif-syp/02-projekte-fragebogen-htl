@@ -1,18 +1,16 @@
 package syp.htlfragebogenapplication.model;
 
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.*;
 
 public class Answer {
     private final IntegerProperty id = new SimpleIntegerProperty();
-    private final IntegerProperty questionId = new SimpleIntegerProperty();
     private final StringProperty answerText = new SimpleStringProperty();
 
-    public Answer(int id, int questionId, String answerText) {
+    private Question question;
+
+    public Answer(int id, Question question, String answerText) {
         this.id.set(id);
-        this.questionId.set(questionId);
+        this.question = question;
         this.answerText.set(answerText);
     }
 
@@ -21,7 +19,7 @@ public class Answer {
     }
 
     public int getQuestionId() {
-        return questionId.get();
+        return question.getId();
     }
 
     public String getAnswerText() {
@@ -30,10 +28,6 @@ public class Answer {
 
     public IntegerProperty idProperty() {
         return id;
-    }
-
-    public IntegerProperty questionIdProperty() {
-        return questionId;
     }
 
     public StringProperty answerTextProperty() {
