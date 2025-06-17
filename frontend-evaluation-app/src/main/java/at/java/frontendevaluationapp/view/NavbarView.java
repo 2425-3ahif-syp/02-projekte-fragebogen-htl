@@ -1,6 +1,6 @@
-package at.java.frontendevluationapp.view;
+package at.java.frontendevaluationapp.view;
 
-import at.java.frontendevluationapp.controller.NavbarViewController;
+import at.java.frontendevaluationapp.controller.NavbarViewController;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;

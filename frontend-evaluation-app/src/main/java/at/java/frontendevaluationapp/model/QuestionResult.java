@@ -1,4 +1,4 @@
-package at.java.frontendevluationapp.model;
+package at.java.frontendevaluationapp.model;
 
 public class QuestionResult {
     private String questionId;

@@ -1,6 +1,6 @@
-package at.java.frontendevluationapp;
+package at.java.frontendevaluationapp;
 
-import at.java.frontendevluationapp.controller.MainViewController;
+import at.java.frontendevaluationapp.controller.MainViewController;
 import javafx.application.Application;
 import javafx.stage.Stage;
 

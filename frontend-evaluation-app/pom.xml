@@ -5,9 +5,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>at.java</groupId>
-    <artifactId>frontend-evluation-app</artifactId>
+    <artifactId>frontend-evaluation-app</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <name>frontend-evluation-app</name>
+    <name>frontend-evaluation-app</name>
 
 
     <properties>
@@ -78,7 +78,7 @@
                     <execution>
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>syp.htlfragebogenapplication.MainApp</mainClass>
+                            <mainClass>at.java.frontendevaluationapp.MainApp</mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>
                             <jlinkImageName>app</jlinkImageName>

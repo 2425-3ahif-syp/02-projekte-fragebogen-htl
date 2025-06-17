@@ -1,6 +1,6 @@
-package at.java.frontendevluationapp.view;
+package at.java.frontendevaluationapp.view;
 
-import at.java.frontendevluationapp.controller.ClassOverviewController;
+import at.java.frontendevaluationapp.controller.ClassOverviewController;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.ComboBox;

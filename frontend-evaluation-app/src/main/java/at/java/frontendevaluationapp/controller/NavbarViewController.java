@@ -1,4 +1,4 @@
-package at.java.frontendevluationapp.controller;
+package at.java.frontendevaluationapp.controller;
 
 import javafx.stage.Stage;
 

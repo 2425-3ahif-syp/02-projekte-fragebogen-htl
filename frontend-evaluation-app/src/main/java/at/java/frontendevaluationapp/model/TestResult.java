@@ -1,4 +1,4 @@
-package at.java.frontendevluationapp.model;
+package at.java.frontendevaluationapp.model;
 
 import java.util.List;
 

@@ -1,6 +1,5 @@
-package at.java.frontendevluationapp.view;
+package at.java.frontendevaluationapp.view;
 
-import at.java.frontendevluationapp.controller.MainViewController;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;

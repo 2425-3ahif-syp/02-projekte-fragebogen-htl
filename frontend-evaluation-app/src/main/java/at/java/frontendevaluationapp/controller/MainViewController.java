@@ -1,8 +1,8 @@
-package at.java.frontendevluationapp.controller;
+package at.java.frontendevaluationapp.controller;
 
-import at.java.frontendevluationapp.model.TestResult;
-import at.java.frontendevluationapp.view.MainView;
-import at.java.frontendevluationapp.view.NavbarView;
+import at.java.frontendevaluationapp.model.TestResult;
+import at.java.frontendevaluationapp.view.MainView;
+import at.java.frontendevaluationapp.view.NavbarView;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -15,7 +15,6 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 public class MainViewController {

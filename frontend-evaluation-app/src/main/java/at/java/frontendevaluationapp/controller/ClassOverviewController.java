@@ -1,10 +1,10 @@
-package at.java.frontendevluationapp.controller;
+package at.java.frontendevaluationapp.controller;
 
 
-import at.java.frontendevluationapp.model.Score;
-import at.java.frontendevluationapp.model.TestResult;
-import at.java.frontendevluationapp.view.ClassOverviewView;
-import at.java.frontendevluationapp.view.NavbarView;
+import at.java.frontendevaluationapp.model.Score;
+import at.java.frontendevaluationapp.model.TestResult;
+import at.java.frontendevaluationapp.view.ClassOverviewView;
+import at.java.frontendevaluationapp.view.NavbarView;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.scene.Scene;
