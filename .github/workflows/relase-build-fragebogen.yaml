@@ -19,11 +19,8 @@ jobs:
 
       - name: Build with Maven
         run: |
-          cd frontend
-          mvn clean package
-          rm -rf ./target/original-htl-fragebogen-application-1.0-SNAPSHOT.jar
-          mv ./target/htl-fragebogen-application-1.0-SNAPSHOT.jar ./target/htl-fragebogen.jar
-
+            chmox +x ./scripts/build-fragebogen.sh
+            ./scripts/build-fragebogen.sh
 
       - name: Get the git commits since the last tag
         run: |
