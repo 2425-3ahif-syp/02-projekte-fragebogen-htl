@@ -19,7 +19,7 @@ jobs:
 
       - name: Build with Maven
         run: |
-            chmox +x ./scripts/build-evaluation.sh
+            chmod +x ./scripts/build-evaluation.sh
             ./scripts/build-evaluation.sh
 
       - name: Get the git commits since the last tag
