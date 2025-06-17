@@ -22,7 +22,7 @@ jobs:
           cd frontend
           mvn clean package
           rm -rf ./target/original-htl-fragebogen-application-1.0-SNAPSHOT.jar
-          mv ./target/htl-fragebogen-application-1.0-SNAPSHOT.jar htl-fragebogen.jar
+          mv ./target/htl-fragebogen-application-1.0-SNAPSHOT.jar ./target/htl-fragebogen.jar
 
 
       - name: Get the git commits since the last tag
