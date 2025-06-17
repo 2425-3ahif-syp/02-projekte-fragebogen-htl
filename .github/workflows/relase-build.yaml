@@ -21,7 +21,10 @@ jobs:
         run: |
           cd frontend
           mvn clean package
-          
+          rm -rf ./target/original-htl-fragebogen-application-1.0-SNAPSHOT.jar
+          mv ./target/htl-fragebogen-application-1.0-SNAPSHOT.jar htl-fragebogen.jar
+
+
       - name: Get the git commits since the last tag
         run: |
           git fetch --unshallow --tags
@@ -37,6 +40,6 @@ jobs:
       - name: Release the build
         run: |
           tag="$(date +"%Y.%m.%d")-$(git rev-parse --short HEAD)"
-          gh release create $tag frontend/target/*.jar --title "franklyn $tag" --notes-file release-notes.txt --prerelease
+          gh release create $tag frontend/target/*.jar --title "Fragebogen HTL $tag" --notes-file release-notes.txt --prerelease
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
