@@ -29,6 +29,31 @@
             <artifactId>javafx-fxml</artifactId>
             <version>${javafx.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-graphics</artifactId>
+            <version>${javafx.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-base</artifactId>
+            <version>${javafx.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-media</artifactId>
+            <version>${javafx.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-web</artifactId>
+            <version>${javafx.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-swing</artifactId>
+            <version>${javafx.version}</version>
+        </dependency>
 
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -85,6 +110,42 @@
                             <noManPages>true</noManPages>
                             <stripDebug>true</stripDebug>
                             <noHeaderFiles>true</noHeaderFiles>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.6.0</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <createDependencyReducedPom>false</createDependencyReducedPom>
+                            <filters>
+                                <filter>
+                                    <artifact>*:*</artifact>
+                                    <excludes>
+                                        <exclude>META-INF/*.SF</exclude>
+                                        <exclude>META-INF/*.DSA</exclude>
+                                        <exclude>META-INF/*.RSA</exclude>
+                                        <exclude>module-info.class</exclude>
+                                    </excludes>
+                                </filter>
+                            </filters>
+                            <transformers>
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <mainClass>at.java.frontendevaluationapp.Launcher</mainClass>
+                                    <manifestEntries>
+                                        <Add-Opens>java.base/java.lang=ALL-UNNAMED java.base/java.nio=ALL-UNNAMED java.base/java.util=ALL-UNNAMED java.desktop/java.awt=ALL-UNNAMED java.desktop/java.awt.event=ALL-UNNAMED</Add-Opens>
+                                    </manifestEntries>
+                                </transformer>
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
+                            </transformers>
                         </configuration>
                     </execution>
                 </executions>
